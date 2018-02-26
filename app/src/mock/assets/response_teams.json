@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "name": "Admin team",
+    "identifier": "admin-team"
+  },
+  {
+    "id": 2,
+    "name": "Client",
+    "identifier": "client"
+  }
+]

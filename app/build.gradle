@@ -29,6 +29,19 @@ android {
             }
         }
     }
+
+    flavorDimensions "default"
+
+    productFlavors {
+
+        production {
+            dimension "default"
+        }
+
+        mock {
+            dimension "default"
+        }
+    }
 }
 
 
@@ -42,7 +55,6 @@ tasks.withType(SpotBugsTask) {
     effort = "max"
     reportLevel = "low"
     excludeFilter = new File("../findbugs-android-exclude.xml")
-    println("$project.buildDir/intermediates/classes")
     classes = files("$project.buildDir/intermediates/classes")
     source = fileTree('src/main/java/')
     classpath = files()
