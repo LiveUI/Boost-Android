@@ -7,7 +7,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.0-beta1'
+        classpath 'com.android.tools.build:gradle:3.1.0-beta4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 //        classpath "gradle.plugin.com.github.spotbugs:gradlePlugin:1.6.0"
         // NOTE: Do not place your application dependencies here; they belong
@@ -30,5 +30,40 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    versionName = '0.1'
+    minSdkVersion = 16
+    targetSdkVersion = 27
+    compileSdkVersion = 27
+
+    //app
+    buildToolsVersion = '27.0.3'
+    supportLibVersion = '27.0.2'
+    gson = '2.8.2'
+    answers = '1.4.1'
+    crashlytics = '2.8.0'
+    multidex = '1.0.1'
+    flexbox = '0.3.1'
+    glide = '4.6.1'
+    retrofit = '2.3.0'
+    constraint = '1.1.0-beta5'
+    rxjava = '2.1.9'
+    rxandroid = '2.0.2'
+    rxbinding = '2.1.1'
+    okhttpUrlConnection = '3.2.0'
+    timber = '4.6.1'
+    guava = '24.0-android'
+    dagger = '2.14.1'
+
+    //android test
+    testRunner = '1.0.1'
+    testRules = '1.0.1'
+    uiAutomator = '2.1.2'
+    hamcrest = '1.3'
+    espresso = '3.0.1'
+    mockwebserver = '3.6.0'
+    junit = '4.12'
 }
 
