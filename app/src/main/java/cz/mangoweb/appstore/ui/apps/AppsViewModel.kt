@@ -17,6 +17,8 @@ class AppsViewModel constructor(private val apiUseCase: BoostApiUseCase) : ViewM
 
     private val apps: MutableLiveData<List<App>> = MutableLiveData()
 
+    private val app: MutableLiveData<App> = MutableLiveData()
+
     private val exception: MutableLiveData<Throwable> = MutableLiveData()
 
     override fun onCleared() {
@@ -31,7 +33,7 @@ class AppsViewModel constructor(private val apiUseCase: BoostApiUseCase) : ViewM
         return exception
     }
 
-    fun loadApps(platform: String, identifier: String) {
+    fun getApps(platform: String, identifier: String) {
         disposables.add(apiUseCase.getApps(platform, identifier)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -42,6 +44,21 @@ class AppsViewModel constructor(private val apiUseCase: BoostApiUseCase) : ViewM
                     loadingStatus.value = false
                 })
                 .subscribe({ result -> apps.value = result },
+                        { e -> exception.value = e })
+        )
+    }
+
+    fun getApp(id: Int, level: Int) {
+        disposables.add(apiUseCase.getApp(id, level)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe({
+                    loadingStatus.value = true
+                })
+                .doOnNext({
+                    loadingStatus.value = false
+                })
+                .subscribe({ result -> app.value = result },
                         { e -> exception.value = e })
         )
     }

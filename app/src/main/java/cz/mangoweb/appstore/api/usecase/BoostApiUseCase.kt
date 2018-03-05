@@ -27,6 +27,18 @@ class BoostApiUseCase @Inject constructor(private val apiService: BoostApiServic
         return apiService.updateTeam(id, team)
     }
 
+    fun getTeamUsers(id: Int): Observable<List<TeamUser>> {
+        return apiService.getTeamUsers(id)
+    }
+
+    fun addUserToTeam(id: Int, user: TeamUser): Observable<EmptyResponse> {
+        return apiService.addUserToTeam(id, user)
+    }
+
+    fun removeUserFromTeam(id: Int, user: TeamUser): Observable<EmptyResponse> {
+        return apiService.removeUserFromTeam(id, user)
+    }
+
     fun filter(name: String, filter: String, platform: String): Observable<List<App>> {
         return apiService.filter(name, filter, platform)
     }
@@ -39,7 +51,7 @@ class BoostApiUseCase @Inject constructor(private val apiService: BoostApiServic
         return apiService.getApps(platform, identifier)
     }
 
-    fun getApp(id: String, level: Int): Observable<App> {
+    fun getApp(id: Int, level: Int): Observable<App> {
         return apiService.getApp(id, level)
     }
 
