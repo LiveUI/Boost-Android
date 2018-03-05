@@ -1,5 +1,6 @@
 package cz.mangoweb.appstore.di
 
+import android.content.SharedPreferences
 import cz.mangoweb.appstore.api.AuthViewModelFactory
 import cz.mangoweb.appstore.api.usecase.BoostAuthUseCase
 import dagger.Module
@@ -12,9 +13,9 @@ import dagger.Provides
 class AuthModule {
 
     @Provides
-    fun providesAuthViewModelFactory(authUseCase: BoostAuthUseCase):
+    fun providesAuthViewModelFactory(authUseCase: BoostAuthUseCase, sharedPreferences: SharedPreferences):
             AuthViewModelFactory {
-        return AuthViewModelFactory(authUseCase)
+        return AuthViewModelFactory(authUseCase, sharedPreferences)
     }
 
 }

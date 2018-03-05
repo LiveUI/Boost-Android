@@ -1,9 +1,11 @@
 package cz.mangoweb.appstore.di
 
 import android.app.Application
+import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import cz.mangoweb.appstore.BuildConfig
+import cz.mangoweb.appstore.api.TokenAuthenitcator
 import cz.mangoweb.appstore.api.service.BoostApiService
 import cz.mangoweb.appstore.api.service.BoostAuthService
 import cz.mangoweb.appstore.api.service.BoostDownloadService
@@ -15,6 +17,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 
@@ -37,7 +40,23 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(cache: Cache): OkHttpClient {
+    @Named("apiClient")
+    fun provideApiOkHttpClient(cache: Cache, authService: BoostAuthService, sharedPreferences: SharedPreferences): OkHttpClient {
+        val client = OkHttpClient.Builder()
+        if (BuildConfig.DEBUG) {
+            val httpLoggingInterceptor = HttpLoggingInterceptor()
+            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.HEADERS
+            client.addInterceptor(httpLoggingInterceptor)
+        }
+        client.cache(cache)
+        client.authenticator(TokenAuthenitcator(authService, sharedPreferences))
+        return client.build()
+    }
+
+    @Provides
+    @Singleton
+    @Named("authClient")
+    fun provideAuthOkHttpClient(cache: Cache): OkHttpClient {
         val client = OkHttpClient.Builder()
         if (BuildConfig.DEBUG) {
             val httpLoggingInterceptor = HttpLoggingInterceptor()
@@ -50,7 +69,8 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
+    @Named("apiRetrofit")
+    fun provideApiRetrofit(gson: Gson, @Named("apiClient") okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -61,19 +81,31 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideAuthService(retrofit: Retrofit): BoostAuthService {
+    @Named("authRetrofit")
+    fun provideAuthRetrofit(gson: Gson, @Named("authClient") okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(BuildConfig.BASE_URL)
+                .client(okHttpClient)
+                .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthService(@Named("authRetrofit") retrofit: Retrofit): BoostAuthService {
         return retrofit.create(BoostAuthService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): BoostApiService {
+    fun provideApiService(@Named("apiRetrofit") retrofit: Retrofit): BoostApiService {
         return retrofit.create(BoostApiService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideDownloadService(retrofit: Retrofit): BoostDownloadService {
+    fun provideDownloadService(@Named("apiRetrofit") retrofit: Retrofit): BoostDownloadService {
         return retrofit.create(BoostDownloadService::class.java)
     }
 

@@ -115,6 +115,8 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:${rootProject.ext.glide}"
     implementation "io.reactivex.rxjava2:rxjava:${rootProject.ext.rxjava}"
     implementation "io.reactivex.rxjava2:rxandroid:${rootProject.ext.rxandroid}"
+    implementation group: 'commons-io', name: 'commons-io', version: '2.6'
+    implementation group: 'org.apache.commons', name: 'commons-text', version: '1.2'
 
     kapt "com.github.bumptech.glide:compiler:${rootProject.ext.glide}"
     kapt "com.google.dagger:dagger-compiler:${rootProject.ext.dagger}"

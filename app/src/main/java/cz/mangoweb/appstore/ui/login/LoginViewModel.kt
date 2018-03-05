@@ -2,6 +2,7 @@ package cz.mangoweb.appstore.ui.login
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.content.SharedPreferences
 import cz.mangoweb.appstore.api.model.App
 import cz.mangoweb.appstore.api.model.AuthRequest
 import cz.mangoweb.appstore.api.model.AuthResponse
@@ -12,26 +13,18 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
-class LoginViewModel constructor(private val authUseCase: BoostAuthUseCase) : ViewModel() {
+class LoginViewModel constructor(private val authUseCase: BoostAuthUseCase, private val sharedPreferences: SharedPreferences) : ViewModel() {
 
     private val disposables: CompositeDisposable = CompositeDisposable()
 
-    private val loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
+    val loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
 
-    private val apps: MutableLiveData<AuthResponse> = MutableLiveData()
+    val auth: MutableLiveData<AuthResponse> = MutableLiveData()
 
-    private val exception: MutableLiveData<Throwable> = MutableLiveData()
+    val exception: MutableLiveData<Throwable> = MutableLiveData()
 
     override fun onCleared() {
         disposables.clear()
-    }
-
-    fun getLoadingStatus(): MutableLiveData<Boolean> {
-        return loadingStatus
-    }
-
-    fun getException(): MutableLiveData<Throwable> {
-        return exception
     }
 
     fun loadApps(username: String, password: String) {
@@ -44,8 +37,12 @@ class LoginViewModel constructor(private val authUseCase: BoostAuthUseCase) : Vi
                 .doOnNext({
                     loadingStatus.value = false
                 })
-                .subscribe({ result -> apps.value = result },
-                        { e -> exception.value = e })
+                .subscribe({ result ->
+                    auth.value = result
+                    auth.let {
+                        sharedPreferences.edit().putString("token", it.value?.token).apply()
+                    }
+                }, { e -> exception.value = e })
         )
     }
 }
