@@ -84,6 +84,10 @@ dependencies {
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
+    implementation "android.arch.lifecycle:reactivestreams:1.1.0"
+    implementation "android.arch.lifecycle:extensions:1.1.0"
+    implementation "android.arch.lifecycle:viewmodel:1.1.0"
+    implementation "android.arch.lifecycle:livedata:1.1.0"
     implementation "com.android.support:multidex:${rootProject.ext.multidex}"
     implementation "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
     implementation "com.android.support:recyclerview-v7:${rootProject.ext.supportLibVersion}"
@@ -97,8 +101,6 @@ dependencies {
     implementation "com.google.dagger:dagger:${rootProject.ext.dagger}"
     implementation "com.google.dagger:dagger-android-support:${rootProject.ext.dagger}"
     implementation "com.google.guava:guava:${rootProject.ext.guava}"
-    implementation "io.reactivex.rxjava2:rxjava:${rootProject.ext.rxjava}"
-    implementation "io.reactivex.rxjava2:rxandroid:${rootProject.ext.rxandroid}"
     implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:${rootProject.ext.rxbinding}"
     implementation "com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:${rootProject.ext.rxbinding}"
     implementation "com.jakewharton.rxbinding2:rxbinding-design-kotlin:${rootProject.ext.rxbinding}"
@@ -107,12 +109,20 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofit}"
     implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofit}"
     implementation "com.squareup.retrofit2:adapter-rxjava2:${rootProject.ext.retrofit}"
-    implementation "com.squareup.okhttp3:okhttp-urlconnection:${rootProject.ext.okhttpUrlConnection}"
+    implementation "com.squareup.okhttp3:okhttp:${rootProject.ext.okHttp}"
+    implementation "com.squareup.okio:okio:${rootProject.ext.okio}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${rootProject.ext.okHttpLogging}"
     implementation "com.github.bumptech.glide:glide:${rootProject.ext.glide}"
+    implementation "io.reactivex.rxjava2:rxjava:${rootProject.ext.rxjava}"
+    implementation "io.reactivex.rxjava2:rxandroid:${rootProject.ext.rxandroid}"
+
     kapt "com.github.bumptech.glide:compiler:${rootProject.ext.glide}"
     kapt "com.google.dagger:dagger-compiler:${rootProject.ext.dagger}"
     kapt "com.google.dagger:dagger-android-processor:${rootProject.ext.dagger}"
+    kapt "android.arch.lifecycle:compiler:1.1.0"
 
+
+    testImplementation "android.arch.core:core-testing:1.1.0"
     androidTestImplementation "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
     androidTestImplementation "com.android.support.test.uiautomator:uiautomator-v18:${rootProject.ext.uiAutomator}"
     androidTestImplementation "org.hamcrest:hamcrest-integration:${rootProject.ext.hamcrest}"

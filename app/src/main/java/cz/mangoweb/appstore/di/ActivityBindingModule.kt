@@ -1,12 +1,12 @@
 package cz.mangoweb.appstore.di
 
-import cz.mangoweb.appstore.LoginActivity
+import cz.mangoweb.appstore.ui.login.LoginActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
-abstract class ActivityBindingModule() {
+abstract class ActivityBindingModule {
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [AuthModule::class])
     abstract fun provideLoginActivity(): LoginActivity
 }

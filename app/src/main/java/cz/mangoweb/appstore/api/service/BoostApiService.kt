@@ -1,16 +1,10 @@
-package cz.mangoweb.appstore.api
+package cz.mangoweb.appstore.api.service
 
 import cz.mangoweb.appstore.api.model.*
 import io.reactivex.Observable
 import retrofit2.http.*
 
-interface BoostApi {
-
-    @POST("auth")
-    fun auth(@Body auth: AuthRequest): Observable<AuthResponse>
-
-    @POST("token")
-    fun refreshToken(@Body token: RefreshTokenRequest): Observable<RefreshTokenResponse>
+interface BoostApiService {
 
     @GET("teams")
     fun getTeams(): Observable<List<Team>>
@@ -40,10 +34,5 @@ interface BoostApi {
     @GET("apps/{id}?depth={level}")
     fun getApp(@Path("id") id: String, @Path("level") level: Int): Observable<App>
 
-    @GET("apps/{id}/auth")
-    fun getDownloadToken(@Path("id") id: Int): Observable<AppTokenResponse>
-
-    @GET("apps/{id}/file?download={token}")
-    fun downloadApp(@Path("id") id: Int, @Path("token") token: String)
 
 }
