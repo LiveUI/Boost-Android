@@ -13,24 +13,16 @@ class AppsViewModel constructor(private val apiUseCase: BoostApiUseCase) : ViewM
 
     private val disposables: CompositeDisposable = CompositeDisposable()
 
-    private val loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
+    val loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
 
-    private val apps: MutableLiveData<List<App>> = MutableLiveData()
+    val apps: MutableLiveData<List<App>> = MutableLiveData()
 
-    private val app: MutableLiveData<App> = MutableLiveData()
+    val app: MutableLiveData<App> = MutableLiveData()
 
-    private val exception: MutableLiveData<Throwable> = MutableLiveData()
+    val exception: MutableLiveData<Throwable> = MutableLiveData()
 
     override fun onCleared() {
         disposables.clear()
-    }
-
-    fun getLoadingStatus(): MutableLiveData<Boolean> {
-        return loadingStatus
-    }
-
-    fun getException(): MutableLiveData<Throwable> {
-        return exception
     }
 
     fun getApps(platform: String, identifier: String) {

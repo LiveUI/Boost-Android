@@ -13,32 +13,24 @@ class TeamsViewModel constructor(private val apiUseCase: BoostApiUseCase) : View
 
     private val disposables: CompositeDisposable = CompositeDisposable()
 
-    private val loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
+    val loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
 
-    private val teams: MutableLiveData<List<Team>> = MutableLiveData()
+    val teams: MutableLiveData<List<Team>> = MutableLiveData()
 
-    private val teamCreate: MutableLiveData<Team> = MutableLiveData()
+    val teamCreate: MutableLiveData<Team> = MutableLiveData()
 
-    private val teamCheck: MutableLiveData<TeamCheckResponse> = MutableLiveData()
+    val teamCheck: MutableLiveData<TeamCheckResponse> = MutableLiveData()
 
-    private val team: MutableLiveData<Team> = MutableLiveData()
+    val team: MutableLiveData<Team> = MutableLiveData()
 
-    private val teamUpdate: MutableLiveData<Team> = MutableLiveData()
+    val teamUpdate: MutableLiveData<Team> = MutableLiveData()
 
-    private val teamUsers: MutableLiveData<List<TeamUser>> = MutableLiveData()
+    val teamUsers: MutableLiveData<List<TeamUser>> = MutableLiveData()
 
-    private val exception: MutableLiveData<Throwable> = MutableLiveData()
+    val exception: MutableLiveData<Throwable> = MutableLiveData()
 
     override fun onCleared() {
         disposables.clear()
-    }
-
-    fun getLoadingStatus(): MutableLiveData<Boolean> {
-        return loadingStatus
-    }
-
-    fun getException(): MutableLiveData<Throwable> {
-        return exception
     }
 
     fun loadTeams() {

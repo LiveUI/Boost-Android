@@ -22,7 +22,6 @@ android {
         versionCode getAppVersionCode()
         targetSdkVersion rootProject.ext.targetSdkVersion
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "BASE_URL", "\"http://api.appstorehq.net/\""
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
@@ -45,10 +44,12 @@ android {
 
         production {
             dimension "default"
+            buildConfigField "String", "BASE_URL", "\"http://localhost:8080/\""
         }
 
         mock {
             dimension "default"
+            buildConfigField "String", "BASE_URL", "\"/\""
         }
     }
 
