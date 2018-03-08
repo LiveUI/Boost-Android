@@ -4,8 +4,10 @@ import android.app.Application
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import cz.mangoweb.appstore.AppStoreApplication
 import cz.mangoweb.appstore.BuildConfig
 import cz.mangoweb.appstore.api.MockClient
+import cz.mangoweb.appstore.api.MockResponseResolver
 import cz.mangoweb.appstore.api.TokenAuthenitcator
 import cz.mangoweb.appstore.api.service.BoostApiService
 import cz.mangoweb.appstore.api.service.BoostAuthService
@@ -43,14 +45,14 @@ class NetworkModule {
     @Provides
     @Singleton
     @Named("apiClient")
-    fun provideApiOkHttpClient(cache: Cache, authService: BoostAuthService, sharedPreferences: SharedPreferences): OkHttpClient {
+    fun provideApiOkHttpClient(cache: Cache, authService: BoostAuthService, sharedPreferences: SharedPreferences, mockResponseResolver: MockResponseResolver): OkHttpClient {
         val client = OkHttpClient.Builder()
         if (BuildConfig.DEBUG) {
             val httpLoggingInterceptor = HttpLoggingInterceptor()
             httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.HEADERS
             client.addInterceptor(httpLoggingInterceptor)
         }
-        client.addInterceptor(MockClient())
+        client.addInterceptor(MockClient(mockResponseResolver))
         client.cache(cache)
         client.authenticator(TokenAuthenitcator(authService, sharedPreferences))
         return client.build()
@@ -59,14 +61,14 @@ class NetworkModule {
     @Provides
     @Singleton
     @Named("authClient")
-    fun provideAuthOkHttpClient(cache: Cache): OkHttpClient {
+    fun provideAuthOkHttpClient(cache: Cache, mockResponseResolver: MockResponseResolver): OkHttpClient {
         val client = OkHttpClient.Builder()
         if (BuildConfig.DEBUG) {
             val httpLoggingInterceptor = HttpLoggingInterceptor()
             httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
             client.addInterceptor(httpLoggingInterceptor)
         }
-        client.addInterceptor(MockClient())
+        client.addInterceptor(MockClient(mockResponseResolver))
         client.cache(cache)
         return client.build()
     }
@@ -111,6 +113,12 @@ class NetworkModule {
     @Singleton
     fun provideDownloadService(@Named("apiRetrofit") retrofit: Retrofit): BoostDownloadService {
         return retrofit.create(BoostDownloadService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMockResponseResolver(appStoreApplication: Application): MockResponseResolver {
+        return MockResponseResolver(appStoreApplication)
     }
 
 }

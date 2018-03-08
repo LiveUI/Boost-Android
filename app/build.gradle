@@ -44,12 +44,12 @@ android {
 
         production {
             dimension "default"
-            buildConfigField "String", "BASE_URL", "\"http://localhost:8080/\""
+            buildConfigField "String", "BASE_URL", "\"http://10.0.2.2:8080/\""
         }
 
         mock {
             dimension "default"
-            buildConfigField "String", "BASE_URL", "\"/\""
+            buildConfigField "String", "BASE_URL", "\"http://assets/\""
         }
     }
 
@@ -98,6 +98,7 @@ dependencies {
     implementation "com.android.support:design:${rootProject.ext.supportLibVersion}"
     implementation "com.android.support.constraint:constraint-layout:${rootProject.ext.constraint}"
     implementation "com.google.android:flexbox:${rootProject.ext.flexbox}"
+    implementation "androidx.core:core-ktx:${rootProject.ext.ktx}"
     implementation "com.google.code.gson:gson:${rootProject.ext.gson}"
     implementation "com.google.dagger:dagger:${rootProject.ext.dagger}"
     implementation "com.google.dagger:dagger-android-support:${rootProject.ext.dagger}"

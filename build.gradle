@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.2.20'
+    ext.kotlin_version = '1.2.30'
     repositories {
         google()
         jcenter()
@@ -37,12 +37,12 @@ ext {
 
     //app
     buildToolsVersion = '27.0.3'
-    supportLibVersion = '27.0.2'
+    supportLibVersion = '27.1.0'
     gson = '2.8.2'
     answers = '1.4.1'
     crashlytics = '2.8.0'
-    multidex = '1.0.1'
-    flexbox = '0.3.1'
+    multidex = '1.0.3'
+    flexbox = '0.3.2'
     glide = '4.6.1'
     retrofit = '2.3.0'
     constraint = '1.1.0-beta5'
@@ -55,6 +55,7 @@ ext {
     timber = '4.6.1'
     guava = '24.0-android'
     dagger = '2.14.1'
+    ktx = '0.2'
 
     //android test
     testRunner = '1.0.1'
