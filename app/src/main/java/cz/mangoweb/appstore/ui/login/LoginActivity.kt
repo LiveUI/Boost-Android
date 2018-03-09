@@ -6,6 +6,7 @@ import android.os.Bundle
 import cz.mangoweb.appstore.R
 import cz.mangoweb.appstore.api.AuthViewModelFactory
 import cz.mangoweb.appstore.api.model.AuthResponse
+import cz.mangoweb.appstore.ui.BoostActivity
 import cz.mangoweb.appstore.util.ProgressViewObserver
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_login.*
@@ -15,7 +16,7 @@ import javax.inject.Inject
 /**
  * A login screen that offers login via email/password.
  */
-class LoginActivity : DaggerAppCompatActivity() {
+class LoginActivity : BoostActivity() {
 
     @Inject
     lateinit var authViewModelFactory: AuthViewModelFactory

@@ -2,13 +2,15 @@ package cz.mangoweb.appstore.api
 
 import okhttp3.*
 
-class MockClient(val mockResponseResolver: MockResponseResolver): Interceptor {
+
+class MockClient(val mockResponseResolver: MockResponseResolver) : Interceptor {
+
 
     override fun intercept(chain: Interceptor.Chain): Response {
 
         Thread.sleep(3000)
 
-        val responseString: String = mockResponseResolver.getMockResponse(chain.request().url().toString())
+        val responseString: String = mockResponseResolver.getMockResponse(chain.request())
 
         return Response.Builder()
                 .code(200)
@@ -19,4 +21,6 @@ class MockClient(val mockResponseResolver: MockResponseResolver): Interceptor {
                 .addHeader("content-type", "application/json")
                 .build()
     }
+
+
 }
