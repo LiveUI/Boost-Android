@@ -1,0 +1,20 @@
+[
+  {
+    "id": "630C97E6-AC56-4213-882B-3BEBAE50BF6D",
+    "lastname": "Admin",
+    "registered": 541114427,
+    "su": true,
+    "email": "admin@liveui.io",
+    "firstname": "Super",
+    "disabled": false
+  },
+  {
+    "id": "59ECA5DB-6603-4C08-B910-B32922A34FA9",
+    "lastname": "Rafaj",
+    "registered": 541550120,
+    "su": false,
+    "email": "dev@liveui.io",
+    "firstname": "Ondrej",
+    "disabled": false
+  }
+]

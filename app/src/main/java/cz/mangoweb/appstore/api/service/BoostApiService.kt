@@ -34,7 +34,7 @@ interface BoostApiService {
     fun filter(@Path("") name: String, @Path("filter") filter: String, @Path("platform") platform: String): Observable<List<App>>
 
     @Multipart
-    @POST("upload?tags={tags}")
+    @POST("apps?tags={tags}")
     fun upload(@Path("tags") tags: String): Observable<App>
 
     @GET("apps/{platform}/{identifier}")
