@@ -6,4 +6,4 @@ package cz.mangoweb.appstore.api.model
  * "password": "s3cretPassw0rd"
  * }
  */
-data class AuthRequest(val username: String, val password: String)
+data class AuthRequest(val email: String, val password: String)

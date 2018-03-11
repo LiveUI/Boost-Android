@@ -13,22 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cz.mangoweb.appstore.util
+package cz.mangoweb.appstore.util.ext
 
 /**
  * Various extension functions for AppCompatActivity.
  */
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.support.annotation.IdRes
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
-import android.view.View
-import kotlinx.android.synthetic.main.activity_login.*
 
 
 /**
@@ -68,17 +64,4 @@ private inline fun FragmentManager.transact(action: FragmentTransaction.() -> Un
     beginTransaction().apply {
         action()
     }.commit()
-}
-
-fun View.toggleVisibilityWithFade(show: Boolean) {
-    visibility = if (show) View.VISIBLE else View.GONE
-    animate()
-            .setDuration(resources.getInteger(android.R.integer.config_shortAnimTime).toLong())
-            .alpha((if (show) 1 else 0).toFloat())
-            .setListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    visibility = if (show) View.VISIBLE else View.GONE
-                }
-            })
-
 }

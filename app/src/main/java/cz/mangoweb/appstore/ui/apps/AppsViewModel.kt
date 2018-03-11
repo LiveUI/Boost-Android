@@ -32,11 +32,13 @@ class AppsViewModel constructor(private val apiUseCase: BoostApiUseCase) : ViewM
                 .doOnSubscribe({
                     loadingStatus.value = true
                 })
-                .doOnNext({
+                .subscribe({ result ->
                     loadingStatus.value = false
+                    apps.value = result
+                }, { e ->
+                    loadingStatus.value = false
+                    exception.value = e
                 })
-                .subscribe({ result -> apps.value = result },
-                        { e -> exception.value = e })
         )
     }
 

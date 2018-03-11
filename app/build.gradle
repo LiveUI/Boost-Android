@@ -44,6 +44,16 @@ android {
 
         production {
             dimension "default"
+            buildConfigField "String", "BASE_URL", "\"http://\"" //TODO set production URL
+        }
+
+        heroku {
+            dimension "default"
+            buildConfigField "String", "BASE_URL", "\"http://boostappstore.herokuapp.com/\""
+        }
+
+        local {
+            dimension "default"
             buildConfigField "String", "BASE_URL", "\"http://10.0.2.2:8080/\""
         }
 
@@ -129,6 +139,7 @@ dependencies {
 
 
     testImplementation "android.arch.core:core-testing:1.1.0"
+    implementation "org.mockito:mockito-inline:2.15.0"
     androidTestImplementation "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
     androidTestImplementation "com.android.support.test.uiautomator:uiautomator-v18:${rootProject.ext.uiAutomator}"
     androidTestImplementation "org.hamcrest:hamcrest-integration:${rootProject.ext.hamcrest}"

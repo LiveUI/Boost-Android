@@ -13,18 +13,17 @@ import javax.inject.Inject
 /**
  * Created by Vojtech Hrdina on 05/03/2018.
  */
-
 class MockResponseResolver @Inject constructor(private val application: Application) {
 
     private var rules: Array<UrlRule>
 
     init {
         rules = arrayOf(
-                UrlRule(".+",  "apps", "/(android|ios)/.+"),
-                UrlRule("/[0-9]+\\?",  "0"),
-                UrlRule("\\=.+",  ""),
-                UrlRule("/[0-9]+/", "/0/"),
-                UrlRule("/[0-9]+$", "/0")
+                UrlRule("([A-Za-z]{1}[A-Za-z\\d_]*\\.)*[A-Za-z][A-Za-z\\d_]*$", "apps", "\\/(android|ios)\\/"),
+                UrlRule("\\/[0-9]+\\?", "/0?"),
+                UrlRule("\\=.+", ""),
+                UrlRule("\\/[0-9]+\\/", "/0/"),
+                UrlRule("\\/[0-9]+$", "/0")
         )
     }
 
@@ -55,11 +54,11 @@ class MockResponseResolver @Inject constructor(private val application: Applicat
         var urlOpt = url.replace(BuildConfig.BASE_URL, "")
 
         for (rule in rules) {
-            if(rule.pattern2 == null) {
-                urlOpt = urlOpt.replace(rule.pattern, rule.replace)
+            if (rule.pattern2 == null) {
+                urlOpt = Pattern.compile(rule.pattern).matcher(urlOpt).replaceAll(rule.replace)
             } else {
-                if(Pattern.matches(rule.pattern2, url)) {
-                    urlOpt = urlOpt.replace(rule.pattern, rule.replace)
+                if (Pattern.compile(rule.pattern2).matcher(urlOpt).find()) {
+                    urlOpt = Pattern.compile(rule.pattern).matcher(urlOpt).replaceAll(rule.replace)
                 }
             }
         }

@@ -1,16 +1,18 @@
 package cz.mangoweb.appstore.api
 
+import cz.mangoweb.appstore.BuildConfig
 import okhttp3.*
 
 
-class MockClient(val mockResponseResolver: MockResponseResolver) : Interceptor {
-
+class MockInterceptor(val mockResponseResolver: MockResponseResolver) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
 
         Thread.sleep(3000)
 
         val responseString: String = mockResponseResolver.getMockResponse(chain.request())
+
+        val normalizeUrl = mockResponseResolver.normalizeUrl(BuildConfig.BASE_URL + "apps/android/cz.mangoweb.boost", "GET")
 
         return Response.Builder()
                 .code(200)

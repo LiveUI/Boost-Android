@@ -2,6 +2,7 @@ package cz.mangoweb.appstore.util
 
 import android.arch.lifecycle.Observer
 import android.view.View
+import cz.mangoweb.appstore.util.ext.toggleVisibilityWithFade
 
 class ProgressViewObserver constructor(val view: View?, var showOnProgress: Boolean = true): Observer<Boolean> {
 

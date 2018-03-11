@@ -14,8 +14,7 @@ class TokenAuthenitcator constructor(private val authService: BoostAuthService,
                                      private val sharedPreferences: SharedPreferences): Authenticator {
 
     override fun authenticate(route: Route?, response: Response?): Request? {
-        val blockingFirst = authService.refreshToken(RefreshTokenRequest(sharedPreferences.getString("token", null))).blockingFirst()
-        Timber.d(blockingFirst.toString())
+        authService.refreshToken(RefreshTokenRequest(sharedPreferences.getString("token", null))).blockingSubscribe()
         return response?.request()
     }
 }

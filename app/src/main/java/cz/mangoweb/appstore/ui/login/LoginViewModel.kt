@@ -28,31 +28,22 @@ class LoginViewModel constructor(private val authUseCase: BoostAuthUseCase, priv
         disposables.clear()
     }
 
-    fun loadApps(username: String, password: String) {
+    fun auth(username: String, password: String) {
         disposables.add(authUseCase.auth(AuthRequest(username, password))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe({
                     loadingStatus.value = true
-                    Timber.d("OnSubscribe")
-                })
-                .doOnComplete({
-                    loadingStatus.value = false
-                    Timber.d("OnComplete")
-                })
-                .doOnError({
-                    loadingStatus.value = false
-                    Timber.d("OnError")
                 })
                 .subscribe({ result ->
+                    loadingStatus.value = false
                     auth.value = result
                     auth.let {
                         sharedPreferences.edit().putString("token", it.value?.token).apply()
-                        Timber.d("OnPublishResult")
                     }
                 }, { e ->
+                    loadingStatus.value = false
                     exception.value = e
-                    Timber.d("OnException")
                 })
         )
     }

@@ -5,6 +5,8 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import cz.mangoweb.appstore.BuildConfig
+import cz.mangoweb.appstore.SaveAuthInterceptor
+import cz.mangoweb.appstore.api.AddHeaderAuthInterceptor
 import cz.mangoweb.appstore.api.TokenAuthenitcator
 import cz.mangoweb.appstore.api.service.BoostApiService
 import cz.mangoweb.appstore.api.service.BoostAuthService
@@ -12,6 +14,7 @@ import cz.mangoweb.appstore.api.service.BoostDownloadService
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -41,27 +44,23 @@ class NetworkModule {
     @Provides
     @Singleton
     @Named("apiClient")
-    fun provideApiOkHttpClient(cache: Cache, authService: BoostAuthService, sharedPreferences: SharedPreferences): OkHttpClient {
+    fun provideApiOkHttpClient(cache: Cache, authService: BoostAuthService, sharedPreferences: SharedPreferences, @Named("apiInterceptors") interceptors: ArrayList<Interceptor>): OkHttpClient {
         val client = OkHttpClient.Builder()
-        if (BuildConfig.DEBUG) {
-            val httpLoggingInterceptor = HttpLoggingInterceptor()
-            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.HEADERS
-            client.addInterceptor(httpLoggingInterceptor)
+        for (interceptor in interceptors) {
+            client.addInterceptor(interceptor)
         }
-        client.cache(cache)
         client.authenticator(TokenAuthenitcator(authService, sharedPreferences))
+        client.cache(cache)
         return client.build()
     }
 
     @Provides
     @Singleton
     @Named("authClient")
-    fun provideAuthOkHttpClient(cache: Cache): OkHttpClient {
+    fun provideAuthOkHttpClient(cache: Cache, sharedPreferences: SharedPreferences, @Named("authInterceptors") interceptors: ArrayList<Interceptor>): OkHttpClient {
         val client = OkHttpClient.Builder()
-        if (BuildConfig.DEBUG) {
-            val httpLoggingInterceptor = HttpLoggingInterceptor()
-            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-            client.addInterceptor(httpLoggingInterceptor)
+        for (interceptor in interceptors) {
+            client.addInterceptor(interceptor)
         }
         client.cache(cache)
         return client.build()

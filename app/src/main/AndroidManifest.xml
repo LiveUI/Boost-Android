@@ -27,7 +27,7 @@
         </activity>
         <activity android:name=".ui.apps.AppStoreActivity" />
         <activity android:name=".ui.teams.TeamsActivity" />
-        <activity android:name=".ui.splash.SplashActivity"></activity>
+        <activity android:name=".ui.splash.SplashActivity" />
     </application>
 
 </manifest>

@@ -70,8 +70,8 @@
 
 
         </LinearLayout>
-    </ScrollView>
 
+    </ScrollView>
 
     <ProgressBar
         android:id="@+id/progressBar"
