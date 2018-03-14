@@ -12,4 +12,8 @@ interface BoostDownloadService {
     @GET("apps/{id}/file?download={token}")
     fun downloadApp(@Path("id") id: Int, @Path("token") token: String)
 
+    @GET("apps/plist?download={token}")
+    fun getPropertyListFile(@Path("token") token: String)
+
+
 }

@@ -1,23 +1,24 @@
-package cz.mangoweb.appstore.ui.apps
+package cz.mangoweb.appstore.ui.register
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import cz.mangoweb.appstore.api.model.App
+import android.content.SharedPreferences
+import cz.mangoweb.appstore.api.model.*
 import cz.mangoweb.appstore.api.usecase.BoostApiUseCase
+import cz.mangoweb.appstore.api.usecase.BoostAuthUseCase
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 
 
-class AppsViewModel constructor(private val apiUseCase: BoostApiUseCase) : ViewModel() {
+class RegisterViewModel constructor(private val apiUseCase: BoostApiUseCase) : ViewModel() {
 
     private val disposables: CompositeDisposable = CompositeDisposable()
 
     val loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
 
-    val apps: MutableLiveData<MutableList<App>> = MutableLiveData()
-
-    val app: MutableLiveData<App> = MutableLiveData()
+    val register: MutableLiveData<RegisterUserResponse> = MutableLiveData()
 
     val exception: MutableLiveData<Throwable> = MutableLiveData()
 
@@ -25,8 +26,9 @@ class AppsViewModel constructor(private val apiUseCase: BoostApiUseCase) : ViewM
         disposables.clear()
     }
 
-    fun getApps(platform: String, identifier: String) {
-        disposables.add(apiUseCase.getApps(platform, identifier)
+    //TODO validate input data
+    fun register(firstName: String, lastName: String, email: String, password: String) {
+        disposables.add(apiUseCase.registerUser(RegisterUser(firstName, lastName, email, password))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe({
@@ -34,26 +36,11 @@ class AppsViewModel constructor(private val apiUseCase: BoostApiUseCase) : ViewM
                 })
                 .subscribe({ result ->
                     loadingStatus.value = false
-                    apps.value = result
+                    register.value = result
                 }, { e ->
                     loadingStatus.value = false
                     exception.value = e
                 })
-        )
-    }
-
-    fun getApp(id: Int, level: Int) {
-        disposables.add(apiUseCase.getApp(id, level)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe({
-                    loadingStatus.value = true
-                })
-                .doOnNext({
-                    loadingStatus.value = false
-                })
-                .subscribe({ result -> app.value = result },
-                        { e -> exception.value = e })
         )
     }
 }

@@ -28,6 +28,7 @@
         <activity android:name=".ui.apps.AppStoreActivity" />
         <activity android:name=".ui.teams.TeamsActivity" />
         <activity android:name=".ui.splash.SplashActivity" />
+        <activity android:name=".ui.register.RegisterActivity"></activity>
     </application>
 
 </manifest>
