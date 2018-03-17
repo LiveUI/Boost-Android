@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cz.mangoweb.appstore">
+    package="io.liveui.boost">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -25,10 +25,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.apps.AppStoreActivity" />
+        <activity android:name=".ui.apps.AppsActivity" />
         <activity android:name=".ui.teams.TeamsActivity" />
         <activity android:name=".ui.splash.SplashActivity" />
-        <activity android:name=".ui.register.RegisterActivity"></activity>
+        <activity android:name=".ui.register.RegisterActivity" />
     </application>
 
 </manifest>

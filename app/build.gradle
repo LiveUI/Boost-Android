@@ -16,7 +16,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        applicationId "cz.mangoweb.appstore"
+        applicationId "io.liveui.boost"
         minSdkVersion rootProject.ext.minSdkVersion
         versionName rootProject.ext.versionName
         versionCode getAppVersionCode()
