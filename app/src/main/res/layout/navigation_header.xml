@@ -8,8 +8,8 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/profile_photo"
-        android:layout_width="@dimen/list_app_logo_size"
-        android:layout_height="@dimen/list_app_logo_size"
+        android:layout_width="@dimen/user_profile_image"
+        android:layout_height="@dimen/user_profile_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -47,8 +47,8 @@ interface BoostApiService {
     @GET("apps/{platform}/{identifier}")
     fun getApps(@Path("platform") platform: String, @Path("identifier") identifier: String): Observable<MutableList<App>>
 
-    @GET("apps/{id}?depth={level}")
-    fun getApp(@Path("id") id: Int, @Path("level") level: Int): Observable<App>
+    @GET("apps/{id}")
+    fun getApp(@Path("id") id: Int): Observable<App>
 
     @GET("apps/{id}")
     fun getAppDetail(@Path("id") id: Int): Observable<App>

@@ -3,7 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="@dimen/activity_vertical_margin">
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/app_logo"
@@ -14,18 +18,20 @@
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/app_name"
+        style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/app_logo"
         app:layout_constraintEnd_toStartOf="@+id/btn_download"
+        app:layout_constraintStart_toEndOf="@+id/app_logo"
         tools:text="Boost App" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/app_version"
+        style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/app_logo"
         app:layout_constraintEnd_toStartOf="@+id/btn_download"
+        app:layout_constraintStart_toEndOf="@+id/app_logo"
         app:layout_constraintTop_toBottomOf="@+id/app_name"
         tools:text="1.0.1" />
 

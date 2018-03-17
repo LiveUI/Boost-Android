@@ -60,8 +60,8 @@ class BoostApiUseCase @Inject constructor(private val apiService: BoostApiServic
         return apiService.getApps(platform, identifier)
     }
 
-    fun getApp(id: Int, level: Int): Observable<App> {
-        return apiService.getApp(id, level)
+    fun getApp(id: Int): Observable<App> {
+        return apiService.getApp(id)
     }
 
     fun getAppDetail(id: Int): Observable<App> {

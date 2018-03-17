@@ -39,6 +39,7 @@ class AppDetailFragment : BoostFragment() {
         appDetailViewModel.app.observe(this, Observer<App> {
 
         })
+        appDetailViewModel.getApp(0)
     }
 
 }

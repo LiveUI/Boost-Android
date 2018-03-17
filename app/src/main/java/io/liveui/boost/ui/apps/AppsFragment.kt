@@ -1,7 +1,9 @@
 package io.liveui.boost.ui.apps
 
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -12,6 +14,7 @@ import android.view.ViewGroup
 import io.liveui.boost.R
 import io.liveui.boost.api.ApiViewModeFactory
 import io.liveui.boost.ui.BoostFragment
+import io.liveui.boost.ui.appdetail.AppDetailActivity
 import io.liveui.boost.util.ProgressViewObserver
 import kotlinx.android.synthetic.main.fragment_apps.*
 import javax.inject.Inject
@@ -46,5 +49,11 @@ class AppsFragment : BoostFragment() {
         appsViewModel.apps.observe(this, appsAdapter)
         recycler_view.adapter = appsAdapter
         recycler_view.layoutManager = LinearLayoutManager(context)
+        appsAdapter.selectedItem.observe(this, Observer {
+            startActivity(Intent(context, AppDetailActivity::class.java))
+        })
+        appsAdapter.downloadItem.observe(this, Observer {
+
+        })
     }
 }

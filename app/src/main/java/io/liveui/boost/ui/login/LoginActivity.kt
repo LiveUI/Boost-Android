@@ -11,6 +11,7 @@ import io.liveui.boost.api.model.AuthResponse
 import io.liveui.boost.ui.BoostActivity
 import io.liveui.boost.ui.apps.AppsActivity
 import io.liveui.boost.util.ProgressViewObserver
+import io.liveui.boost.util.ext.hideKeyboard
 import kotlinx.android.synthetic.main.activity_login.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -48,6 +49,7 @@ class LoginActivity : BoostActivity() {
         })
 
         btnLogin.setOnClickListener({
+            it.hideKeyboard(currentFocus)
             authModel.auth(username.text.toString(), password.text.toString())
         })
     }

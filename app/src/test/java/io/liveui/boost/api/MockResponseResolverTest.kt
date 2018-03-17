@@ -27,7 +27,7 @@ class MockResponseResolverTest {
         assertEquals(mockResponseResolver.normalizeUrl(BuildConfig.BASE_URL+"overview?sort=name&filter=filter&platform=android", "GET"), "GET/overview_sort.json")
         assertEquals(mockResponseResolver.normalizeUrl(BuildConfig.BASE_URL+"apps?tags=tags", "POST"), "POST/apps_tags.json")
         assertEquals(mockResponseResolver.normalizeUrl(BuildConfig.BASE_URL+"apps/android/cz.mangoweb.boost", "GET"), "GET/apps/android/apps.json")
-        assertEquals(mockResponseResolver.normalizeUrl(BuildConfig.BASE_URL+"apps/123?depth=1", "GET"), "GET/apps/0_depth.json")
+        assertEquals(mockResponseResolver.normalizeUrl(BuildConfig.BASE_URL+"apps/123", "GET"), "GET/apps/0.json")
         assertEquals(mockResponseResolver.normalizeUrl(BuildConfig.BASE_URL+"apps/123/auth", "GET"), "GET/apps/0/auth.json")
     }
 

@@ -6,7 +6,9 @@ package io.liveui.boost.util.ext
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.Context
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 
 
 fun View.toggleVisibilityWithFade(show: Boolean) {
@@ -20,4 +22,9 @@ fun View.toggleVisibilityWithFade(show: Boolean) {
                 }
             })
 
+}
+
+fun View.hideKeyboard(view: View?) {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(view?.windowToken, 0)
 }

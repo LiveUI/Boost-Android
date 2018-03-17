@@ -23,8 +23,8 @@ class AppDetailViewModel constructor(private val apiUseCase: BoostApiUseCase) : 
         disposables.clear()
     }
 
-    fun getApp(id: Int, level: Int) {
-        disposables.add(apiUseCase.getApp(id, level)
+    fun getApp(id: Int) {
+        disposables.add(apiUseCase.getApp(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe({

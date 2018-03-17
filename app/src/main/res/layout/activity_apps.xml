@@ -16,8 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/Theme.Design.Light.NoActionBar"/>
+            android:background="?attr/colorPrimary"/>
 
     <FrameLayout
         android:id="@+id/fragment_container"
