@@ -2,10 +2,13 @@ package io.liveui.boost.ui.apps
 
 import android.arch.lifecycle.Observer
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.liveui.boost.api.model.App
 import kotlin.collections.ArrayList
+import io.liveui.boost.R
+import kotlinx.android.synthetic.main.view_holder_app.view.*
 
 class AppsAdapter: RecyclerView.Adapter<AppsViewHolder>(), Observer<MutableList<App>> {
 
@@ -16,20 +19,27 @@ class AppsAdapter: RecyclerView.Adapter<AppsViewHolder>(), Observer<MutableList<
         if(t != null) {
             apps.addAll(t.asIterable())
         }
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppsViewHolder {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return AppsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_holder_app, parent, false))
     }
 
     override fun getItemCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return apps.size
     }
 
     override fun onBindViewHolder(holder: AppsViewHolder, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+       holder.setData(apps[position])
     }
 
 }
 
-class AppsViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView)
+class AppsViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+
+    fun setData(app: App) {
+        itemView.app_name.text = app.name
+        itemView.app_version.text = app.version
+    }
+}

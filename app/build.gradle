@@ -24,6 +24,8 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
+        resValue "string", "default_username", "admin@liveui.io"
+        resValue "string", "default_password", "admin"
     }
 
     buildTypes {
@@ -45,6 +47,8 @@ android {
         production {
             dimension "default"
             buildConfigField "String", "BASE_URL", "\"http://\"" //TODO set production URL
+            resValue "string", "default_username", ""
+            resValue "string", "default_password", ""
         }
 
         heroku {

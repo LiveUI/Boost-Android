@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
+import io.liveui.boost.UserSession
 import javax.inject.Singleton
 
 /**
@@ -18,5 +19,11 @@ class UtilModule {
     fun providesSharedPreferences(application: Application):
             SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(application)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserSession(): UserSession {
+        return UserSession()
     }
 }

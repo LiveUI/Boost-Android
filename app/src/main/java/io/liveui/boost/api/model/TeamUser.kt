@@ -12,9 +12,14 @@ package io.liveui.boost.api.model
    }
  */
 data class TeamUser(val id: String,
-                    val firstName: String,
-                    val lastName: String,
+                    val firstname: String,
+                    val lastname: String,
                     val registered: Long,
                     val email: String,
                     val su: Boolean,
-                    val disabled: Boolean)
+                    val disabled: Boolean) {
+
+    fun getFullName(): String {
+        return "$firstname $lastname"
+    }
+}

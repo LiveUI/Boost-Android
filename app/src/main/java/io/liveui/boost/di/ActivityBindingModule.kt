@@ -9,6 +9,7 @@ import io.liveui.boost.ui.teams.TeamsActivity
 import io.liveui.boost.ui.teams.TeamsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import io.liveui.boost.ui.apps.AppsModule
 
 @Module
 abstract class ActivityBindingModule {
@@ -16,7 +17,7 @@ abstract class ActivityBindingModule {
     @ContributesAndroidInjector(modules = [AuthModule::class])
     abstract fun provideLoginActivity(): LoginActivity
 
-    @ContributesAndroidInjector(modules = [ApiModule::class])
+    @ContributesAndroidInjector(modules = [ApiModule::class, AppsModule::class])
     abstract fun provideAppsActivity(): AppsActivity
 
     @ContributesAndroidInjector(modules = [ApiModule::class])
@@ -25,7 +26,7 @@ abstract class ActivityBindingModule {
     @ContributesAndroidInjector
     abstract fun provideSplashActivity(): SplashActivity
 
-    @ContributesAndroidInjector(modules = [ApiModule::class])
+    @ContributesAndroidInjector(modules = [ApiModule::class, AppsModule::class])
     abstract fun proviedeAppsFragment(): AppsFragment
 
     @ContributesAndroidInjector(modules = [ApiModule::class])

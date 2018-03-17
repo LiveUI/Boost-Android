@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import io.liveui.boost.R
+import io.liveui.boost.UserSession
 import io.liveui.boost.api.AuthViewModelFactory
 import io.liveui.boost.api.model.AuthResponse
 import io.liveui.boost.ui.BoostActivity
@@ -19,6 +20,10 @@ import javax.inject.Inject
  */
 class LoginActivity : BoostActivity() {
 
+
+    @Inject
+    lateinit var userSession: UserSession
+
     @Inject
     lateinit var authViewModelFactory: AuthViewModelFactory
 
@@ -30,6 +35,7 @@ class LoginActivity : BoostActivity() {
         authModel = ViewModelProviders.of(this, authViewModelFactory).get(LoginViewModel::class.java)
 
         authModel.auth.observe(this, Observer<AuthResponse> {
+            userSession.user.value = (it?.user)
             startActivity(Intent(this@LoginActivity, AppsActivity::class.java))
         })
 

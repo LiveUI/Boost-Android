@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.apps.AppsFragment">
+    tools:context="io.liveui.boost.ui.apps.AppsFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
