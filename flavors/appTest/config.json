@@ -1,0 +1,7 @@
+{
+	"baseUrl": "http://baseurl.com",
+	"applicationId": "io.liveui.test1",
+	"applicationName": "Test App",
+	"primaryColorHeader": "#D2D2D2",
+	"primaryColorButton": "#000000"
+}

@@ -1,4 +1,6 @@
 import com.github.spotbugs.SpotBugsTask
+import groovy.json.JsonBuilder
+import groovy.json.JsonSlurper
 
 apply plugin: 'com.android.application'
 
@@ -40,9 +42,29 @@ android {
         }
     }
 
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java']
+        }
+        loadFlavors().each { GenFlavor f ->
+            "$f.flavorName" {
+                java.srcDirs = ['src/main/java', 'src/production/java']
+                res.srcDirs = ["../flavors/$f.flavorName"]
+            }
+
+        }
+    }
+
     flavorDimensions "default"
 
     productFlavors {
+
+        loadFlavors().each { GenFlavor f ->
+            "$f.flavorName" {
+                dimension "default"
+                buildConfigField "String", "BASE_URL", "\"$f.baseUrl\""
+            }
+        }
 
         production {
             dimension "default"
@@ -72,14 +94,9 @@ android {
             outputFileName = "AppStore-" + android.defaultConfig.versionName + "-" + variant.buildType.name + ".apk"
         }
     }
+
 }
 
-
-sourceSets {
-    main {
-        java.srcDirs = ['src/main/java']
-    }
-}
 
 tasks.withType(SpotBugsTask) {
     effort = "max"
@@ -165,4 +182,53 @@ static def getAppVersionCode() {
     def date = new Date()
     def formattedDate = date.format('yyyyMMddHH')
     return formattedDate.toInteger()
+}
+
+
+class GenFlavor {
+    String applicationId
+    String applicationName
+    String primaryColorHeader
+    String primaryColorButton
+    String baseUrl
+    String flavorName
+
+    @Override
+    String toString() {
+        return "GenFlavor{" +
+                "applicationId='" + applicationId + '\'' +
+                ", applicationName='" + applicationName + '\'' +
+                ", primaryColorHeader='" + primaryColorHeader + '\'' +
+                ", primaryColorButton='" + primaryColorButton + '\'' +
+                '}';
+    }
+}
+
+
+ArrayList<GenFlavor> loadFlavors() {
+    println("Start generating flavors")
+    File treeFolder = new File("flavors")
+    if (treeFolder.listFiles() == null || treeFolder.listFiles().size() == 0) return ""
+
+    ArrayList<GenFlavor> flavors = new ArrayList<>()
+
+    for (File file : treeFolder.listFiles()) {
+        if (!file.directory) continue
+
+        def inputFile = new File("flavors/$file.name/config.json")
+        def json = new JsonSlurper().parseText(inputFile.text)
+
+        GenFlavor f = new GenFlavor()
+        f.flavorName = file.name
+        f.applicationId = json.applicationId
+        f.applicationName = json.applicationName
+        f.primaryColorButton = json.primaryColorButton
+        f.primaryColorHeader = json.primaryColorHeader
+        f.baseUrl = json.baseUrl
+        flavors.add(f)
+
+        println("Directory: " + file.directory + ", file name: " + file.name + ", jsonL " + f.toString())
+    }
+
+    return flavors
 }
