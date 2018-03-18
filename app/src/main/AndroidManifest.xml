@@ -31,7 +31,9 @@
         <activity android:name=".ui.apps.AppsActivity" />
         <activity android:name=".ui.teams.TeamsActivity" />
         <activity android:name=".ui.register.RegisterActivity" />
-        <activity android:name=".ui.appdetail.AppDetailActivity"></activity>
+        <activity
+            android:name=".ui.appdetail.AppDetailActivity"
+            android:parentActivityName=".ui.apps.AppsActivity" />
     </application>
 
 </manifest>

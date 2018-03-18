@@ -9,11 +9,11 @@ import javax.inject.Inject
 
 class BoostDownloadUseCase @Inject constructor(private val downloadService: BoostDownloadService) {
 
-    fun getDownloadToken(id: Int): Observable<AppTokenResponse> {
+    fun getDownloadToken(id: String): Observable<AppTokenResponse> {
         return downloadService.getDownloadToken(id)
     }
 
-    fun downloadApp(id: Int, token: String): Observable<Response<ResponseBody>> {
+    fun downloadApp(id: String, token: String): Observable<Response<ResponseBody>> {
         return downloadService.downloadApp(id, token)
     }
 
