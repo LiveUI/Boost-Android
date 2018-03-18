@@ -4,13 +4,80 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/activity_vertical_margin"
     tools:context=".ui.appdetail.AppDetailFragment">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/app_logo"
+        android:layout_width="@dimen/app_detail_image"
+        android:layout_height="@dimen/app_detail_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_download" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_install"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="@string/common_install"
+        app:layout_constraintEnd_toEndOf="@+id/app_logo"
+        app:layout_constraintStart_toStartOf="@+id/app_logo"
+        app:layout_constraintTop_toBottomOf="@+id/app_logo" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/app_name"
+        style="@style/TextAppearance.AppCompat.Headline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/app_logo"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Boost App" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/app_package_name"
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/app_name"
+        app:layout_constraintTop_toBottomOf="@+id/app_name"
+        tools:text="io.liveui.boost" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/app_platform"
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="@string/app_detail_platform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/app_name"
+        app:layout_constraintTop_toBottomOf="@+id/app_package_name"
+        tools:text="Platform: Android" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/app_description"
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/app_name"
+        app:layout_constraintTop_toBottomOf="@+id/app_platform"
+        tools:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin pede metus, vulputate nec, fermentum fringilla, vehicula vitae, justo. Curabitur vitae diam non enim vestibulum interdum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos." />
+
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,5 +1,4 @@
 import com.github.spotbugs.SpotBugsTask
-import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 
 apply plugin: 'com.android.application'
@@ -200,7 +199,7 @@ class GenFlavor {
                 ", applicationName='" + applicationName + '\'' +
                 ", primaryColorHeader='" + primaryColorHeader + '\'' +
                 ", primaryColorButton='" + primaryColorButton + '\'' +
-                '}';
+                '}'
     }
 }
 
@@ -226,8 +225,6 @@ ArrayList<GenFlavor> loadFlavors() {
         f.primaryColorHeader = json.primaryColorHeader
         f.baseUrl = json.baseUrl
         flavors.add(f)
-
-        println("Directory: " + file.directory + ", file name: " + file.name + ", jsonL " + f.toString())
     }
 
     return flavors

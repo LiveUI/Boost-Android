@@ -5,4 +5,6 @@
     <dimen name="list_app_logo_size">60dp</dimen>
     <dimen name="user_profile_image">100dp</dimen>
     <dimen name="margin_8">8dp</dimen>
+    <dimen name="app_detail_image">120dp</dimen>
+    <dimen name="margin_6">6dp</dimen>
 </resources>
