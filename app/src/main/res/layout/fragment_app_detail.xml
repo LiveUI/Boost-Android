@@ -49,15 +49,25 @@
         tools:text="io.liveui.boost" />
 
     <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/app_version"
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/app_name"
+        app:layout_constraintTop_toBottomOf="@+id/app_package_name"
+        tools:text="Version: 1.2.3" />
+
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/app_platform"
         style="@style/TextAppearance.AppCompat.Caption"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="@string/app_detail_platform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/app_name"
-        app:layout_constraintTop_toBottomOf="@+id/app_package_name"
+        app:layout_constraintTop_toBottomOf="@+id/app_version"
         tools:text="Platform: Android" />
 
     <android.support.v7.widget.AppCompatTextView
@@ -71,7 +81,6 @@
         app:layout_constraintTop_toBottomOf="@+id/app_platform"
         tools:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin pede metus, vulputate nec, fermentum fringilla, vehicula vitae, justo. Curabitur vitae diam non enim vestibulum interdum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos." />
 
-
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
@@ -82,5 +91,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.Group
+        android:id="@+id/content_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="app_logo,btn_install,app_name,app_package_name,app_version,app_platform,app_description"/>
 
 </android.support.constraint.ConstraintLayout>

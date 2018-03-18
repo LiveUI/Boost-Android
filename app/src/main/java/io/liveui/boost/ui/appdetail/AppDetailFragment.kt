@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import io.liveui.boost.EXTRA_APP_ID
 
 import io.liveui.boost.R
 import io.liveui.boost.api.ApiViewModeFactory
@@ -36,10 +37,15 @@ class AppDetailFragment : BoostFragment() {
         super.onViewCreated(view, savedInstanceState)
         appDetailViewModel = ViewModelProviders.of(this, apiViewModelFactory).get(AppDetailViewModel::class.java)
         appDetailViewModel.loadingStatus.observe(this, ProgressViewObserver(progressBar))
+        appDetailViewModel.loadingStatus.observe(this, ProgressViewObserver(content_group, false))
         appDetailViewModel.app.observe(this, Observer<App> {
-
+            app_name?.text = it?.name
+            app_package_name?.text = it?.identifier
+            app_platform?.text = getString(R.string.app_detail_platform, it?.platform)
+            app_version?.text = getString(R.string.app_detail_version, it?.version)
         })
-        appDetailViewModel.getApp(0)
+        appDetailViewModel.getApp(arguments?.getInt(EXTRA_APP_ID) ?: 0)
+        btn_install.setOnClickListener({})
     }
 
 }

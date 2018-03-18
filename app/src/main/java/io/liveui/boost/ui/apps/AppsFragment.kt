@@ -50,7 +50,7 @@ class AppsFragment : BoostFragment() {
         recycler_view.adapter = appsAdapter
         recycler_view.layoutManager = LinearLayoutManager(context)
         appsAdapter.selectedItem.observe(this, Observer {
-            startActivity(Intent(context, AppDetailActivity::class.java))
+            AppDetailActivity.startActivity(context, it?.id)
         })
         appsAdapter.downloadItem.observe(this, Observer {
 
