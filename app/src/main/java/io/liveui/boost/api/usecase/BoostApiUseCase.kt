@@ -56,8 +56,8 @@ class BoostApiUseCase @Inject constructor(private val apiService: BoostApiServic
         return apiService.upload(tags)
     }
 
-    fun getApps(platform: String, identifier: String): Observable<MutableList<App>> {
-        return apiService.getApps(platform, identifier)
+    fun getApps(): Observable<MutableList<App>> {
+        return apiService.getApps()
     }
 
     fun getApp(id: Int): Observable<App> {

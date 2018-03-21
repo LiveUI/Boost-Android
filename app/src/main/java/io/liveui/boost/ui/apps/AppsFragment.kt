@@ -30,9 +30,6 @@ class AppsFragment : BoostFragment() {
     lateinit var appsViewModel: AppsViewModel
 
     @Inject
-    lateinit var appsConfig: AppsConfig
-
-    @Inject
     lateinit var appsAdapter: AppsAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +42,7 @@ class AppsFragment : BoostFragment() {
         appsViewModel = ViewModelProviders.of(this, apiViewModelFactory).get(AppsViewModel::class.java)
         appsViewModel.loadingStatus.observe(this, ProgressViewObserver(progressBar))
         appsViewModel.loadingStatus.observe(this, ProgressViewObserver(recycler_view, false))
-        appsViewModel.getApps(appsConfig.platform.value?.name?.toLowerCase()!!, appsConfig.identifier.value!!)
+        appsViewModel.getApps()
         appsViewModel.apps.observe(this, appsAdapter)
         recycler_view.adapter = appsAdapter
         recycler_view.layoutManager = LinearLayoutManager(context)

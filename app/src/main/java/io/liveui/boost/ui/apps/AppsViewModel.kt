@@ -23,8 +23,8 @@ class AppsViewModel constructor(private val apiUseCase: BoostApiUseCase) : ViewM
         disposables.clear()
     }
 
-    fun getApps(platform: String, identifier: String) {
-        disposables.add(apiUseCase.getApps(platform, identifier)
+    fun getApps() {
+        disposables.add(apiUseCase.getApps()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe({

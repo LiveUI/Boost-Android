@@ -44,8 +44,8 @@ interface BoostApiService {
     @POST("apps?tags={tags}")
     fun upload(@Path("tags") tags: String): Observable<App>
 
-    @GET("apps/{platform}/{identifier}")
-    fun getApps(@Path("platform") platform: String, @Path("identifier") identifier: String): Observable<MutableList<App>>
+    @GET("apps")
+    fun getApps(): Observable<MutableList<App>>
 
     @GET("apps/{id}")
     fun getApp(@Path("id") id: Int): Observable<App>
