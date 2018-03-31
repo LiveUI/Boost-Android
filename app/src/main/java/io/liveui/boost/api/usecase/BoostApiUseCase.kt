@@ -28,23 +28,23 @@ class BoostApiUseCase @Inject constructor(private val apiService: BoostApiServic
         return apiService.checkTeam(team)
     }
 
-    fun getTeam(id: Int): Observable<Team> {
+    fun getTeam(id: String): Observable<Team> {
         return apiService.getTeam(id)
     }
 
-    fun updateTeam(id: Int, team: Team): Observable<Team> {
+    fun updateTeam(id: String, team: Team): Observable<Team> {
         return apiService.updateTeam(id, team)
     }
 
-    fun getTeamUsers(id: Int): Observable<MutableList<TeamUser>> {
+    fun getTeamUsers(id: String): Observable<MutableList<TeamUser>> {
         return apiService.getTeamUsers(id)
     }
 
-    fun addUserToTeam(id: Int, user: TeamUser): Completable {
+    fun addUserToTeam(id: String, user: TeamUser): Completable {
         return apiService.addUserToTeam(id, user)
     }
 
-    fun removeUserFromTeam(id: Int, user: TeamUser): Completable {
+    fun removeUserFromTeam(id: String, user: TeamUser): Completable {
         return apiService.removeUserFromTeam(id, user)
     }
 
@@ -60,19 +60,15 @@ class BoostApiUseCase @Inject constructor(private val apiService: BoostApiServic
         return apiService.getApps()
     }
 
-    fun getApp(id: Int): Observable<App> {
+    fun getApp(id: String): Observable<App> {
         return apiService.getApp(id)
     }
 
-    fun getAppDetail(id: Int): Observable<App> {
-        return apiService.getAppDetail(id)
-    }
-
-    fun updateApp(id: Int, app: App): Observable<App> {
+    fun updateApp(id: String, app: App): Observable<App> {
         return apiService.updateApp(id, app)
     }
 
-    fun deleteApp(id: Int): Observable<App> {
+    fun deleteApp(id: String): Observable<App> {
         return apiService.deleteApp(id)
     }
 

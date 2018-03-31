@@ -1,4 +1,4 @@
-package io.liveui.boost
+package io.liveui.boost.api
 
 import android.content.SharedPreferences
 import okhttp3.Interceptor

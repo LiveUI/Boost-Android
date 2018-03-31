@@ -7,7 +7,10 @@ import io.liveui.boost.ui.BoostActivity
 import io.liveui.boost.util.ext.replaceFragmentInActivity
 import kotlinx.android.synthetic.main.activity_apps.*
 import android.support.v4.view.GravityCompat
-import io.liveui.boost.UserSession
+import io.liveui.boost.common.UserSession
+import io.liveui.boost.ui.account.MyAccountFragment
+import io.liveui.boost.ui.keys.ApiKeysFragment
+import io.liveui.boost.ui.settings.SettingsFragment
 import kotlinx.android.synthetic.main.navigation_header.view.*
 import javax.inject.Inject
 
@@ -39,12 +42,15 @@ class AppsActivity : BoostActivity() {
                     true
                 }
                 R.id.nav_my_account -> {
+                    replaceFragmentInActivity(MyAccountFragment(), R.id.fragment_container)
                     true
                 }
                 R.id.nav_api_keys -> {
+                    replaceFragmentInActivity(ApiKeysFragment(), R.id.fragment_container)
                     true
                 }
                 R.id.nav_settings -> {
+                    replaceFragmentInActivity(SettingsFragment(), R.id.fragment_container)
                     true
                 }
                 else -> {
@@ -54,6 +60,7 @@ class AppsActivity : BoostActivity() {
         })
 
         navigation_view.setCheckedItem(R.id.nav_apps)
+        navigation_view.menu.performIdentifierAction(R.id.nav_apps, 0)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -13,7 +13,8 @@ import javax.inject.Singleton
     ActivityBindingModule::class,
     InterceptorModule::class,
     NetworkModule::class,
-    UtilModule::class])
+    UtilModule::class,
+    DownloadModule::class])
 interface AppComponent : AndroidInjector<AppStoreApplication> {
 
     @Component.Builder

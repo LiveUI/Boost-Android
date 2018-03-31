@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
-import io.liveui.boost.UserSession
+import io.liveui.boost.common.UserSession
 import javax.inject.Singleton
 
 /**

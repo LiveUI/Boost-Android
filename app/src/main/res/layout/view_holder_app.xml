@@ -41,6 +41,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_download"
+        android:tint="@color/tint_btn_download"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:background="@drawable/selector_btn_download"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

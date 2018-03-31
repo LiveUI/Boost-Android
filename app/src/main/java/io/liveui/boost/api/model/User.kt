@@ -5,4 +5,4 @@ package io.liveui.boost.api.model
 "name": "Admin team",
 "identifier": "admin-team"
  */
-data class User(val id: Int, val name: String, val identifier: String)
+data class User(val id: String, val name: String, val identifier: String)

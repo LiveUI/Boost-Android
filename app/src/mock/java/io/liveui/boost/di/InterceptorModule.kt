@@ -3,7 +3,7 @@ package io.liveui.boost.di
 import android.app.Application
 import android.content.SharedPreferences
 import io.liveui.boost.BuildConfig
-import io.liveui.boost.SaveAuthInterceptor
+import io.liveui.boost.api.SaveAuthInterceptor
 import io.liveui.boost.api.AddHeaderAuthInterceptor
 import io.liveui.boost.api.MockInterceptor
 import io.liveui.boost.api.MockResponseResolver

@@ -3,18 +3,17 @@ package io.liveui.boost.ui.appdetail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import io.liveui.boost.EXTRA_APP_ID
+import io.liveui.boost.common.EXTRA_APP_ID
 import io.liveui.boost.R
 import io.liveui.boost.ui.BoostActivity
 import io.liveui.boost.util.ext.putIntentExtras
-import io.liveui.boost.util.ext.putString
 import io.liveui.boost.util.ext.replaceFragmentInActivity
 import kotlinx.android.synthetic.main.activity_app_detail.*
 
 class AppDetailActivity : BoostActivity() {
 
     companion object {
-        fun startActivity(context: Context?, appId: Int?) {
+        fun startActivity(context: Context?, appId: String?) {
             val intent = Intent(context, AppDetailActivity::class.java)
             intent.putExtra(EXTRA_APP_ID, appId)
             context?.startActivity(intent)

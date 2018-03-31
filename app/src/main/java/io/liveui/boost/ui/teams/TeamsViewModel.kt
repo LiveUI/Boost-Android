@@ -78,7 +78,7 @@ class TeamsViewModel constructor(private val apiUseCase: BoostApiUseCase) : View
         )
     }
 
-    fun getTeam(id: Int) {
+    fun getTeam(id: String) {
         disposables.add(apiUseCase.getTeam(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -108,7 +108,7 @@ class TeamsViewModel constructor(private val apiUseCase: BoostApiUseCase) : View
         )
     }
 
-    fun getTeamUsers(id: Int) {
+    fun getTeamUsers(id: String) {
         disposables.add(apiUseCase.getTeamUsers(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -123,7 +123,7 @@ class TeamsViewModel constructor(private val apiUseCase: BoostApiUseCase) : View
         )
     }
 
-    fun addUserToTeam(id: Int, teamUser: TeamUser) {
+    fun addUserToTeam(id: String, teamUser: TeamUser) {
         disposables.add(apiUseCase.addUserToTeam(id, teamUser)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -139,7 +139,7 @@ class TeamsViewModel constructor(private val apiUseCase: BoostApiUseCase) : View
         )
     }
 
-    fun removeUserFromTeam(id: Int, teamUser: TeamUser) {
+    fun removeUserFromTeam(id: String, teamUser: TeamUser) {
         disposables.add(apiUseCase.removeUserFromTeam(id, teamUser)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

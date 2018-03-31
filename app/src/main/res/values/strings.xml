@@ -22,4 +22,9 @@
     <string name="common_install">Install</string>
     <string name="app_detail_platform">Platform: %1$s</string>
     <string name="app_detail_version">Version: %1$s</string>
+    <string name="menu_teams">Teams</string>
+    <string name="team_name">Team name</string>
+    <string name="team_identifier">Team identifer</string>
+    <string name="create_team">Create team</string>
+    <string name="settings_team">Team</string>
 </resources>

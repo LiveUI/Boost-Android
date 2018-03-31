@@ -34,6 +34,7 @@
         <activity
             android:name=".ui.appdetail.AppDetailActivity"
             android:parentActivityName=".ui.apps.AppsActivity" />
+        <activity android:name=".ui.users.UsersActivity" />
     </application>
 
 </manifest>

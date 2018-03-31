@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
@@ -13,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import io.liveui.boost.R
 import io.liveui.boost.api.ApiViewModeFactory
+import io.liveui.boost.api.DownloadManager
 import io.liveui.boost.ui.BoostFragment
 import io.liveui.boost.ui.appdetail.AppDetailActivity
 import io.liveui.boost.util.ProgressViewObserver
@@ -32,6 +34,9 @@ class AppsFragment : BoostFragment() {
     @Inject
     lateinit var appsAdapter: AppsAdapter
 
+    @Inject
+    lateinit var downloadManager: DownloadManager
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_apps, container, false)
@@ -45,12 +50,12 @@ class AppsFragment : BoostFragment() {
         appsViewModel.getApps()
         appsViewModel.apps.observe(this, appsAdapter)
         recycler_view.adapter = appsAdapter
-        recycler_view.layoutManager = LinearLayoutManager(context)
+        recycler_view.layoutManager = if(resources.getBoolean(R.bool.isPhone)) LinearLayoutManager(context) else GridLayoutManager(context, 3)
         appsAdapter.selectedItem.observe(this, Observer {
             AppDetailActivity.startActivity(context, it?.id)
         })
         appsAdapter.downloadItem.observe(this, Observer {
-
+            downloadManager.downloadApp(it!!.id)
         })
     }
 }

@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import io.liveui.boost.R
-import io.liveui.boost.UserSession
+import io.liveui.boost.common.UserSession
 import io.liveui.boost.api.AuthViewModelFactory
 import io.liveui.boost.api.model.AuthResponse
 import io.liveui.boost.ui.BoostActivity

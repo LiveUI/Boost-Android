@@ -2,10 +2,10 @@ package io.liveui.boost.di
 
 import android.content.SharedPreferences
 import io.liveui.boost.BuildConfig
-import io.liveui.boost.SaveAuthInterceptor
 import io.liveui.boost.api.AddHeaderAuthInterceptor
 import dagger.Module
 import dagger.Provides
+import io.liveui.boost.api.SaveAuthInterceptor
 import okhttp3.Interceptor
 import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Named

@@ -23,21 +23,21 @@ interface BoostApiService {
     fun checkTeam(@Body team: TeamCheckRequest): Observable<TeamCheckResponse>
 
     @GET("teams/{id}")
-    fun getTeam(@Path("id") id: Int): Observable<Team>
+    fun getTeam(@Path("id") id: String): Observable<Team>
 
     @PUT("teams/{id}")
-    fun updateTeam(@Path("id") id: Int, @Body team: Team): Observable<Team>
+    fun updateTeam(@Path("id") id: String, @Body team: Team): Observable<Team>
 
     @GET("teams/{id}/users")
-    fun getTeamUsers(@Path("id") id: Int): Observable<MutableList<TeamUser>>
+    fun getTeamUsers(@Path("id") id: String): Observable<MutableList<TeamUser>>
 
     @POST("teams/{id}/link")
-    fun addUserToTeam(@Path("id") id: Int, @Body user: TeamUser): Completable
+    fun addUserToTeam(@Path("id") id: String, @Body user: TeamUser): Completable
 
     @POST("teams/{id}/unlink")
-    fun removeUserFromTeam(@Path("id") id: Int, @Body user: TeamUser): Completable
+    fun removeUserFromTeam(@Path("id") id: String, @Body user: TeamUser): Completable
 
-    @GET("overview?sort={name}&filter={filter}&platform={platform}")
+    @GET("apps?sort={name}&filter={filter}&platform={platform}")
     fun filter(@Path("") name: String, @Path("filter") filter: String, @Path("platform") platform: String): Observable<MutableList<App>>
 
     @Multipart
@@ -48,16 +48,13 @@ interface BoostApiService {
     fun getApps(): Observable<MutableList<App>>
 
     @GET("apps/{id}")
-    fun getApp(@Path("id") id: Int): Observable<App>
-
-    @GET("apps/{id}")
-    fun getAppDetail(@Path("id") id: Int): Observable<App>
+    fun getApp(@Path("id") id: String): Observable<App>
 
     @PUT("apps/{id}")
-    fun updateApp(@Path("id") id: Int, @Body app: App): Observable<App>
+    fun updateApp(@Path("id") id: String, @Body app: App): Observable<App>
 
     @DELETE("apps/{id}")
-    fun deleteApp(@Path("id") id: Int): Observable<App>
+    fun deleteApp(@Path("id") id: String): Observable<App>
 
     @GET("apps")
     fun getAppBuilds(): Observable<MutableList<App>>

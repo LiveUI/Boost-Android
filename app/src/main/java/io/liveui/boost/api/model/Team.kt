@@ -7,4 +7,4 @@ package io.liveui.boost.api.model
  * "identifier": "admin-team"
  * }
  */
-data class Team(val id: Int, val name: String, val identifier: String)
+data class Team(val id: String, val name: String, val identifier: String)

@@ -7,7 +7,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.0-beta4'
+        classpath 'com.android.tools.build:gradle:3.2.0-alpha07'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -31,13 +31,13 @@ task clean(type: Delete) {
 
 ext {
     versionName = '0.1'
-    minSdkVersion = 16
-    targetSdkVersion = 27
-    compileSdkVersion = 27
+    minSdkVersion = 19
+    targetSdkVersion = "P"
+    compileSdkVersion = "android-P"
 
     //app
     buildToolsVersion = '27.0.3'
-    supportLibVersion = '27.1.0'
+    supportLibVersion = '28.0.0-alpha1'
     gson = '2.8.2'
     answers = '1.4.1'
     crashlytics = '2.8.0'

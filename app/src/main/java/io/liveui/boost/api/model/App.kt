@@ -16,7 +16,7 @@ package io.liveui.boost.api.model
  */
 data class App(val build: String,
                val basic: Boolean,
-               val id: Int,
+               val id: String,
                val platform: String,
                val team_id: Int,
                val version: String,

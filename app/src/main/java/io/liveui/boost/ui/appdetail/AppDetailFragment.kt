@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import io.liveui.boost.EXTRA_APP_ID
+import io.liveui.boost.common.EXTRA_APP_ID
 
 import io.liveui.boost.R
 import io.liveui.boost.api.ApiViewModeFactory
@@ -44,7 +44,7 @@ class AppDetailFragment : BoostFragment() {
             app_platform?.text = getString(R.string.app_detail_platform, it?.platform)
             app_version?.text = getString(R.string.app_detail_version, it?.version)
         })
-        appDetailViewModel.getApp(arguments?.getInt(EXTRA_APP_ID) ?: 0)
+        appDetailViewModel.getApp(arguments?.getString(EXTRA_APP_ID) ?: "")
         btn_install.setOnClickListener({})
     }
 
