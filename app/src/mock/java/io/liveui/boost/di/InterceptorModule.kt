@@ -25,14 +25,22 @@ class InterceptorModule {
 
     @Provides
     @Singleton
-    @Named("apiInterceptors")
-    fun provideApiInterceptors(sharedPreferences: SharedPreferences, mockResponseResolver: MockResponseResolver): ArrayList<Interceptor> {
+    @Named("loggingInterceptor")
+    fun provideBaseInterceptors(sharedPreferences: SharedPreferences): ArrayList<Interceptor> {
         return ArrayList<Interceptor>().apply {
             if (BuildConfig.DEBUG) {
                 val httpLoggingInterceptor = HttpLoggingInterceptor()
                 httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
                 add(httpLoggingInterceptor)
             }
+        }
+    }
+
+    @Provides
+    @Singleton
+    @Named("apiInterceptors")
+    fun provideApiInterceptors(@Named("loggingInterceptor") loggingInterceptor: ArrayList<Interceptor>, sharedPreferences: SharedPreferences, mockResponseResolver: MockResponseResolver): ArrayList<Interceptor> {
+        return loggingInterceptor.apply {
             add(AddHeaderAuthInterceptor(sharedPreferences.getString("jwtToken", null)))
             add(MockInterceptor(mockResponseResolver))
         }
@@ -41,15 +49,11 @@ class InterceptorModule {
     @Provides
     @Singleton
     @Named("authInterceptors")
-    fun provideAuthInterceptors(sharedPreferences: SharedPreferences, mockResponseResolver: MockResponseResolver): ArrayList<Interceptor> {
-        return ArrayList<Interceptor>().apply {
-            if (BuildConfig.DEBUG) {
-                val httpLoggingInterceptor = HttpLoggingInterceptor()
-                httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-                add(httpLoggingInterceptor)
-            }
+    fun provideAuthInterceptors(@Named("loggingInterceptor") loggingInterceptor: ArrayList<Interceptor>, sharedPreferences: SharedPreferences, mockResponseResolver: MockResponseResolver): ArrayList<Interceptor> {
+        return loggingInterceptor.apply {
             add(SaveAuthInterceptor(sharedPreferences))
             add(MockInterceptor(mockResponseResolver))
         }
     }
+
 }

@@ -5,12 +5,14 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.liveui.boost.BuildConfig
-import io.liveui.boost.api.TokenAuthenitcator
+import io.liveui.boost.api.TokenAuthenticator
 import io.liveui.boost.api.service.BoostApiService
 import io.liveui.boost.api.service.BoostAuthService
 import io.liveui.boost.api.service.BoostDownloadService
 import dagger.Module
 import dagger.Provides
+import io.liveui.boost.api.service.BoostCheckService
+import io.liveui.boost.common.model.Workspace
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -41,12 +43,12 @@ class NetworkModule {
     @Provides
     @Singleton
     @Named("apiClient")
-    fun provideApiOkHttpClient(cache: Cache, authService: BoostAuthService, sharedPreferences: SharedPreferences, @Named("apiInterceptors") interceptors: ArrayList<Interceptor>): OkHttpClient {
+    fun provideApiOkHttpClient(cache: Cache, authService: BoostAuthService, workspace: Workspace, @Named("apiInterceptors") interceptors: ArrayList<Interceptor>): OkHttpClient {
         val client = OkHttpClient.Builder()
         for (interceptor in interceptors) {
             client.addInterceptor(interceptor)
         }
-        client.authenticator(TokenAuthenitcator(authService, sharedPreferences))
+        client.authenticator(TokenAuthenticator(authService, workspace))
         client.cache(cache)
         return client.build()
     }
@@ -54,7 +56,19 @@ class NetworkModule {
     @Provides
     @Singleton
     @Named("authClient")
-    fun provideAuthOkHttpClient(cache: Cache, sharedPreferences: SharedPreferences, @Named("authInterceptors") interceptors: ArrayList<Interceptor>): OkHttpClient {
+    fun provideAuthOkHttpClient(cache: Cache, @Named("authInterceptors") interceptors: ArrayList<Interceptor>): OkHttpClient {
+        val client = OkHttpClient.Builder()
+        for (interceptor in interceptors) {
+            client.addInterceptor(interceptor)
+        }
+        client.cache(cache)
+        return client.build()
+    }
+
+    @Provides
+    @Singleton
+    @Named("baseClient")
+    fun provideBaseOkHttpClient(cache: Cache, @Named("loggingInterceptor") interceptors: ArrayList<Interceptor>): OkHttpClient {
         val client = OkHttpClient.Builder()
         for (interceptor in interceptors) {
             client.addInterceptor(interceptor)
@@ -89,6 +103,18 @@ class NetworkModule {
 
     @Provides
     @Singleton
+    @Named("baseRetrofit")
+    fun provideBaseRetrofit(gson: Gson, @Named("baseClient") okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(BuildConfig.BASE_URL)
+                .client(okHttpClient)
+                .build()
+    }
+
+    @Provides
+    @Singleton
     fun provideAuthService(@Named("authRetrofit") retrofit: Retrofit): BoostAuthService {
         return retrofit.create(BoostAuthService::class.java)
     }
@@ -103,6 +129,12 @@ class NetworkModule {
     @Singleton
     fun provideDownloadService(@Named("apiRetrofit") retrofit: Retrofit): BoostDownloadService {
         return retrofit.create(BoostDownloadService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCheckService(@Named("baseRetrofit") retrofit: Retrofit): BoostCheckService {
+        return retrofit.create(BoostCheckService::class.java)
     }
 
 }

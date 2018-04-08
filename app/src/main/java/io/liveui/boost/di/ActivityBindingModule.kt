@@ -20,24 +20,29 @@ import io.liveui.boost.ui.users.TeamUsersFragment
 import io.liveui.boost.ui.users.TeamUsersModule
 import io.liveui.boost.ui.users.UsersFragment
 import io.liveui.boost.ui.users.UsersModule
+import io.liveui.boost.ui.workspace.WorkspaceActivity
+import io.liveui.boost.ui.workspace.WorkspaceFragment
 
 @Module
 abstract class ActivityBindingModule {
 
-    @ContributesAndroidInjector(modules = [AuthModule::class])
+    @ContributesAndroidInjector(modules = [ActivityModule::class])
+    abstract fun provideSplashActivity(): SplashActivity
+
+    @ContributesAndroidInjector(modules = [ActivityModule::class])
+    abstract fun provideWorkspaceActivity(): WorkspaceActivity
+
+    @ContributesAndroidInjector(modules = [AuthModule::class, ActivityModule::class])
     abstract fun provideLoginActivity(): LoginActivity
 
-    @ContributesAndroidInjector(modules = [ApiModule::class, AppsModule::class])
+    @ContributesAndroidInjector(modules = [ApiModule::class, AppsModule::class, ActivityModule::class])
     abstract fun provideAppsActivity(): AppsActivity
 
-    @ContributesAndroidInjector(modules = [ApiModule::class])
+    @ContributesAndroidInjector(modules = [ApiModule::class, ActivityModule::class])
     abstract fun provideTeamsActivity(): TeamsActivity
 
-    @ContributesAndroidInjector(modules = [ApiModule::class])
+    @ContributesAndroidInjector(modules = [ApiModule::class, ActivityModule::class])
     abstract fun provideAppDetailsActivity(): AppDetailActivity
-
-    @ContributesAndroidInjector
-    abstract fun provideSplashActivity(): SplashActivity
 
     @ContributesAndroidInjector(modules = [ApiModule::class, AppsModule::class])
     abstract fun proviedeAppsFragment(): AppsFragment
@@ -65,5 +70,8 @@ abstract class ActivityBindingModule {
 
     @ContributesAndroidInjector(modules = [ApiModule::class, UsersModule::class])
     abstract fun provideUsersFragment(): UsersFragment
+
+    @ContributesAndroidInjector(modules = [CheckModule::class])
+    abstract fun provideWorkspaceFragment(): WorkspaceFragment
 
 }

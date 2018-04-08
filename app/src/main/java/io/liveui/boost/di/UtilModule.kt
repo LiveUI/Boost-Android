@@ -6,6 +6,8 @@ import android.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
 import io.liveui.boost.common.UserSession
+import io.liveui.boost.common.model.Workspace
+import io.liveui.boost.util.permission.PermissionHelper
 import javax.inject.Singleton
 
 /**
@@ -25,5 +27,17 @@ class UtilModule {
     @Singleton
     fun provideUserSession(): UserSession {
         return UserSession()
+    }
+
+    @Provides
+    @Singleton
+    fun providePermissionHelper(application: Application): PermissionHelper {
+        return PermissionHelper(application)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWorkspace(sharedPreferences: SharedPreferences): Workspace {
+        return Workspace(sharedPreferences)
     }
 }

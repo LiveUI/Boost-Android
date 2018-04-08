@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
+import io.liveui.boost.BuildConfig
 import io.liveui.boost.R
 import io.liveui.boost.common.UserSession
 import io.liveui.boost.api.AuthViewModelFactory
@@ -16,11 +17,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 import timber.log.Timber
 import javax.inject.Inject
 
-/**
- * A login screen that offers login via email/password.
- */
 class LoginActivity : BoostActivity() {
-
 
     @Inject
     lateinit var userSession: UserSession
@@ -53,5 +50,4 @@ class LoginActivity : BoostActivity() {
             authModel.auth(username.text.toString(), password.text.toString())
         })
     }
-
 }

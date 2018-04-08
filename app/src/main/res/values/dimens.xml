@@ -11,4 +11,10 @@
     <dimen name="btn_corner_radius">4dp</dimen>
     <dimen name="btn_stroke_width">2dp</dimen>
     <dimen name="button_padding">8dp</dimen>
+    <dimen name="btn_min_height">48dp</dimen>
+
+    <dimen name="btn_padding_bottom">4dp</dimen>
+    <dimen name="btn_padding_left">16dp</dimen>
+    <dimen name="btn_padding_right">16dp</dimen>
+    <dimen name="btn_padding_top">4dp</dimen>
 </resources>

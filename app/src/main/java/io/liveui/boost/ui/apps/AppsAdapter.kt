@@ -11,7 +11,7 @@ import io.liveui.boost.ui.view.adapter.BaseViewHolder
 import io.liveui.boost.ui.view.adapter.OnItemClickListener
 import kotlinx.android.synthetic.main.view_holder_app.view.*
 
-class AppsAdapter: BaseObservableAdapter<App, AppsViewHolder>() {
+class AppsAdapter : BaseObservableAdapter<App, AppsViewHolder>() {
 
     val downloadItem: MutableLiveData<App> = MutableLiveData()
 
@@ -20,11 +20,22 @@ class AppsAdapter: BaseObservableAdapter<App, AppsViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: AppsViewHolder, position: Int) {
-       holder.setData(items[position])
+        holder.setData(items[position])
+    }
+
+    override fun onItemClick(view: View?, position: Int) {
+        when (view?.id) {
+            R.id.btn_download -> downloadItem.value = getItem(position)
+            else -> super.onItemClick(view, position)
+        }
     }
 }
 
 class AppsViewHolder(itemView: View, onClickListener: OnItemClickListener?) : BaseViewHolder<App>(itemView, onClickListener) {
+
+    init {
+        itemView.btn_download.setOnClickListener(this)
+    }
 
     override fun setData(item: App) {
         itemView.app_name.text = item.name

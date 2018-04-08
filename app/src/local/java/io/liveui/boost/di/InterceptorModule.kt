@@ -5,7 +5,9 @@ import io.liveui.boost.BuildConfig
 import io.liveui.boost.api.AddHeaderAuthInterceptor
 import dagger.Module
 import dagger.Provides
+import io.liveui.boost.api.BaseUrlInterceptor
 import io.liveui.boost.api.SaveAuthInterceptor
+import io.liveui.boost.common.model.Workspace
 import okhttp3.Interceptor
 import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Named
@@ -16,14 +18,23 @@ class InterceptorModule {
 
     @Provides
     @Singleton
-    @Named("apiInterceptors")
-    fun provideApiInterceptors(sharedPreferences: SharedPreferences): ArrayList<Interceptor> {
+    @Named("loggingInterceptor")
+    fun provideBaseInterceptors(workspace: Workspace): ArrayList<Interceptor> {
         return ArrayList<Interceptor>().apply {
+            add(BaseUrlInterceptor(workspace))
             if (BuildConfig.DEBUG) {
                 val httpLoggingInterceptor = HttpLoggingInterceptor()
                 httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
                 add(httpLoggingInterceptor)
             }
+        }
+    }
+
+    @Provides
+    @Singleton
+    @Named("apiInterceptors")
+    fun provideApiInterceptors(@Named("loggingInterceptor") loggingInterceptor: ArrayList<Interceptor>, sharedPreferences: SharedPreferences): ArrayList<Interceptor> {
+        return loggingInterceptor.apply {
             add(AddHeaderAuthInterceptor(sharedPreferences.getString("jwtToken", null)))
         }
     }
@@ -31,13 +42,8 @@ class InterceptorModule {
     @Provides
     @Singleton
     @Named("authInterceptors")
-    fun provideAuthInterceptors(sharedPreferences: SharedPreferences): ArrayList<Interceptor> {
-        return ArrayList<Interceptor>().apply {
-            if (BuildConfig.DEBUG) {
-                val httpLoggingInterceptor = HttpLoggingInterceptor()
-                httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-                add(httpLoggingInterceptor)
-            }
+    fun provideAuthInterceptors(@Named("loggingInterceptor") loggingInterceptor: ArrayList<Interceptor>, sharedPreferences: SharedPreferences): ArrayList<Interceptor> {
+        return loggingInterceptor.apply {
             add(SaveAuthInterceptor(sharedPreferences))
         }
     }

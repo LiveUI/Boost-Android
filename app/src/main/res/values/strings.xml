@@ -4,7 +4,7 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
@@ -27,4 +27,8 @@
     <string name="team_identifier">Team identifer</string>
     <string name="create_team">Create team</string>
     <string name="settings_team">Team</string>
+    <string name="team_create_success">Successfully created team</string>
+    <string name="workspace_url_hint">workspace.example.com</string>
+    <string name="common_continue">Continue</string>
+    <string name="workspace_name_hint">Workspace name</string>
 </resources>

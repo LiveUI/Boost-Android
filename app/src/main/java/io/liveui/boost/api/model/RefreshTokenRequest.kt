@@ -5,4 +5,4 @@ package io.liveui.boost.api.model
  * "token": "2018-01-10T18:38:35.762Z"
  * }
  */
-data class RefreshTokenRequest(val token: String)
+data class RefreshTokenRequest(val token: String?)

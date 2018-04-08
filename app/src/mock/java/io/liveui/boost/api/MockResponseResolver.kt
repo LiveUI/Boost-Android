@@ -27,7 +27,6 @@ class MockResponseResolver @Inject constructor(private val application: Applicat
         )
     }
 
-
     @Throws(IOException::class)
     private fun getFileInputStream(filename: String): InputStream {
         return application.assets.open(filename)

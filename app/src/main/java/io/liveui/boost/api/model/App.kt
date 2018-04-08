@@ -18,9 +18,9 @@ data class App(val build: String,
                val basic: Boolean,
                val id: String,
                val platform: String,
-               val team_id: Int,
+               val team_id: String,
                val version: String,
                val identifier: String,
-               val created: Long,
+               val created: String,
                val name: String,
-               val modified: Long)
+               val modified: String)

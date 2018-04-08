@@ -7,6 +7,7 @@ import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
+import io.liveui.boost.util.permission.PermissionHelper
 import javax.inject.Inject
 
 abstract class BoostActivity: AppCompatActivity(), HasSupportFragmentInjector {

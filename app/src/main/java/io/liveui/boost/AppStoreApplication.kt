@@ -5,9 +5,14 @@ import android.support.multidex.MultiDex
 import io.liveui.boost.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
+import io.liveui.boost.util.permission.PermissionHelper
 import timber.log.Timber
+import javax.inject.Inject
 
 class AppStoreApplication : DaggerApplication() {
+
+    @Inject
+    lateinit var permissionHelper: PermissionHelper
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
@@ -21,4 +26,8 @@ class AppStoreApplication : DaggerApplication() {
                 .build()
     }
 
+    override fun onCreate() {
+        super.onCreate()
+        permissionHelper.start()
+    }
 }

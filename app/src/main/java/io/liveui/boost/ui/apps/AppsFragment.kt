@@ -1,6 +1,7 @@
 package io.liveui.boost.ui.apps
 
 
+import android.Manifest
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -18,6 +19,7 @@ import io.liveui.boost.api.DownloadManager
 import io.liveui.boost.ui.BoostFragment
 import io.liveui.boost.ui.appdetail.AppDetailActivity
 import io.liveui.boost.util.ProgressViewObserver
+import io.liveui.boost.util.permission.PermissionHelper
 import kotlinx.android.synthetic.main.fragment_apps.*
 import javax.inject.Inject
 
@@ -37,6 +39,9 @@ class AppsFragment : BoostFragment() {
     @Inject
     lateinit var downloadManager: DownloadManager
 
+    @Inject
+    lateinit var permissionHelper: PermissionHelper
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_apps, container, false)
@@ -55,7 +60,9 @@ class AppsFragment : BoostFragment() {
             AppDetailActivity.startActivity(context, it?.id)
         })
         appsAdapter.downloadItem.observe(this, Observer {
-            downloadManager.downloadApp(it!!.id)
+            if (permissionHelper.checkPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, 1)) {
+                downloadManager.downloadApp(it!!.id)
+            }
         })
     }
 }

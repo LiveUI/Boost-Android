@@ -13,8 +13,8 @@ class BoostDownloadUseCase @Inject constructor(private val downloadService: Boos
         return downloadService.getDownloadToken(id)
     }
 
-    fun downloadApp(id: String, token: String): Observable<Response<ResponseBody>> {
-        return downloadService.downloadApp(id, token)
+    fun downloadApp(token: String): Observable<Response<ResponseBody>> {
+        return downloadService.downloadApp(token)
     }
 
     fun getPropertyListFile(token: String): Observable<Response<ResponseBody>> {

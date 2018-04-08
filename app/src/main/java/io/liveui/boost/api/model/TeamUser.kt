@@ -14,7 +14,7 @@ package io.liveui.boost.api.model
 data class TeamUser(val id: String,
                     val firstname: String,
                     val lastname: String,
-                    val registered: Long,
+                    val registered: String,
                     val email: String,
                     val su: Boolean,
                     val disabled: Boolean) {

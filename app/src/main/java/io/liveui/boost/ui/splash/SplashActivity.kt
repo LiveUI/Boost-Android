@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import io.liveui.boost.R
 import io.liveui.boost.ui.BoostActivity
-import io.liveui.boost.ui.login.LoginActivity
+import io.liveui.boost.ui.workspace.WorkspaceActivity
 
 class SplashActivity : BoostActivity() {
 
@@ -14,7 +14,7 @@ class SplashActivity : BoostActivity() {
         setContentView(R.layout.activity_splash)
 
         Handler().postDelayed({
-            startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+            startActivity(Intent(this@SplashActivity, WorkspaceActivity::class.java))
         }, 2000)
     }
 }

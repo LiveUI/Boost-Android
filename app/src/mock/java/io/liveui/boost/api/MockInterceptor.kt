@@ -19,6 +19,7 @@ class MockInterceptor(val mockResponseResolver: MockResponseResolver) : Intercep
                 .body(ResponseBody.create(MediaType.parse("application/json"), responseString.toByteArray()))
                 .addHeader("content-type", "application/json")
                 .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MTk4NTk0ODIuOTgwNzgzOSwidXNlcklkIjoiNjMwQzk3RTYtQUM1Ni00MjEzLTg4MkItM0JFQkFFNTBCRjZEIn0.aPMfWZnHJSHa_rDxY-u9x-Vs-amQvxeVL8zGrPhwNGU")
+                .addHeader("Content-Disposition", "attachment; filename=test-app.apk")
                 .build()
     }
 

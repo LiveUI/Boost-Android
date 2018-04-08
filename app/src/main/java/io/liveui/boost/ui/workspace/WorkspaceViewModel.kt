@@ -1,23 +1,22 @@
-package io.liveui.boost.ui.login
+package io.liveui.boost.ui.workspace
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import io.liveui.boost.api.model.AuthRequest
-import io.liveui.boost.api.model.AuthResponse
-import io.liveui.boost.api.usecase.BoostAuthUseCase
-import io.liveui.boost.common.model.Workspace
+import io.liveui.boost.api.model.App
+import io.liveui.boost.api.usecase.BoostApiUseCase
+import io.liveui.boost.api.usecase.BoostCheckUseCase
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
-class LoginViewModel constructor(private val authUseCase: BoostAuthUseCase, private val workspace: Workspace) : ViewModel() {
+class WorkspaceViewModel constructor(private val checkUseCase: BoostCheckUseCase) : ViewModel() {
 
     private val disposables: CompositeDisposable = CompositeDisposable()
 
     val loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
 
-    val auth: MutableLiveData<AuthResponse> = MutableLiveData()
+    val serverExists: MutableLiveData<Boolean> = MutableLiveData()
 
     val exception: MutableLiveData<Throwable> = MutableLiveData()
 
@@ -25,21 +24,18 @@ class LoginViewModel constructor(private val authUseCase: BoostAuthUseCase, priv
         disposables.clear()
     }
 
-    fun auth(username: String, password: String) {
-        disposables.add(authUseCase.auth(AuthRequest(username, password))
+    fun checkServer() {
+        disposables.add(checkUseCase.ping()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe({
                     loadingStatus.value = true
                 })
-                .subscribe({ result ->
+                .subscribe({
                     loadingStatus.value = false
-                    auth.value = result
-                    auth.let {
-                        workspace.permToken = it.value?.token
-                        workspace.save()
-                    }
+                    serverExists.value = true
                 }, { e ->
+                    serverExists.value = false
                     loadingStatus.value = false
                     exception.value = e
                 })
