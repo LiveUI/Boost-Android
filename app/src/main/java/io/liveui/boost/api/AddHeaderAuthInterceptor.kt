@@ -1,11 +1,15 @@
 package io.liveui.boost.api
 
 import okhttp3.Interceptor
+import okhttp3.Request
 import okhttp3.Response
 
-class AddHeaderAuthInterceptor(val token: String) : Interceptor {
+class AddHeaderAuthInterceptor(val token: String?) : Interceptor {
     override fun intercept(chain: Interceptor.Chain?): Response? {
-        val request = chain!!.request()!!.newBuilder()?.addHeader("Authorization", token)!!.build()
-        return chain.proceed(request)
+        val builder: Request.Builder? = chain!!.request()!!.newBuilder()
+        if (token != null) {
+            builder?.addHeader("Authorization", token)
+        }
+        return chain.proceed(builder!!.build())
     }
 }

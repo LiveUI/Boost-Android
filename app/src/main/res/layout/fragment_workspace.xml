@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/til_workspace_name"
         app:layout_constraintVertical_chainStyle="packed">
 
-        <android.support.design.widget.TextInputEditText
+        <android.support.v7.widget.AppCompatAutoCompleteTextView
             android:id="@+id/workspace_url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

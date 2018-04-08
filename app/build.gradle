@@ -39,52 +39,51 @@ android {
                 proguardFile 'proguard-rules.pro'
             }
         }
+        debug {
+            resValue "string", "default_username", "admin@liveui.io"
+            resValue "string", "default_password", "admin"
+        }
     }
 
     sourceSets {
         main {
             java.srcDirs = ['src/main/java']
         }
-        loadFlavors().each { GenFlavor f ->
-            "$f.flavorName" {
-                java.srcDirs = ['src/main/java', 'src/production/java']
-                res.srcDirs = ["../flavors/$f.flavorName"]
-            }
-
-        }
+//        loadFlavors().each { GenFlavor f ->
+//            "$f.flavorName" {
+//                java.srcDirs = ['src/main/java', 'src/production/java']
+//                res.srcDirs = ["../flavors/$f.flavorName"]
+//            }
+//
+//        }
     }
 
     flavorDimensions "default"
 
     productFlavors {
 
-        loadFlavors().each { GenFlavor f ->
-            "$f.flavorName" {
-                dimension "default"
-                buildConfigField "String", "BASE_URL", "\"$f.baseUrl\""
-            }
-        }
+//        loadFlavors().each { GenFlavor f ->
+//            "$f.flavorName" {
+//                dimension "default"
+//                buildConfigField "String", "BASE_URL", "\"$f.baseUrl\""
+//            }
+//        }
 
         production {
             dimension "default"
-            buildConfigField "String", "BASE_URL", "\"http://\"" //TODO set production URL
+            buildConfigField "String[]", "URL", "{" +
+                    "\"http://10.0.2.2:8080/\"," +
+                    "\"http://boostappstore.herokuapp.com/\"" +
+                    "}"
             resValue "string", "default_username", ""
             resValue "string", "default_password", ""
         }
 
-        heroku {
-            dimension "default"
-            buildConfigField "String", "BASE_URL", "\"http://boostappstore.herokuapp.com/\""
-        }
-
-        local {
-            dimension "default"
-            buildConfigField "String", "BASE_URL", "\"http://10.0.2.2:8080/\""
-        }
-
         mock {
             dimension "default"
-            buildConfigField "String", "BASE_URL", "\"http://assets/\""
+            buildConfigField "String[]", "URL", "{" +
+                    "\"http://assets/\"" +
+                    "}"
         }
     }
 
@@ -112,15 +111,14 @@ tasks.withType(SpotBugsTask) {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:support-v4:27.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
-    implementation "android.arch.lifecycle:reactivestreams:1.1.0"
-    implementation "android.arch.lifecycle:extensions:1.1.0"
-    implementation "android.arch.lifecycle:viewmodel:1.1.0"
-    implementation "android.arch.lifecycle:livedata:1.1.0"
+    implementation "android.arch.lifecycle:reactivestreams:${rootProject.ext.lifecycle}"
+    implementation "android.arch.lifecycle:extensions:${rootProject.ext.lifecycle}"
+    implementation "android.arch.lifecycle:viewmodel:${rootProject.ext.lifecycle}"
+    implementation "android.arch.lifecycle:livedata:${rootProject.ext.lifecycle}"
     implementation "com.android.support:multidex:${rootProject.ext.multidex}"
     implementation "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
     implementation "com.android.support:recyclerview-v7:${rootProject.ext.supportLibVersion}"
@@ -155,10 +153,10 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:${rootProject.ext.glide}"
     kapt "com.google.dagger:dagger-compiler:${rootProject.ext.dagger}"
     kapt "com.google.dagger:dagger-android-processor:${rootProject.ext.dagger}"
-    kapt "android.arch.lifecycle:compiler:1.1.0"
+    kapt "android.arch.lifecycle:compiler:${rootProject.ext.lifecycle}"
 
 
-    testImplementation "android.arch.core:core-testing:1.1.0"
+    testImplementation "android.arch.core:core-testing:${rootProject.ext.lifecycle}"
     implementation "org.mockito:mockito-inline:2.15.0"
     androidTestImplementation "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
     androidTestImplementation "com.android.support.test.uiautomator:uiautomator-v18:${rootProject.ext.uiAutomator}"

@@ -2,10 +2,12 @@ package io.liveui.boost.di
 
 import android.content.SharedPreferences
 import io.liveui.boost.BuildConfig
-import io.liveui.boost.SaveAuthInterceptor
 import io.liveui.boost.api.AddHeaderAuthInterceptor
 import dagger.Module
 import dagger.Provides
+import io.liveui.boost.api.BaseUrlInterceptor
+import io.liveui.boost.api.SaveAuthInterceptor
+import io.liveui.boost.common.model.Workspace
 import okhttp3.Interceptor
 import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Named
@@ -17,8 +19,9 @@ class InterceptorModule {
     @Provides
     @Singleton
     @Named("loggingInterceptor")
-    fun provideBaseInterceptors(sharedPreferences: SharedPreferences): ArrayList<Interceptor> {
+    fun provideBaseInterceptors(workspace: Workspace): ArrayList<Interceptor> {
         return ArrayList<Interceptor>().apply {
+            add(BaseUrlInterceptor(workspace))
             if (BuildConfig.DEBUG) {
                 val httpLoggingInterceptor = HttpLoggingInterceptor()
                 httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY

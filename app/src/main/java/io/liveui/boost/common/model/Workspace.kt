@@ -1,18 +1,19 @@
 package io.liveui.boost.common.model
 
 import android.content.SharedPreferences
+import android.text.TextUtils
+import android.webkit.URLUtil
 import androidx.content.edit
-import io.liveui.boost.BuildConfig
 import io.liveui.boost.PREF_WORKSPACE
 import io.liveui.boost.util.ext.fromJson
 import io.liveui.boost.util.ext.toJson
 
 //TODO create observable name, url
-class Workspace(val preferences: SharedPreferences, var name: String? = null, var url: String? = BuildConfig.BASE_URL, var permToken: String? = null) {
+class Workspace(@Transient val preferences: SharedPreferences, var name: String? = null, var url: String? = null, var permToken: String? = null) {
 
     fun save() {
         preferences.edit {
-            putString(PREF_WORKSPACE, toJson(this))
+            putString(PREF_WORKSPACE, toJson(this@Workspace))
         }
     }
 
@@ -29,5 +30,13 @@ class Workspace(val preferences: SharedPreferences, var name: String? = null, va
         preferences.edit {
             remove(PREF_WORKSPACE).commit()
         }
+    }
+
+    fun hasUrl(): Boolean {
+        return !TextUtils.isEmpty(url) && URLUtil.isValidUrl(url)
+    }
+
+    fun hasToken(): Boolean {
+        return !TextUtils.isEmpty(permToken)
     }
 }

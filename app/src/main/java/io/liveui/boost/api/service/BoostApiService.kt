@@ -37,12 +37,12 @@ interface BoostApiService {
     @POST("teams/{id}/unlink")
     fun removeUserFromTeam(@Path("id") id: String, @Body user: TeamUser): Completable
 
-    @GET("apps?sort={name}&filter={filter}&platform={platform}")
-    fun filter(@Path("") name: String, @Path("filter") filter: String, @Path("platform") platform: String): Observable<MutableList<App>>
+    @GET("apps")
+    fun filter(@Query("sort") name: String, @Query("filter") filter: String, @Query("platform") platform: String): Observable<MutableList<App>>
 
     @Multipart
-    @POST("apps?tags={tags}")
-    fun upload(@Path("tags") tags: String): Observable<App>
+    @POST("apps")
+    fun upload(@Query("tags") tags: String): Observable<App>
 
     @GET("apps")
     fun getApps(): Observable<MutableList<App>>

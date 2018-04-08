@@ -84,7 +84,7 @@ class NetworkModule {
         return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(BuildConfig.BASE_URL)
+                .baseUrl(BuildConfig.URL[0])
                 .client(okHttpClient)
                 .build()
     }
@@ -96,7 +96,7 @@ class NetworkModule {
         return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(BuildConfig.BASE_URL)
+                .baseUrl(BuildConfig.URL[0])
                 .client(okHttpClient)
                 .build()
     }
@@ -108,7 +108,7 @@ class NetworkModule {
         return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(BuildConfig.BASE_URL)
+                .baseUrl(BuildConfig.URL[0])
                 .client(okHttpClient)
                 .build()
     }

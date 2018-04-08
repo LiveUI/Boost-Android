@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import io.liveui.boost.BuildConfig
 import io.liveui.boost.R
 import io.liveui.boost.api.CheckViewModelFactory
@@ -37,7 +38,7 @@ class WorkspaceFragment : BoostFragment() {
         super.onViewCreated(view, savedInstanceState)
         workspaceViewModel = ViewModelProviders.of(this, checkViewModelFactory).get(WorkspaceViewModel::class.java)
         workspaceViewModel.serverExists.observe(this, Observer {
-            if(it!!) {
+            if (it!!) {
                 workspace.save()
                 startActivity(Intent(context, LoginActivity::class.java))
             } else {
@@ -51,7 +52,7 @@ class WorkspaceFragment : BoostFragment() {
         workspaceViewModel.loadingStatus.observe(this, ProgressViewObserver(til_workspace_url, false))
         workspaceViewModel.loadingStatus.observe(this, ProgressViewObserver(btn_continue, false))
 
-        workspace_url.setText(BuildConfig.BASE_URL)
+        workspace_url.setAdapter(ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, BuildConfig.URL))
 
         btn_continue.setOnClickListener({
             workspace.name = workspace_name.getString()

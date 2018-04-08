@@ -9,6 +9,7 @@ import io.liveui.boost.R
 import io.liveui.boost.common.UserSession
 import io.liveui.boost.api.AuthViewModelFactory
 import io.liveui.boost.api.model.AuthResponse
+import io.liveui.boost.common.model.Workspace
 import io.liveui.boost.ui.BoostActivity
 import io.liveui.boost.ui.apps.AppsActivity
 import io.liveui.boost.util.ProgressViewObserver
@@ -23,6 +24,9 @@ class LoginActivity : BoostActivity() {
     lateinit var userSession: UserSession
 
     @Inject
+    lateinit var workspace: Workspace
+
+    @Inject
     lateinit var authViewModelFactory: AuthViewModelFactory
 
     lateinit var authModel: LoginViewModel
@@ -31,7 +35,6 @@ class LoginActivity : BoostActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         authModel = ViewModelProviders.of(this, authViewModelFactory).get(LoginViewModel::class.java)
-
         authModel.auth.observe(this, Observer<AuthResponse> {
             userSession.user.value = (it?.user)
             startActivity(Intent(this@LoginActivity, AppsActivity::class.java))
@@ -44,6 +47,8 @@ class LoginActivity : BoostActivity() {
             Timber.e(it)
             password.text = null
         })
+
+        server_name.text = workspace.name ?: workspace.url
 
         btnLogin.setOnClickListener({
             it.hideKeyboard(currentFocus)

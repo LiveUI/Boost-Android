@@ -38,6 +38,8 @@ class UtilModule {
     @Provides
     @Singleton
     fun provideWorkspace(sharedPreferences: SharedPreferences): Workspace {
-        return Workspace(sharedPreferences)
+        val workspace = Workspace(sharedPreferences)
+        workspace.load()
+        return workspace
     }
 }
