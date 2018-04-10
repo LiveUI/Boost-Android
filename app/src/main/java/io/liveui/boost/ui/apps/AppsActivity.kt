@@ -31,9 +31,6 @@ class AppsActivity : BoostActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
 
-        navigation_view.getHeaderView(0).user_full_name.text = userSession.user.value?.getFullName()
-        navigation_view.getHeaderView(0).user_email.text = userSession.user.value?.email
-
         navigation_view.setNavigationItemSelectedListener({ menuItem: MenuItem ->
             drawer_layout.closeDrawers()
             when (menuItem.itemId) {

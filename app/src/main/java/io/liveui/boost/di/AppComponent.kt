@@ -14,6 +14,7 @@ import javax.inject.Singleton
     InterceptorModule::class,
     NetworkModule::class,
     UtilModule::class,
+    DataModule::class,
     DownloadModule::class])
 interface AppComponent : AndroidInjector<AppStoreApplication> {
 

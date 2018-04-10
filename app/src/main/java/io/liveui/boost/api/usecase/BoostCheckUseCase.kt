@@ -15,4 +15,8 @@ class BoostCheckUseCase @Inject constructor(private val checkService: BoostCheck
     fun teapot(): Observable<Message> {
         return checkService.teapot()
     }
+
+    fun getInfo(): Observable<InfoResponse> {
+        return checkService.getInfo()
+    }
 }

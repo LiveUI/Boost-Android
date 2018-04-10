@@ -7,7 +7,9 @@ import dagger.Module
 import dagger.Provides
 import io.liveui.boost.api.BaseUrlInterceptor
 import io.liveui.boost.api.SaveAuthInterceptor
-import io.liveui.boost.common.model.Workspace
+import io.liveui.boost.common.UserSession
+import io.liveui.boost.db.BoostDatabase
+import io.liveui.boost.db.Workspace
 import okhttp3.Interceptor
 import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Named
@@ -19,8 +21,9 @@ class InterceptorModule {
     @Provides
     @Singleton
     @Named("loggingInterceptor")
-    fun provideBaseInterceptors(workspace: Workspace): ArrayList<Interceptor> {
+    fun provideBaseInterceptors(userSession: UserSession): ArrayList<Interceptor> {
         return ArrayList<Interceptor>().apply {
+            val workspace = userSession.workspace
             add(BaseUrlInterceptor(workspace))
             if (BuildConfig.DEBUG) {
                 val httpLoggingInterceptor = HttpLoggingInterceptor()

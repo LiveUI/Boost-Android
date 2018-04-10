@@ -12,7 +12,9 @@ import android.widget.ArrayAdapter
 import io.liveui.boost.BuildConfig
 import io.liveui.boost.R
 import io.liveui.boost.api.CheckViewModelFactory
-import io.liveui.boost.common.model.Workspace
+import io.liveui.boost.common.UserSession
+import io.liveui.boost.db.BoostDatabase
+import io.liveui.boost.db.Workspace
 import io.liveui.boost.ui.BoostFragment
 import io.liveui.boost.ui.login.LoginActivity
 import io.liveui.boost.util.ProgressViewObserver
@@ -28,7 +30,7 @@ class WorkspaceFragment : BoostFragment() {
     lateinit var workspaceViewModel: WorkspaceViewModel
 
     @Inject
-    lateinit var workspace: Workspace
+    lateinit var userSession: UserSession
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_workspace, container, false)
@@ -39,25 +41,21 @@ class WorkspaceFragment : BoostFragment() {
         workspaceViewModel = ViewModelProviders.of(this, checkViewModelFactory).get(WorkspaceViewModel::class.java)
         workspaceViewModel.serverExists.observe(this, Observer {
             if (it!!) {
-                workspace.save()
                 startActivity(Intent(context, LoginActivity::class.java))
             } else {
-                workspace.clear()
                 view.showSnackBar("Server doesn't exists", Snackbar.LENGTH_SHORT)
             }
         })
 
         workspaceViewModel.loadingStatus.observe(this, ProgressViewObserver(progress_bar))
-        workspaceViewModel.loadingStatus.observe(this, ProgressViewObserver(til_workspace_name, false))
         workspaceViewModel.loadingStatus.observe(this, ProgressViewObserver(til_workspace_url, false))
         workspaceViewModel.loadingStatus.observe(this, ProgressViewObserver(btn_continue, false))
 
         workspace_url.setAdapter(ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, BuildConfig.URL))
 
         btn_continue.setOnClickListener({
-            workspace.name = workspace_name.getString()
-            workspace.url = workspace_url.getString()
-            workspaceViewModel.checkServer()
+            userSession.workspace.url = workspace_url.getString()
+            workspaceViewModel.checkServer(userSession.workspace)
         })
 
     }

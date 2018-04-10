@@ -12,4 +12,7 @@ interface BoostCheckService {
     @GET("teapot")
     fun teapot(): Observable<Message>
 
+    @GET("info")
+    fun getInfo(): Observable<InfoResponse>
+
 }

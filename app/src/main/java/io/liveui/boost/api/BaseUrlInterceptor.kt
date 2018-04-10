@@ -2,7 +2,7 @@ package io.liveui.boost.api
 
 import okhttp3.Interceptor
 import okhttp3.Response
-import io.liveui.boost.common.model.Workspace
+import io.liveui.boost.db.Workspace
 import java.net.MalformedURLException
 import java.net.URL
 

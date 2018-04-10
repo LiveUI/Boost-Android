@@ -1,10 +1,8 @@
 package io.liveui.boost.common
 
-import android.arch.lifecycle.MutableLiveData
-import io.liveui.boost.api.model.TeamUser
+import io.liveui.boost.db.Workspace
 
-class UserSession {
+class UserSession(val workspace: Workspace= Workspace()) {
 
-    val user: MutableLiveData<TeamUser> = MutableLiveData()
 
 }

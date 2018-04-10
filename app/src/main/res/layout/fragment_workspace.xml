@@ -6,25 +6,6 @@
     android:layout_height="match_parent"
     android:padding="@dimen/activity_horizontal_margin">
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/til_workspace_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin"
-        app:layout_constraintBottom_toTopOf="@+id/til_workspace_url"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/workspace_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/workspace_name_hint"
-            tools:text="Appstore" />
-
-    </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/til_workspace_url"
@@ -34,7 +15,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_continue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_workspace_name"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed">
 
         <android.support.v7.widget.AppCompatAutoCompleteTextView
