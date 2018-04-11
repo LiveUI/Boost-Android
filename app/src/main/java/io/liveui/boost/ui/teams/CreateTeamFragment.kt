@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.liveui.boost.R
-import io.liveui.boost.api.ApiViewModeFactory
+import io.liveui.boost.common.vmfactory.ApiViewModeFactory
 import io.liveui.boost.api.model.CreateTeamRequest
 import io.liveui.boost.ui.BoostFragment
 import io.liveui.boost.util.ext.getString

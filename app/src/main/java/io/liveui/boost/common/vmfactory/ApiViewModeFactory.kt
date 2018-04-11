@@ -1,4 +1,4 @@
-package io.liveui.boost.api
+package io.liveui.boost.common.vmfactory
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider

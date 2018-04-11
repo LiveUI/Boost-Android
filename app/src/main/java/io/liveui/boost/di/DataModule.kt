@@ -25,7 +25,7 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideUserSession(): UserSession {
-        return UserSession()
+    fun provideUserSession(workspaceDao: WorkspaceDao): UserSession {
+        return UserSession(workspaceDao)
     }
 }

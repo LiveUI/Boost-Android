@@ -46,7 +46,7 @@ class WorkspaceViewModel constructor(private val checkUseCase: BoostCheckUseCase
                     loadingStatus.postValue(false)
                     serverExists.postValue(true)
                 }, { e ->
-                    Timber.i("Workspace create failed")
+                    Timber.i(e, "Workspace create failed") //TODO resolve exception
                     serverExists.postValue(false)
                     loadingStatus.postValue(false)
                     exception.postValue(e)

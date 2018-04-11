@@ -3,7 +3,7 @@ package io.liveui.boost.ui.teams
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import io.liveui.boost.R
-import io.liveui.boost.api.ApiViewModeFactory
+import io.liveui.boost.common.vmfactory.ApiViewModeFactory
 import io.liveui.boost.ui.BoostActivity
 import javax.inject.Inject
 

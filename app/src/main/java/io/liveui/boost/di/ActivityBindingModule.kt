@@ -26,7 +26,7 @@ import io.liveui.boost.ui.workspace.WorkspaceFragment
 @Module
 abstract class ActivityBindingModule {
 
-    @ContributesAndroidInjector(modules = [ActivityModule::class])
+    @ContributesAndroidInjector(modules = [ActivityModule::class, SplashModule::class])
     abstract fun provideSplashActivity(): SplashActivity
 
     @ContributesAndroidInjector(modules = [ActivityModule::class])

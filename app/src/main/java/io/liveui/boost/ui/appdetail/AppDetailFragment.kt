@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import io.liveui.boost.common.EXTRA_APP_ID
 
 import io.liveui.boost.R
-import io.liveui.boost.api.ApiViewModeFactory
+import io.liveui.boost.common.vmfactory.ApiViewModeFactory
 import io.liveui.boost.api.model.App
 import io.liveui.boost.ui.BoostFragment
 import io.liveui.boost.util.ProgressViewObserver

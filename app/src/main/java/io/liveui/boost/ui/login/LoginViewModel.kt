@@ -33,9 +33,9 @@ class LoginViewModel constructor(private val authUseCase: BoostAuthUseCase,
         disposables.add(authUseCase.auth(AuthRequest(username, password))
                 .flatMap {
                     return@flatMap Observable.fromCallable {
-                        workspaceDao.updateWorkspace(workspace)
-                        workspaceDao.insertUser(it.user.apply {
-                            linkId = workspace.uid
+                        workspaceDao.updateWorkspace(workspace.apply {
+                            status = Workspace.Status.ACTIVATED
+                            teamUser = it.user
                         })
                     }
                 }
@@ -54,7 +54,4 @@ class LoginViewModel constructor(private val authUseCase: BoostAuthUseCase,
         )
     }
 
-    fun updateSession(user: TeamUser, workspace: Workspace) {
-
-    }
 }

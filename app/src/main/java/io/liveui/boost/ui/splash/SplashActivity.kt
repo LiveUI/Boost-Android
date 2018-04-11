@@ -1,36 +1,43 @@
 package io.liveui.boost.ui.splash
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import io.liveui.boost.R
-import io.liveui.boost.common.UserSession
+import io.liveui.boost.common.vmfactory.SplashViewModelFactory
+import io.liveui.boost.db.Workspace
 import io.liveui.boost.ui.BoostActivity
+import io.liveui.boost.ui.apps.AppsActivity
+import io.liveui.boost.ui.login.LoginActivity
 import io.liveui.boost.ui.workspace.WorkspaceActivity
 import javax.inject.Inject
 
 class SplashActivity : BoostActivity() {
 
     @Inject
-    lateinit var userSession: UserSession
+    lateinit var splashViewModelFactory: SplashViewModelFactory
+
+    lateinit var splashViewModel: SplashViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+        splashViewModel = ViewModelProviders.of(this, splashViewModelFactory).get(SplashViewModel::class.java)
+        splashViewModel.loadData().observe(this, Observer {
+            when (it) {
+                null -> startActivity(Intent(this@SplashActivity, WorkspaceActivity::class.java))
+                else -> {
+                    when (it.status) {
+                        Workspace.Status.SERVER_VERIFIED -> startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                        Workspace.Status.ACTIVATED -> startActivity(Intent(this@SplashActivity, AppsActivity::class.java))
+                        else -> {
+                        }
+                    }
+                }
+            }
+        })
 
-        Handler().postDelayed({
 
-            startActivity(Intent(this@SplashActivity, WorkspaceActivity::class.java))
-
-//            userSession.activeWorkspace.observe(this@SplashActivity, Observer{
-//                when {
-//                    it == null -> startActivity(Intent(this@SplashActivity, WorkspaceActivity::class.java))
-//                    it.hasUrl() && it.hasToken() -> startActivity(Intent(this@SplashActivity, AppsActivity::class.java))
-//                    it.hasUrl() -> startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
-//                    else -> {
-//                    }
-//                }
-//            })
-        }, 1000)
     }
 }

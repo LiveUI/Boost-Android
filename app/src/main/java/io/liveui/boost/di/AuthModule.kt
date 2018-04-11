@@ -1,6 +1,6 @@
 package io.liveui.boost.di
 
-import io.liveui.boost.api.AuthViewModelFactory
+import io.liveui.boost.common.vmfactory.AuthViewModelFactory
 import io.liveui.boost.api.usecase.BoostAuthUseCase
 import dagger.Module
 import dagger.Provides

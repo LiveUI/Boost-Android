@@ -2,36 +2,24 @@ package io.liveui.boost.db
 
 import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.*
-import io.liveui.boost.api.model.TeamUser
 
 
 @Dao
 interface WorkspaceDao {
 
     @Query("SELECT * FROM workspace")
-    fun getWorkspaces(): List<Workspace>
+    fun getWorkspaces(): LiveData<List<Workspace>>
 
-    @Query("SELECT * FROM workspace WHERE uid = :uid LIMIT 1")
-    fun getActiveWorkspace(uid: Long): LiveData<Workspace>
+    @Query("SELECT * FROM workspace WHERE active = :active LIMIT 1")
+    fun getActiveWorkspace(active: Int = 1): LiveData<Workspace>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.FAIL)
     fun insertWorkspace(workspaces: Workspace)
 
     @Delete
     fun deleteWorkspace(workspace: Workspace)
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateWorkspace(workspace: Workspace)
 
-    @Query("SELECT * FROM users WHERE uid = :uid LIMIT 1")
-    fun getUser(uid: Long): LiveData<TeamUser>
-
-    @Insert
-    fun insertUser(user: TeamUser)
-
-    @Delete
-    fun deleteUser(user: TeamUser)
-
-    @Update
-    fun updateUser(user: TeamUser)
 }

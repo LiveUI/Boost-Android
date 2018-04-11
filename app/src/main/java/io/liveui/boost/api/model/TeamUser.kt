@@ -16,7 +16,7 @@ import android.arch.persistence.room.PrimaryKey
 }
  */
 @Entity(tableName = "users")
-data class TeamUser(@ColumnInfo(name = "id") val id: String,
+data class TeamUser(@PrimaryKey @ColumnInfo(name = "id") val id: String,
                     @ColumnInfo(name = "firstname") val firstname: String,
                     @ColumnInfo(name = "lastname") val lastname: String,
                     @ColumnInfo(name = "registered") val registered: String,
@@ -24,9 +24,6 @@ data class TeamUser(@ColumnInfo(name = "id") val id: String,
                     @ColumnInfo(name = "su") val su: Boolean,
                     @ColumnInfo(name = "disabled") val disabled: Boolean,
                     @ColumnInfo(name = "link_id") var linkId: Long = 0) {
-
-    @PrimaryKey(autoGenerate = true)
-    var uid: Long = 0
 
     fun getFullName(): String {
         return "$firstname $lastname"

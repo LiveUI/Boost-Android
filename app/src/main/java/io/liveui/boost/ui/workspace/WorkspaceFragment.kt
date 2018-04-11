@@ -11,10 +11,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import io.liveui.boost.BuildConfig
 import io.liveui.boost.R
-import io.liveui.boost.api.CheckViewModelFactory
+import io.liveui.boost.common.vmfactory.CheckViewModelFactory
 import io.liveui.boost.common.UserSession
-import io.liveui.boost.db.BoostDatabase
-import io.liveui.boost.db.Workspace
 import io.liveui.boost.ui.BoostFragment
 import io.liveui.boost.ui.login.LoginActivity
 import io.liveui.boost.util.ProgressViewObserver
