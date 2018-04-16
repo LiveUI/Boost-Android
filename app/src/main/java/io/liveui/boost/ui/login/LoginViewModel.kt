@@ -34,6 +34,7 @@ class LoginViewModel constructor(private val authUseCase: BoostAuthUseCase,
                 .flatMap {
                     return@flatMap Observable.fromCallable {
                         workspaceDao.updateWorkspace(workspace.apply {
+                            permToken = it.token
                             status = Workspace.Status.ACTIVATED
                             teamUser = it.user
                         })

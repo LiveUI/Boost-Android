@@ -22,8 +22,7 @@ data class TeamUser(@PrimaryKey @ColumnInfo(name = "id") val id: String,
                     @ColumnInfo(name = "registered") val registered: String,
                     @ColumnInfo(name = "email") val email: String,
                     @ColumnInfo(name = "su") val su: Boolean,
-                    @ColumnInfo(name = "disabled") val disabled: Boolean,
-                    @ColumnInfo(name = "link_id") var linkId: Long = 0) {
+                    @ColumnInfo(name = "disabled") val disabled: Boolean) {
 
     fun getFullName(): String {
         return "$firstname $lastname"

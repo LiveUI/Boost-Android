@@ -31,4 +31,8 @@
     <string name="workspace_url_hint">workspace.example.com</string>
     <string name="common_continue">Continue</string>
     <string name="workspace_name_hint">Workspace name</string>
+    <string name="workspace_list_add_title">Add workspaces</string>
+    <string name="workspace_list_add_description">Sign in workspace</string>
+    <string name="menu_workspace">Workspace</string>
+    <string name="menu_filter">Filter</string>
 </resources>

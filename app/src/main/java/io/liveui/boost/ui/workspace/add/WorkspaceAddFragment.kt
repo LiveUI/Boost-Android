@@ -1,4 +1,4 @@
-package io.liveui.boost.ui.workspace
+package io.liveui.boost.ui.workspace.add
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -20,12 +20,12 @@ import io.liveui.boost.util.ext.*
 import kotlinx.android.synthetic.main.fragment_workspace.*
 import javax.inject.Inject
 
-class WorkspaceFragment : BoostFragment() {
+class WorkspaceAddFragment : BoostFragment() {
 
     @Inject
     lateinit var checkViewModelFactory: CheckViewModelFactory
 
-    lateinit var workspaceViewModel: WorkspaceViewModel
+    lateinit var workspaceAddViewModel: WorkspaceAddViewModel
 
     @Inject
     lateinit var userSession: UserSession
@@ -36,8 +36,8 @@ class WorkspaceFragment : BoostFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        workspaceViewModel = ViewModelProviders.of(this, checkViewModelFactory).get(WorkspaceViewModel::class.java)
-        workspaceViewModel.serverExists.observe(this, Observer {
+        workspaceAddViewModel = ViewModelProviders.of(this, checkViewModelFactory).get(WorkspaceAddViewModel::class.java)
+        workspaceAddViewModel.serverExists.observe(this, Observer {
             if (it!!) {
                 startActivity(Intent(context, LoginActivity::class.java))
             } else {
@@ -45,15 +45,15 @@ class WorkspaceFragment : BoostFragment() {
             }
         })
 
-        workspaceViewModel.loadingStatus.observe(this, ProgressViewObserver(progress_bar))
-        workspaceViewModel.loadingStatus.observe(this, ProgressViewObserver(til_workspace_url, false))
-        workspaceViewModel.loadingStatus.observe(this, ProgressViewObserver(btn_continue, false))
+        workspaceAddViewModel.loadingStatus.observe(this, ProgressViewObserver(progress_bar))
+        workspaceAddViewModel.loadingStatus.observe(this, ProgressViewObserver(til_workspace_url, false))
+        workspaceAddViewModel.loadingStatus.observe(this, ProgressViewObserver(btn_continue, false))
 
         workspace_url.setAdapter(ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, BuildConfig.URL))
 
         btn_continue.setOnClickListener({
             userSession.workspace.url = workspace_url.getString()
-            workspaceViewModel.checkServer(userSession.workspace)
+            workspaceAddViewModel.checkServer(userSession.workspace)
         })
 
     }

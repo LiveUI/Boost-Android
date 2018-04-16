@@ -15,7 +15,7 @@ class TeamsViewModel constructor(private val apiUseCase: BoostApiUseCase) : View
 
     val loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
 
-    val teams: MutableLiveData<List<Team>> = MutableLiveData()
+    val teams: MutableLiveData<MutableList<Team>> = MutableLiveData()
 
     val teamCreate: MutableLiveData<Team> = MutableLiveData()
 
@@ -25,7 +25,7 @@ class TeamsViewModel constructor(private val apiUseCase: BoostApiUseCase) : View
 
     val teamUpdate: MutableLiveData<Team> = MutableLiveData()
 
-    val teamUsers: MutableLiveData<List<TeamUser>> = MutableLiveData()
+    val teamUsers: MutableLiveData<MutableList<TeamUser>> = MutableLiveData()
 
     val exception: MutableLiveData<Throwable> = MutableLiveData()
 

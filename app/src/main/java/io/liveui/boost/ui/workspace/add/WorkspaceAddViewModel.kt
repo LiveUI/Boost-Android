@@ -1,4 +1,4 @@
-package io.liveui.boost.ui.workspace
+package io.liveui.boost.ui.workspace.add
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
@@ -12,7 +12,7 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 
-class WorkspaceViewModel constructor(private val checkUseCase: BoostCheckUseCase, private val workspaceDao: WorkspaceDao) : ViewModel() {
+class WorkspaceAddViewModel constructor(private val checkUseCase: BoostCheckUseCase, private val workspaceDao: WorkspaceDao) : ViewModel() {
 
     private val disposables: CompositeDisposable = CompositeDisposable()
 
@@ -30,7 +30,7 @@ class WorkspaceViewModel constructor(private val checkUseCase: BoostCheckUseCase
         disposables.add(checkUseCase.getInfo()
                 .flatMap {
                     return@flatMap Observable.fromCallable {
-                        workspaceDao.insertWorkspace(workspace.apply {
+                        workspaceDao.setActive(workspace.apply {
                             name = it.name
                             status = Workspace.Status.SERVER_VERIFIED
                         })

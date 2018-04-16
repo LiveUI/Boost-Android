@@ -31,10 +31,11 @@ import android.support.v7.app.AppCompatActivity
  * The `fragment` is added to the container view with id `frameId`. The operation is
  * performed by the `fragmentManager`.
  */
-fun AppCompatActivity.replaceFragmentInActivity(fragment: Fragment, frameId: Int) {
+fun AppCompatActivity.replaceFragmentInActivity(fragment: Fragment, frameId: Int): Fragment {
     supportFragmentManager.transact {
         replace(frameId, fragment)
     }
+    return fragment
 }
 
 /**

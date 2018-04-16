@@ -10,12 +10,10 @@ class UserSession(val workspaceDao: WorkspaceDao) {
     var workspaceChanged: MutableLiveData<Workspace> = MutableLiveData() //TODO reload screens on workspace change
 
     init {
-        workspaceDao.getActiveWorkspace().observeForever({
-            if(it!=null) {
-                if(workspace != it) {
-                    workspaceChanged.postValue(it)
-                }
+        workspaceDao.getWorkspaces().observeForever({
+            it?.find { it.active == 1 }?.let {
                 workspace = it
+                workspaceChanged.postValue(it)
             }
         })
     }

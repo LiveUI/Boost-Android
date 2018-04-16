@@ -38,7 +38,7 @@ class InterceptorModule {
     @Named("apiInterceptors")
     fun provideApiInterceptors(@Named("loggingInterceptor") loggingInterceptor: ArrayList<Interceptor>, sharedPreferences: SharedPreferences): ArrayList<Interceptor> {
         return loggingInterceptor.apply {
-            add(AddHeaderAuthInterceptor(sharedPreferences.getString("jwtToken", null)))
+            add(AddHeaderAuthInterceptor(sharedPreferences))
         }
     }
 

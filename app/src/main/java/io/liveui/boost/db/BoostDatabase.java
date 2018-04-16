@@ -6,7 +6,7 @@ import android.arch.persistence.room.TypeConverters;
 
 import io.liveui.boost.api.model.TeamUser;
 
-@Database(entities = {Workspace.class, TeamUser.class}, version = 1)
+@Database(entities = {Workspace.class, TeamUser.class}, version = 2)
 @TypeConverters(StatusConverter.class)
 public abstract class BoostDatabase extends RoomDatabase {
     public abstract WorkspaceDao workspaceDao();

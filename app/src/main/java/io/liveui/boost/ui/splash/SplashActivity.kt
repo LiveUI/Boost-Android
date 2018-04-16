@@ -10,7 +10,7 @@ import io.liveui.boost.db.Workspace
 import io.liveui.boost.ui.BoostActivity
 import io.liveui.boost.ui.apps.AppsActivity
 import io.liveui.boost.ui.login.LoginActivity
-import io.liveui.boost.ui.workspace.WorkspaceActivity
+import io.liveui.boost.ui.workspace.add.WorkspaceAddActivity
 import javax.inject.Inject
 
 class SplashActivity : BoostActivity() {
@@ -26,7 +26,7 @@ class SplashActivity : BoostActivity() {
         splashViewModel = ViewModelProviders.of(this, splashViewModelFactory).get(SplashViewModel::class.java)
         splashViewModel.loadData().observe(this, Observer {
             when (it) {
-                null -> startActivity(Intent(this@SplashActivity, WorkspaceActivity::class.java))
+                null -> startActivity(Intent(this@SplashActivity, WorkspaceAddActivity::class.java))
                 else -> {
                     when (it.status) {
                         Workspace.Status.SERVER_VERIFIED -> startActivity(Intent(this@SplashActivity, LoginActivity::class.java))

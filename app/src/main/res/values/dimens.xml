@@ -1,20 +1,25 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="list_app_logo_size">60dp</dimen>
-    <dimen name="user_profile_image">100dp</dimen>
-    <dimen name="margin_8">8dp</dimen>
-    <dimen name="app_detail_image">120dp</dimen>
+    <!-- Margin -->
     <dimen name="margin_6">6dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
+    <dimen name="margin_16">16dp</dimen>
+
+    <dimen name="app_list_image">60dp</dimen>
+    <dimen name="app_detail_image">120dp</dimen>
     <dimen name="profile_image">150dp</dimen>
+
     <dimen name="btn_corner_radius">4dp</dimen>
     <dimen name="btn_stroke_width">2dp</dimen>
-    <dimen name="button_padding">8dp</dimen>
     <dimen name="btn_min_height">48dp</dimen>
 
     <dimen name="btn_padding_bottom">4dp</dimen>
     <dimen name="btn_padding_left">16dp</dimen>
     <dimen name="btn_padding_right">16dp</dimen>
     <dimen name="btn_padding_top">4dp</dimen>
+
+    <!-- Side menu -->
+    <dimen name="side_menu_icon">40dp</dimen>
+    <dimen name="side_menu_content_margin">72dp</dimen>
+    <dimen name="listItemHeight">72dp</dimen>
+    <dimen name="side_menu_indicator_width">6dp</dimen>
 </resources>

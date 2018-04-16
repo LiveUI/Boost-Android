@@ -16,12 +16,15 @@ import io.liveui.boost.ui.keys.ApiKeysFragment
 import io.liveui.boost.ui.settings.SettingsFragment
 import io.liveui.boost.ui.settings.SettingsModule
 import io.liveui.boost.ui.teams.CreateTeamFragment
+import io.liveui.boost.ui.teams.TeamModule
 import io.liveui.boost.ui.users.TeamUsersFragment
 import io.liveui.boost.ui.users.TeamUsersModule
 import io.liveui.boost.ui.users.UsersFragment
 import io.liveui.boost.ui.users.UsersModule
-import io.liveui.boost.ui.workspace.WorkspaceActivity
-import io.liveui.boost.ui.workspace.WorkspaceFragment
+import io.liveui.boost.ui.workspace.add.WorkspaceAddActivity
+import io.liveui.boost.ui.workspace.add.WorkspaceAddFragment
+import io.liveui.boost.ui.workspace.all.WorkspaceListFragment
+import io.liveui.boost.ui.workspace.all.WorkspaceListModule
 
 @Module
 abstract class ActivityBindingModule {
@@ -30,7 +33,7 @@ abstract class ActivityBindingModule {
     abstract fun provideSplashActivity(): SplashActivity
 
     @ContributesAndroidInjector(modules = [ActivityModule::class])
-    abstract fun provideWorkspaceActivity(): WorkspaceActivity
+    abstract fun provideWorkspaceActivity(): WorkspaceAddActivity
 
     @ContributesAndroidInjector(modules = [AuthModule::class, ActivityModule::class])
     abstract fun provideLoginActivity(): LoginActivity
@@ -50,7 +53,7 @@ abstract class ActivityBindingModule {
     @ContributesAndroidInjector(modules = [ApiModule::class])
     abstract fun provideAppDetailFragment(): AppDetailFragment
 
-    @ContributesAndroidInjector(modules = [ApiModule::class])
+    @ContributesAndroidInjector(modules = [ApiModule::class, TeamModule::class])
     abstract fun provideTeamsFragment(): TeamsFragment
 
     @ContributesAndroidInjector(modules = [ApiModule::class])
@@ -72,6 +75,9 @@ abstract class ActivityBindingModule {
     abstract fun provideUsersFragment(): UsersFragment
 
     @ContributesAndroidInjector(modules = [CheckModule::class])
-    abstract fun provideWorkspaceFragment(): WorkspaceFragment
+    abstract fun provideWorkspaceAddFragment(): WorkspaceAddFragment
+
+    @ContributesAndroidInjector(modules = [WorkspaceListModule::class])
+    abstract fun provideWorkspaceListFragment(): WorkspaceListFragment
 
 }

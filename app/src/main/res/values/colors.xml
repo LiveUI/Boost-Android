@@ -4,4 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorAccentTransparent">#80FF4081</color>
+    <color name="sideMenuBackground">#715772</color>
+    <color name="sideMenuToolbar">#5a3e5b</color>
+    <color name="workspace_list_text">@android:color/white</color>
 </resources>

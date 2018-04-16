@@ -38,7 +38,7 @@
             android:name=".ui.appdetail.AppDetailActivity"
             android:parentActivityName=".ui.apps.AppsActivity" />
         <activity android:name=".ui.users.UsersActivity" />
-        <activity android:name=".ui.workspace.WorkspaceActivity" />
+        <activity android:name=".ui.workspace.add.WorkspaceAddActivity" />
     </application>
 
 </manifest>

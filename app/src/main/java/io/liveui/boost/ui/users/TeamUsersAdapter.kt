@@ -4,13 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.liveui.boost.R
-import io.liveui.boost.api.model.Team
 import io.liveui.boost.api.model.TeamUser
-import io.liveui.boost.api.model.User
 import io.liveui.boost.ui.view.adapter.BaseObservableAdapter
 import io.liveui.boost.ui.view.adapter.BaseViewHolder
 import io.liveui.boost.ui.view.adapter.OnItemClickListener
-import kotlinx.android.synthetic.main.view_holder_teams.view.*
+import kotlinx.android.synthetic.main.view_holder_team_user.view.*
 
 class TeamUserAdapter: BaseObservableAdapter<TeamUser, TeamUserViewHolder>() {
 
@@ -26,7 +24,8 @@ class TeamUserAdapter: BaseObservableAdapter<TeamUser, TeamUserViewHolder>() {
 class TeamUserViewHolder(itemView: View, onClickListener: OnItemClickListener?) : BaseViewHolder<TeamUser>(itemView, onClickListener) {
 
     override fun setData(item: TeamUser) {
-        itemView.text1.text = item.getFullName()
+        itemView.name.text = item.getFullName()
+        itemView.email.text = item.email
     }
 
 }

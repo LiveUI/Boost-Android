@@ -1,17 +1,20 @@
 package io.liveui.boost.ui.apps
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.content.res.ResourcesCompat
 import android.view.MenuItem
 import io.liveui.boost.R
 import io.liveui.boost.ui.BoostActivity
 import io.liveui.boost.util.ext.replaceFragmentInActivity
 import kotlinx.android.synthetic.main.activity_apps.*
 import android.support.v4.view.GravityCompat
+import android.view.Gravity
+import android.view.Menu
+import androidx.view.forEach
 import io.liveui.boost.common.UserSession
-import io.liveui.boost.ui.account.MyAccountFragment
-import io.liveui.boost.ui.keys.ApiKeysFragment
-import io.liveui.boost.ui.settings.SettingsFragment
-import kotlinx.android.synthetic.main.navigation_header.view.*
+import io.liveui.boost.ui.teams.TeamsFragment
+import io.liveui.boost.ui.workspace.all.WorkspaceListFragment
 import javax.inject.Inject
 
 
@@ -30,34 +33,8 @@ class AppsActivity : BoostActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
-
-        navigation_view.setNavigationItemSelectedListener({ menuItem: MenuItem ->
-            drawer_layout.closeDrawers()
-            when (menuItem.itemId) {
-                R.id.nav_apps -> {
-                    replaceFragmentInActivity(AppsFragment(), R.id.fragment_container)
-                    true
-                }
-                R.id.nav_my_account -> {
-                    replaceFragmentInActivity(MyAccountFragment(), R.id.fragment_container)
-                    true
-                }
-                R.id.nav_api_keys -> {
-                    replaceFragmentInActivity(ApiKeysFragment(), R.id.fragment_container)
-                    true
-                }
-                R.id.nav_settings -> {
-                    replaceFragmentInActivity(SettingsFragment(), R.id.fragment_container)
-                    true
-                }
-                else -> {
-                    false
-                }
-            }
-        })
-
-        navigation_view.setCheckedItem(R.id.nav_apps)
-        navigation_view.menu.performIdentifierAction(R.id.nav_apps, 0)
+        replaceFragmentInActivity(AppsFragment(), R.id.fragment_container)
+        initSideMenu()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -66,8 +43,59 @@ class AppsActivity : BoostActivity() {
                 drawer_layout.openDrawer(GravityCompat.START)
                 true
             }
+            R.id.action_filter -> {
+                if (drawer_layout.isDrawerOpen(Gravity.END)) {
+                    drawer_layout.closeDrawer(Gravity.END)
+                } else {
+                    drawer_layout.openDrawer(Gravity.END)
+                }
+                true
+            }
             else -> {
                 super.onOptionsItemSelected(item)
+            }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_apps, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onBackPressed() {
+        if (drawer_layout.isDrawerOpen(Gravity.START)) {
+            drawer_layout.closeDrawers()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    fun initSideMenu() {
+        side_menu_toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_workspace -> {
+                    invalidateSideMenu(replaceFragmentInActivity(WorkspaceListFragment(), R.id.side_menu_container))
+                    true
+                }
+                else -> false
+            }
+        }
+        side_menu_toolbar.setNavigationOnClickListener({
+            invalidateSideMenu(replaceFragmentInActivity(TeamsFragment(), R.id.side_menu_container))
+        })
+
+        invalidateSideMenu(replaceFragmentInActivity(TeamsFragment(), R.id.side_menu_container))
+    }
+
+    fun invalidateSideMenu(fragment: Fragment) {
+        when (fragment) {
+            is TeamsFragment -> {
+                side_menu_toolbar.inflateMenu(R.menu.side_menu_teams)
+                side_menu_toolbar.navigationIcon = null
+            }
+            is WorkspaceListFragment -> {
+                side_menu_toolbar.navigationIcon = ResourcesCompat.getDrawable(resources, R.drawable.ic_close, null)
+                side_menu_toolbar.menu.clear()
             }
         }
     }

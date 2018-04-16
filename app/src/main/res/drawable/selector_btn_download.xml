@@ -2,18 +2,16 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_pressed="true">
-        <shape>
+        <shape android:shape="oval">
             <corners android:radius="@dimen/btn_corner_radius" />
-            <solid android:color="@color/colorAccent" />
-            <padding android:bottom="@dimen/button_padding" android:left="@dimen/button_padding" android:right="@dimen/button_padding" android:top="@dimen/button_padding" />
+            <stroke android:width="@dimen/btn_stroke_width" android:color="@color/colorAccent" />
         </shape>
     </item>
 
     <item>
-        <shape>
+        <shape android:shape="oval">
             <corners android:radius="@dimen/btn_corner_radius" />
-            <stroke android:width="@dimen/btn_stroke_width" android:color="@color/colorAccent" />
-            <padding android:bottom="@dimen/button_padding" android:left="@dimen/button_padding" android:right="@dimen/button_padding" android:top="@dimen/button_padding" />
+            <solid android:color="@color/colorAccent" />
         </shape>
     </item>
 

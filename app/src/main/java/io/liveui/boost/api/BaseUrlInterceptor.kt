@@ -16,9 +16,10 @@ class BaseUrlInterceptor(val workspace: Workspace) : Interceptor {
             val url = URL(workspace.url)
             newUrl.host(url.host)
             newUrl.scheme(url.protocol)
-            newUrl.port(url.port)
+            val port = url.port
+            if(port != -1) newUrl.port(port)
         } catch (e: MalformedURLException) {
-            val urlPart = workspace.url!!.split(":")
+            val urlPart = workspace.url.split(":")
             newUrl.host(urlPart[0])
             if(urlPart.size > 1) {
                 newUrl.port(urlPart[1].toInt())
