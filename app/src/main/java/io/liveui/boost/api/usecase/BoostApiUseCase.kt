@@ -100,5 +100,13 @@ class BoostApiUseCase @Inject constructor(private val apiService: BoostApiServic
         return apiService.deleteUploadKey(id)
     }
 
+    fun appsOverview(): Observable<MutableList<App>> {
+        return apiService.appsOverview()
+    }
+
+    fun teamAppsOverview(id: String): Observable<MutableList<App>> {
+        return apiService.teamAppsOverview(id)
+    }
+
 
 }
