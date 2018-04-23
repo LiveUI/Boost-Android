@@ -1,5 +1,8 @@
 {
-  "id": 1,
-  "name": "Admin team",
-  "identifier": "admin-team"
+  "initials": "AY",
+  "id": "439D40B0-D96D-4D5A-9ED2-61786C0D082C",
+  "admin": false,
+  "name": "Admin",
+  "identifier": "admin5",
+  "color": "AE0AE5"
 }

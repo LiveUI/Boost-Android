@@ -1,0 +1,22 @@
+[
+  {
+    "id": "6CB19D80-9943-445F-94E5-B0004AA29755",
+    "name": "style_header_color",
+    "config": "color"
+  },
+  {
+    "id": "B05C0037-9608-413F-AF36-D74BE00057A1",
+    "name": "style_header_background_color",
+    "config": "color"
+  },
+  {
+    "id": "895AE949-A955-41AA-A540-CF7E9DB64B5B",
+    "name": "style_primary_action_color",
+    "config": "color"
+  },
+  {
+    "id": "5198D4D0-6110-4075-ABA1-9ABC70D7717A",
+    "name": "style_primary_action_background_color",
+    "config": "color"
+  }
+]

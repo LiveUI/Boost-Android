@@ -1,8 +1,5 @@
-{
-  "expires": "2018-05-19T01:54:39Z",
-  "id": "66FE6B32-D187-46EF-8514-F9813DBF111B",
-  "token": "C2491B1C-C889-4842-B1F0-39FBC22185F9",
-  "user": {
+[
+  {
     "id": "4CAC6144-B305-4DD7-AED8-57301331391A",
     "lastname": "Admin",
     "registered": "2018-04-15T20:12:27Z",
@@ -12,4 +9,4 @@
     "su": true,
     "disabled": false
   }
-}
+]

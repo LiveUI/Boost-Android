@@ -13,6 +13,8 @@ import io.liveui.boost.ui.account.MyAccountFragment
 import io.liveui.boost.ui.appdetail.AppDetailActivity
 import io.liveui.boost.ui.apps.AppsModule
 import io.liveui.boost.ui.keys.ApiKeysFragment
+import io.liveui.boost.ui.overview.OverviewFragment
+import io.liveui.boost.ui.overview.OverviewModule
 import io.liveui.boost.ui.settings.SettingsFragment
 import io.liveui.boost.ui.settings.SettingsModule
 import io.liveui.boost.ui.teams.CreateTeamFragment
@@ -79,5 +81,8 @@ abstract class ActivityBindingModule {
 
     @ContributesAndroidInjector(modules = [WorkspaceListModule::class])
     abstract fun provideWorkspaceListFragment(): WorkspaceListFragment
+
+    @ContributesAndroidInjector(modules = [ApiModule::class, OverviewModule::class])
+    abstract fun provideOverviewFragment(): OverviewFragment
 
 }

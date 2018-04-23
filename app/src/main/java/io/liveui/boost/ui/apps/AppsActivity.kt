@@ -1,5 +1,7 @@
 package io.liveui.boost.ui.apps
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.res.ResourcesCompat
@@ -13,7 +15,10 @@ import android.view.Gravity
 import android.view.Menu
 import androidx.view.forEach
 import io.liveui.boost.common.UserSession
+import io.liveui.boost.common.vmfactory.ApiViewModeFactory
+import io.liveui.boost.ui.overview.OverviewFragment
 import io.liveui.boost.ui.teams.TeamsFragment
+import io.liveui.boost.ui.teams.TeamsViewModel
 import io.liveui.boost.ui.workspace.all.WorkspaceListFragment
 import javax.inject.Inject
 
@@ -26,6 +31,9 @@ class AppsActivity : BoostActivity() {
     @Inject
     lateinit var userSession: UserSession
 
+    @Inject
+    lateinit var apiViewModelFactory: ApiViewModeFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_apps)
@@ -33,8 +41,14 @@ class AppsActivity : BoostActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
-        replaceFragmentInActivity(AppsFragment(), R.id.fragment_container)
+        replaceFragmentInActivity(OverviewFragment(), R.id.fragment_container)
         initSideMenu()
+
+        ViewModelProviders.of(this, apiViewModelFactory).get(TeamsViewModel::class.java)
+                .activeTeam.observe(this, Observer {
+            drawer_layout.closeDrawers()
+        })
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

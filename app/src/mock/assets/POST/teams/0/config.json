@@ -1,0 +1,14 @@
+{
+  "id": "586816B2-D91A-426A-A9DA-02B5CAF33BAA",
+  "apps": {
+    "ios": "https://itunes.apple.com/gb/app/rekola/id888759232?mt=8",
+    "android": "https://play.google.com/store/apps/details?id=cz.rekola.app"
+  },
+  "team_id": "439D40B0-D96D-4D5A-9ED2-61786C0D082C",
+  "theme": {
+    "primary_color": "000000",
+    "primary_background_color": "FFFFFF",
+    "primary_button_color": "FFFFFF",
+    "primary_button_background_color": "E94F92"
+  }
+}

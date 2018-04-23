@@ -1,20 +1,13 @@
 [
   {
-    "id": "630C97E6-AC56-4213-882B-3BEBAE50BF6D",
+    "password": "admin",
+    "id": "4CAC6144-B305-4DD7-AED8-57301331391A",
     "lastname": "Admin",
-    "registered": 541114427,
-    "su": true,
-    "email": "admin@liveui.io",
+    "registered": "2018-04-15T20:12:27Z",
     "firstname": "Super",
-    "disabled": false
-  },
-  {
-    "id": "59ECA5DB-6603-4C08-B910-B32922A34FA9",
-    "lastname": "Rafaj",
-    "registered": 541550120,
-    "su": false,
-    "email": "dev@liveui.io",
-    "firstname": "Ondrej",
+    "username": "admin",
+    "email": "admin@liveui.io",
+    "su": true,
     "disabled": false
   }
 ]

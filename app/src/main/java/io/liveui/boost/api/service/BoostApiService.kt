@@ -78,9 +78,9 @@ interface BoostApiService {
     fun deleteUploadKey(@Path("id") id: String): Observable<MutableList<TeamUser>>
 
     @GET("apps/overview")
-    fun appsOverview(): Observable<MutableList<App>>
+    fun appsOverview(): Observable<MutableList<AppOverview>>
 
     @GET("teams/{id}/apps/overview")
-    fun teamAppsOverview(@Path("id") id: String): Observable<MutableList<App>>
+    fun teamAppsOverview(@Path("id") id: String): Observable<MutableList<AppOverview>>
 
 }

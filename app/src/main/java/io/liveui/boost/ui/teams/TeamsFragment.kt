@@ -1,6 +1,7 @@
 package io.liveui.boost.ui.teams
 
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
@@ -35,10 +36,13 @@ class TeamsFragment : BoostFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        teamsViewModel = ViewModelProviders.of(this, apiViewModelFactory).get(TeamsViewModel::class.java)
+        teamsViewModel = ViewModelProviders.of(activity!!, apiViewModelFactory).get(TeamsViewModel::class.java)
         teamsViewModel.teams.observe(this, teamsAdapter)
         recycler_view.adapter = teamsAdapter
         recycler_view.layoutManager = if (resources.getBoolean(R.bool.isPhone)) LinearLayoutManager(context) else GridLayoutManager(context, 3)
+        teamsAdapter.selectedItem.observe(this, Observer{
+          teamsViewModel.activeTeam.value = it
+        })
         teamsViewModel.loadTeams()
     }
 

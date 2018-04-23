@@ -1,14 +1,12 @@
-{
-  "id": "278131E0-3D6D-4DA7-9EAE-FA68D4977FF4",
-  "user": {
+[
+  {
+    "avatar": "https://www.gravatar.com/avatar/e7e8b7ac59a724a481bec410d0cb44a4",
     "id": "4CAC6144-B305-4DD7-AED8-57301331391A",
     "lastname": "Admin",
     "registered": "2018-04-15T20:12:27Z",
-    "firstname": "Super",
+    "firstname": "S.....",
     "username": "admin",
-    "email": "admin@liveui.io",
     "su": true,
     "disabled": false
-  },
-  "expires": "2018-05-15T21:16:25Z"
-}
+  }
+]
