@@ -4,8 +4,8 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import io.liveui.boost.R
+import io.liveui.boost.api.model.User
 import io.liveui.boost.common.vmfactory.ApiViewModeFactory
-import io.liveui.boost.api.model.RegisterUserResponse
 import io.liveui.boost.ui.BoostActivity
 import kotlinx.android.synthetic.main.activity_register.*
 import javax.inject.Inject
@@ -27,7 +27,7 @@ class RegisterActivity : BoostActivity() {
                 email.text.toString(),
                 password.text.toString())
 
-        registerModel.register.observe(this, Observer<RegisterUserResponse> {
+        registerModel.register.observe(this, Observer<User> {
 
         })
     }

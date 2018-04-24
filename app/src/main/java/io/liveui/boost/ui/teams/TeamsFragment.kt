@@ -40,8 +40,8 @@ class TeamsFragment : BoostFragment() {
         teamsViewModel.teams.observe(this, teamsAdapter)
         recycler_view.adapter = teamsAdapter
         recycler_view.layoutManager = if (resources.getBoolean(R.bool.isPhone)) LinearLayoutManager(context) else GridLayoutManager(context, 3)
-        teamsAdapter.selectedItem.observe(this, Observer{
-          teamsViewModel.activeTeam.value = it
+        teamsAdapter.selectedItem.observe(this, Observer {
+            teamsViewModel.activeTeam.value = it
         })
         teamsViewModel.loadTeams()
     }

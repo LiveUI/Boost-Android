@@ -13,6 +13,6 @@ interface BoostCheckService {
     fun teapot(): Observable<Message>
 
     @GET("info")
-    fun getInfo(): Observable<InfoResponse>
+    fun getInfo(): Observable<ServerInfo>
 
 }

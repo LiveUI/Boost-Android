@@ -7,7 +7,6 @@ import io.liveui.boost.api.usecase.BoostApiUseCase
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 
 
 class TeamsViewModel constructor(private val apiUseCase: BoostApiUseCase) : ViewModel() {
@@ -28,7 +27,7 @@ class TeamsViewModel constructor(private val apiUseCase: BoostApiUseCase) : View
 
     val teamUpdate: MutableLiveData<Team> = MutableLiveData()
 
-    val teamUsers: MutableLiveData<MutableList<TeamUser>> = MutableLiveData()
+    val users: MutableLiveData<MutableList<User>> = MutableLiveData()
 
     val exception: MutableLiveData<Throwable> = MutableLiveData()
 
@@ -121,13 +120,13 @@ class TeamsViewModel constructor(private val apiUseCase: BoostApiUseCase) : View
                 .doOnNext({
                     loadingStatus.value = false
                 })
-                .subscribe({ result -> teamUsers.value = result },
+                .subscribe({ result -> users.value = result },
                         { e -> exception.value = e })
         )
     }
 
-    fun addUserToTeam(id: String, teamUser: TeamUser) {
-        disposables.add(apiUseCase.addUserToTeam(id, teamUser)
+    fun addUserToTeam(id: String, user: User) {
+        disposables.add(apiUseCase.addUserToTeam(id, user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe({
@@ -142,8 +141,8 @@ class TeamsViewModel constructor(private val apiUseCase: BoostApiUseCase) : View
         )
     }
 
-    fun removeUserFromTeam(id: String, teamUser: TeamUser) {
-        disposables.add(apiUseCase.removeUserFromTeam(id, teamUser)
+    fun removeUserFromTeam(id: String, user: User) {
+        disposables.add(apiUseCase.removeUserFromTeam(id, user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe({

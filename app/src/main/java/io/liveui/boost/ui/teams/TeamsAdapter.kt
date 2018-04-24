@@ -13,14 +13,23 @@ import io.liveui.boost.ui.view.adapter.OnItemClickListener
 import io.liveui.boost.util.ext.getColor
 import kotlinx.android.synthetic.main.view_holder_teams.view.*
 
-class TeamsAdapter: BaseObservableAdapter<Team, TeamViewHolder>() {
+class TeamsAdapter : BaseObservableAdapter<Team, TeamViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamViewHolder {
         return TeamViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_holder_teams, parent, false), this)
     }
 
     override fun onBindViewHolder(holder: TeamViewHolder, position: Int) {
-       holder.setData(items[position])
+        holder.setData(items[position])
+    }
+
+    override fun onChanged(newItems: MutableList<Team>?) {
+        super.onChanged(newItems)
+
+        val item = selectedItem.value
+        if (items.size > 0 && (item == null || !items.contains(item))) {
+            selectedItem.postValue(items[0])
+        }
     }
 }
 

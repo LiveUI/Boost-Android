@@ -11,8 +11,10 @@ import android.view.ViewGroup
 import io.liveui.boost.R
 import io.liveui.boost.common.vmfactory.ApiViewModeFactory
 import io.liveui.boost.ui.BoostFragment
+import io.liveui.boost.ui.apps.AppsFragment
 import io.liveui.boost.ui.teams.TeamsViewModel
 import io.liveui.boost.util.ProgressViewObserver
+import io.liveui.boost.util.ext.replaceFragmentInActivity
 import kotlinx.android.synthetic.main.fragment_overview.*
 import javax.inject.Inject
 
@@ -35,7 +37,7 @@ class OverviewFragment : BoostFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         teamsViewModel = ViewModelProviders.of(activity!!, apiViewModelFactory).get(TeamsViewModel::class.java)
-        overviewViewModel = ViewModelProviders.of(this, apiViewModelFactory).get(OverviewViewModel::class.java)
+        overviewViewModel = ViewModelProviders.of(activity!!, apiViewModelFactory).get(OverviewViewModel::class.java)
         teamsViewModel.loadingStatus.observe(this, ProgressViewObserver(progress_bar))
         teamsViewModel.loadingStatus.observe(this, ProgressViewObserver(recycler_view, false))
 
@@ -49,6 +51,11 @@ class OverviewFragment : BoostFragment() {
             } else {
                 overviewViewModel.loadTeamAppsOverview(it.id)
             }
+        })
+
+        overviewAdapter.selectedItem.observe(this, Observer {
+            overviewViewModel.activeOverview.value = it
+            activity!!.replaceFragmentInActivity(AppsFragment(), R.id.fragment_container)
         })
 
     }

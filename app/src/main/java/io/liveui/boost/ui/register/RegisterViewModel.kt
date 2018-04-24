@@ -15,7 +15,7 @@ class RegisterViewModel constructor(private val apiUseCase: BoostApiUseCase) : V
 
     val loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
 
-    val register: MutableLiveData<RegisterUserResponse> = MutableLiveData()
+    val register: MutableLiveData<User> = MutableLiveData()
 
     val exception: MutableLiveData<Throwable> = MutableLiveData()
 

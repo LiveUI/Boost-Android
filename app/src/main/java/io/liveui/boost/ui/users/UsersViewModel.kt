@@ -2,7 +2,7 @@ package io.liveui.boost.ui.users
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import io.liveui.boost.api.model.*
+import io.liveui.boost.api.model.User
 import io.liveui.boost.api.usecase.BoostApiUseCase
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.android.schedulers.AndroidSchedulers

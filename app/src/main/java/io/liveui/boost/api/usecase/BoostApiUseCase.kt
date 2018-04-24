@@ -4,6 +4,7 @@ import io.liveui.boost.api.model.*
 import io.liveui.boost.api.service.BoostApiService
 import io.reactivex.Completable
 import io.reactivex.Observable
+import retrofit2.http.Query
 import javax.inject.Inject
 
 class BoostApiUseCase @Inject constructor(private val apiService: BoostApiService) {
@@ -12,7 +13,7 @@ class BoostApiUseCase @Inject constructor(private val apiService: BoostApiServic
         return apiService.getUsers()
     }
 
-    fun registerUser(user: RegisterUser): Observable<RegisterUserResponse> {
+    fun registerUser(user: RegisterUser): Observable<User> {
         return apiService.registerUser(user)
     }
 
@@ -36,20 +37,25 @@ class BoostApiUseCase @Inject constructor(private val apiService: BoostApiServic
         return apiService.updateTeam(id, team)
     }
 
-    fun getTeamUsers(id: String): Observable<MutableList<TeamUser>> {
+    fun getTeamUsers(id: String): Observable<MutableList<User>> {
         return apiService.getTeamUsers(id)
     }
 
-    fun addUserToTeam(id: String, user: TeamUser): Completable {
+    fun addUserToTeam(id: String, user: User): Completable {
         return apiService.addUserToTeam(id, user)
     }
 
-    fun removeUserFromTeam(id: String, user: TeamUser): Completable {
+    fun removeUserFromTeam(id: String, user: User): Completable {
         return apiService.removeUserFromTeam(id, user)
     }
 
-    fun filter(name: String, filter: String, platform: String): Observable<MutableList<App>> {
-        return apiService.filter(name, filter, platform)
+    fun filter(name: String? = null,
+               info: String? = null,
+               platform: String? = null,
+               identifier: String? = null,
+               build: Int? = null,
+               version: String? = null): Observable<MutableList<App>> {
+        return apiService.filter(name, info, platform, identifier, build, version)
     }
 
     fun upload(tags: String): Observable<App> {
@@ -72,10 +78,6 @@ class BoostApiUseCase @Inject constructor(private val apiService: BoostApiServic
         return apiService.deleteApp(id)
     }
 
-    fun getAppBuilds(): Observable<MutableList<App>> {
-        return apiService.getAppBuilds()
-    }
-
     fun getUploadTokensForTeam(teamId: String): Observable<MutableList<Team>> {
         return apiService.getUploadTokensForTeam(teamId)
     }
@@ -84,19 +86,19 @@ class BoostApiUseCase @Inject constructor(private val apiService: BoostApiServic
         return apiService.createUploadTokenInTeam(teamId, team)
     }
 
-    fun getUploadTokensForUser(): Observable<MutableList<TeamUser>> {
+    fun getUploadTokensForUser(): Observable<MutableList<User>> {
         return apiService.getUploadTokensForUser()
     }
 
-    fun getUploadKey(id: String): Observable<MutableList<TeamUser>> {
+    fun getUploadKey(id: String): Observable<MutableList<User>> {
         return apiService.getUploadKey(id)
     }
 
-    fun updateUploadKey(id: String): Observable<MutableList<TeamUser>> {
+    fun updateUploadKey(id: String): Observable<MutableList<User>> {
         return apiService.updateUploadKey(id)
     }
 
-    fun deleteUploadKey(id: String): Observable<MutableList<TeamUser>> {
+    fun deleteUploadKey(id: String): Observable<MutableList<User>> {
         return apiService.deleteUploadKey(id)
     }
 
@@ -108,5 +110,20 @@ class BoostApiUseCase @Inject constructor(private val apiService: BoostApiServic
         return apiService.teamAppsOverview(id)
     }
 
+    fun getTeamInfo(id: String): Observable<MutableList<TeamInfo>> {
+        return apiService.getTeamInfo(id)
+    }
+
+    fun getSettings(): Observable<MutableList<Settings>> {
+        return apiService.getSettings()
+    }
+
+    fun addSettings(id: String): Observable<Settings> {
+        return apiService.addSettings(id)
+    }
+
+    fun deleteSettings(id: String): Observable<Settings> {
+        return apiService.deleteSettings(id)
+    }
 
 }

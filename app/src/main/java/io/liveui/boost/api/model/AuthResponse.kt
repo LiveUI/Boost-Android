@@ -21,4 +21,4 @@ package io.liveui.boost.api.model
 data class AuthResponse(val id: String,
                         val token: String,
                         val expires: String,
-                        val user: TeamUser)
+                        val user: User)

@@ -1,7 +1,6 @@
 package io.liveui.boost.api.usecase
 
 import io.liveui.boost.api.model.*
-import io.liveui.boost.api.service.BoostAuthService
 import io.liveui.boost.api.service.BoostCheckService
 import io.reactivex.Observable
 import javax.inject.Inject
@@ -16,7 +15,7 @@ class BoostCheckUseCase @Inject constructor(private val checkService: BoostCheck
         return checkService.teapot()
     }
 
-    fun getInfo(): Observable<InfoResponse> {
+    fun getInfo(): Observable<ServerInfo> {
         return checkService.getInfo()
     }
 }

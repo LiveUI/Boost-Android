@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/listItemHeight"
+    android:background="?attr/selectableItemBackground"
     tools:background="@color/sideMenuBackground">
 
     <View
@@ -25,15 +26,15 @@
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/initials"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="@dimen/side_menu_icon"
         android:layout_height="@dimen/side_menu_icon"
+        android:background="@drawable/bg_team_indicator"
+        android:gravity="center"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/guideline1"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/bg_team_indicator"
-        style="@style/TextAppearance.MaterialComponents.Headline6"
-        android:textColor="@android:color/white"
-        android:gravity="center"
         tools:text="AT" />
 
     <android.support.constraint.Guideline

@@ -23,8 +23,25 @@ class AppsViewModel constructor(private val apiUseCase: BoostApiUseCase) : ViewM
         disposables.clear()
     }
 
-    fun getApps() {
+    fun getAllApps() {
         disposables.add(apiUseCase.getApps()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe({
+                    loadingStatus.value = true
+                })
+                .subscribe({ result ->
+                    loadingStatus.value = false
+                    apps.value = result
+                }, { e ->
+                    loadingStatus.value = false
+                    exception.value = e
+                })
+        )
+    }
+
+    fun getFilteredApps(identifier: String?) {
+        disposables.add(apiUseCase.filter(identifier = identifier)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe({

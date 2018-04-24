@@ -1,0 +1,86 @@
+[
+  {
+    "build": "219",
+    "icon": false,
+    "id": "0E0FACA0-9C7F-40F3-ACF2-89B524EC237A",
+    "platform": "android",
+    "team_id": "79EF2805-D627-4354-916B-AD8A037DF11B",
+    "version": "1.10.10",
+    "identifier": "io.liveui.ambassador",
+    "created": "2018-04-15T20:53:04Z",
+    "name": "Ambassador",
+    "modified": "2018-04-15T20:53:04Z"
+  },
+  {
+    "build": "218",
+    "icon": false,
+    "id": "EB73BAE0-1D79-4FE4-A4BB-6EA36762F7C3",
+    "platform": "android",
+    "team_id": "79EF2805-D627-4354-916B-AD8A037DF11B",
+    "version": "1.10.9",
+    "identifier": "io.liveui.ambassador",
+    "created": "2018-04-15T20:53:04Z",
+    "name": "Ambassador",
+    "modified": "2018-04-15T20:53:04Z"
+  },
+  {
+    "build": "217",
+    "icon": false,
+    "id": "05937FA2-CC4E-4B2D-8846-F7C7F00B2010",
+    "platform": "android",
+    "team_id": "79EF2805-D627-4354-916B-AD8A037DF11B",
+    "version": "1.10.8",
+    "identifier": "io.liveui.ambassador",
+    "created": "2018-04-15T20:53:04Z",
+    "name": "Ambassador",
+    "modified": "2018-04-15T20:53:04Z"
+  },
+  {
+    "build": "216",
+    "icon": false,
+    "id": "19687499-EF5A-4C59-911B-04CAF9AC4B79",
+    "platform": "android",
+    "team_id": "79EF2805-D627-4354-916B-AD8A037DF11B",
+    "version": "1.10.7",
+    "identifier": "io.liveui.ambassador",
+    "created": "2018-04-15T20:53:04Z",
+    "name": "Ambassador",
+    "modified": "2018-04-15T20:53:04Z"
+  },
+  {
+    "build": "215",
+    "icon": false,
+    "id": "76C1E40F-F8EC-4FDE-BB3B-15C5575B1A36",
+    "platform": "android",
+    "team_id": "79EF2805-D627-4354-916B-AD8A037DF11B",
+    "version": "1.10.6",
+    "identifier": "io.liveui.ambassador",
+    "created": "2018-04-15T20:53:04Z",
+    "name": "Ambassador",
+    "modified": "2018-04-15T20:53:04Z"
+  },
+  {
+    "build": "214",
+    "icon": false,
+    "id": "68C4EA01-20F6-4785-A5C0-C882F3C4FCE2",
+    "platform": "android",
+    "team_id": "79EF2805-D627-4354-916B-AD8A037DF11B",
+    "version": "1.10.5",
+    "identifier": "io.liveui.ambassador",
+    "created": "2018-04-15T20:53:04Z",
+    "name": "Ambassador",
+    "modified": "2018-04-15T20:53:04Z"
+  },
+  {
+    "build": "213",
+    "icon": false,
+    "id": "4F70E708-5103-4D57-84FA-E23DDD4D9795",
+    "platform": "android",
+    "team_id": "79EF2805-D627-4354-916B-AD8A037DF11B",
+    "version": "1.10.4",
+    "identifier": "io.liveui.ambassador",
+    "created": "2018-04-15T20:53:04Z",
+    "name": "Ambassador",
+    "modified": "2018-04-15T20:53:04Z"
+  }
+]

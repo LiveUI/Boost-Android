@@ -19,10 +19,9 @@ class MockResponseResolver @Inject constructor(private val application: Applicat
 
     init {
         rules = arrayOf(
-                UrlRule("([A-Za-z]{1}[A-Za-z\\d_]*\\.)*[A-Za-z][A-Za-z\\d_]*$", "apps", "\\/(android|ios)\\/"),
                 UrlRule("\\/[0-9]+\\?", "/0?"),
                 UrlRule("\\=.+", ""),
-                UrlRule("\\/[0-9]+\\/", "/0/"),
+                UrlRule("\\/[A-Za-z\\-0-9]+\\/", "/0/"),
                 UrlRule("\\/[0-9]+$", "/0")
         )
     }
@@ -50,7 +49,7 @@ class MockResponseResolver @Inject constructor(private val application: Applicat
 
     fun normalizeUrl(url: String, method: String): String {
 
-        var urlOpt = url.replace(BuildConfig.BASE_URL, "")
+        var urlOpt = url.replace(BuildConfig.URL[0], "")
 
         for (rule in rules) {
             if (rule.pattern2 == null) {

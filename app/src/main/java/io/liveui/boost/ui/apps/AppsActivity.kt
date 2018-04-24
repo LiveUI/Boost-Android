@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.activity_apps.*
 import android.support.v4.view.GravityCompat
 import android.view.Gravity
 import android.view.Menu
-import androidx.view.forEach
 import io.liveui.boost.common.UserSession
 import io.liveui.boost.common.vmfactory.ApiViewModeFactory
 import io.liveui.boost.ui.overview.OverviewFragment

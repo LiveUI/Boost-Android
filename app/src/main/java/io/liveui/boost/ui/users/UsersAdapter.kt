@@ -24,7 +24,7 @@ class UsersAdapter: BaseObservableAdapter<User, UserViewHolder>() {
 class UserViewHolder(itemView: View, onClickListener: OnItemClickListener?) : BaseViewHolder<User>(itemView, onClickListener) {
 
     override fun setData(item: User) {
-        itemView.text1.text = item.name
+        itemView.text1.text = item.getFullName()
     }
 
 }

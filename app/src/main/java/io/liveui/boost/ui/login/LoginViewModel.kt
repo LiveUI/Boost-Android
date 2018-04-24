@@ -3,8 +3,6 @@ package io.liveui.boost.ui.login
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import io.liveui.boost.api.model.AuthRequest
-import io.liveui.boost.api.model.AuthResponse
-import io.liveui.boost.api.model.TeamUser
 import io.liveui.boost.api.usecase.BoostAuthUseCase
 import io.liveui.boost.db.Workspace
 import io.liveui.boost.db.WorkspaceDao
@@ -36,7 +34,7 @@ class LoginViewModel constructor(private val authUseCase: BoostAuthUseCase,
                         workspaceDao.updateWorkspace(workspace.apply {
                             permToken = it.token
                             status = Workspace.Status.ACTIVATED
-                            teamUser = it.user
+                            user = it.user
                         })
                     }
                 }

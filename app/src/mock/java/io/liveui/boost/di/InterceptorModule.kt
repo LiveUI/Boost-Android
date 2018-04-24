@@ -26,33 +26,32 @@ class InterceptorModule {
     @Provides
     @Singleton
     @Named("loggingInterceptor")
-    fun provideBaseInterceptors(sharedPreferences: SharedPreferences): ArrayList<Interceptor> {
+    fun provideBaseInterceptors(mockResponseResolver: MockResponseResolver): ArrayList<Interceptor> {
         return ArrayList<Interceptor>().apply {
             if (BuildConfig.DEBUG) {
                 val httpLoggingInterceptor = HttpLoggingInterceptor()
                 httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
                 add(httpLoggingInterceptor)
             }
+            add(MockInterceptor(mockResponseResolver))
         }
     }
 
     @Provides
     @Singleton
     @Named("apiInterceptors")
-    fun provideApiInterceptors(@Named("loggingInterceptor") loggingInterceptor: ArrayList<Interceptor>, sharedPreferences: SharedPreferences, mockResponseResolver: MockResponseResolver): ArrayList<Interceptor> {
+    fun provideApiInterceptors(@Named("loggingInterceptor") loggingInterceptor: ArrayList<Interceptor>, sharedPreferences: SharedPreferences): ArrayList<Interceptor> {
         return loggingInterceptor.apply {
-            add(AddHeaderAuthInterceptor(sharedPreferences.getString("jwtToken", null)))
-            add(MockInterceptor(mockResponseResolver))
+            add(AddHeaderAuthInterceptor(sharedPreferences))
         }
     }
 
     @Provides
     @Singleton
     @Named("authInterceptors")
-    fun provideAuthInterceptors(@Named("loggingInterceptor") loggingInterceptor: ArrayList<Interceptor>, sharedPreferences: SharedPreferences, mockResponseResolver: MockResponseResolver): ArrayList<Interceptor> {
+    fun provideAuthInterceptors(@Named("loggingInterceptor") loggingInterceptor: ArrayList<Interceptor>, sharedPreferences: SharedPreferences): ArrayList<Interceptor> {
         return loggingInterceptor.apply {
             add(SaveAuthInterceptor(sharedPreferences))
-            add(MockInterceptor(mockResponseResolver))
         }
     }
 

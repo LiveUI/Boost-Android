@@ -4,7 +4,7 @@ import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Embedded
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
-import io.liveui.boost.api.model.TeamUser
+import io.liveui.boost.api.model.User
 
 @Entity(tableName = "workspace")
 data class Workspace(@ColumnInfo(name = "name") var name: String? = null,
@@ -14,7 +14,7 @@ data class Workspace(@ColumnInfo(name = "name") var name: String? = null,
                      @ColumnInfo(name = "status") var status: Status = Status.NEW) {
 
     @Embedded
-    var teamUser: TeamUser? = null
+    var user: User? = null
 
     enum class Status(val code: Int) {
         NEW(0),

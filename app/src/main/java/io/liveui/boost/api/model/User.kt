@@ -1,8 +1,31 @@
 package io.liveui.boost.api.model
 
+import android.arch.persistence.room.ColumnInfo
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
+
 /**
- * "id": 1,
-"name": "Admin team",
-"identifier": "admin-team"
+ * {
+"id": "630C97E6-AC56-4213-882B-3BEBAE50BF6D",
+"lastname": "Admin",
+"registered": 541114427,
+"su": true,
+"email": "admin@liveui.io",
+"firstname": "Super",
+"disabled": false
+}
  */
-data class User(val id: String, val name: String, val identifier: String)
+@Entity(tableName = "users")
+data class User(@PrimaryKey @ColumnInfo(name = "id") val id: String,
+                @ColumnInfo(name = "firstname") val firstname: String,
+                @ColumnInfo(name = "lastname") val lastname: String,
+                @ColumnInfo(name = "registered") val registered: String,
+                @ColumnInfo(name = "avatar") val avatar: String?,
+                @ColumnInfo(name = "email") val email: String?,
+                @ColumnInfo(name = "su") val su: Boolean,
+                @ColumnInfo(name = "disabled") val disabled: Boolean) {
+
+    fun getFullName(): String {
+        return "$firstname $lastname"
+    }
+}
