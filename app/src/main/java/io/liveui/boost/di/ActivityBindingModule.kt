@@ -1,7 +1,7 @@
 package io.liveui.boost.di
 
 import io.liveui.boost.ui.appdetail.AppDetailFragment
-import io.liveui.boost.ui.apps.AppsActivity
+import io.liveui.boost.ui.MainActivity
 import io.liveui.boost.ui.apps.AppsFragment
 import io.liveui.boost.ui.login.LoginActivity
 import io.liveui.boost.ui.splash.SplashActivity
@@ -41,7 +41,7 @@ abstract class ActivityBindingModule {
     abstract fun provideLoginActivity(): LoginActivity
 
     @ContributesAndroidInjector(modules = [ApiModule::class, AppsModule::class, ActivityModule::class])
-    abstract fun provideAppsActivity(): AppsActivity
+    abstract fun provideAppsActivity(): MainActivity
 
     @ContributesAndroidInjector(modules = [ApiModule::class, ActivityModule::class])
     abstract fun provideTeamsActivity(): TeamsActivity

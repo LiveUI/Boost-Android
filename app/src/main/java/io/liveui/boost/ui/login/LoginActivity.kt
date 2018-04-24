@@ -8,7 +8,7 @@ import io.liveui.boost.R
 import io.liveui.boost.common.UserSession
 import io.liveui.boost.common.vmfactory.AuthViewModelFactory
 import io.liveui.boost.ui.BoostActivity
-import io.liveui.boost.ui.apps.AppsActivity
+import io.liveui.boost.ui.MainActivity
 import io.liveui.boost.util.ProgressViewObserver
 import io.liveui.boost.util.ext.hideKeyboard
 import kotlinx.android.synthetic.main.activity_login.*
@@ -30,7 +30,7 @@ class LoginActivity : BoostActivity() {
         setContentView(R.layout.activity_login)
         authModel = ViewModelProviders.of(this, authViewModelFactory).get(LoginViewModel::class.java)
         authModel.auth.observe(this, Observer {
-            startActivity(Intent(this@LoginActivity, AppsActivity::class.java))
+            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
         })
 
         authModel.loadingStatus.observe(this, ProgressViewObserver(progressBar))
