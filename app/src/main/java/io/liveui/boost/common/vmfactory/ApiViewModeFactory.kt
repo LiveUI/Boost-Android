@@ -6,6 +6,7 @@ import io.liveui.boost.api.usecase.BoostApiUseCase
 import io.liveui.boost.ui.appdetail.AppDetailViewModel
 import io.liveui.boost.ui.apps.AppsViewModel
 import io.liveui.boost.ui.overview.OverviewViewModel
+import io.liveui.boost.ui.register.RegisterViewModel
 import io.liveui.boost.ui.teams.TeamsViewModel
 
 class ApiViewModeFactory constructor(private val apiUseCase: BoostApiUseCase): ViewModelProvider.Factory {
@@ -21,6 +22,8 @@ class ApiViewModeFactory constructor(private val apiUseCase: BoostApiUseCase): V
                         AppDetailViewModel(apiUseCase)
                 isAssignableFrom(OverviewViewModel::class.java) ->
                     OverviewViewModel(apiUseCase)
+                isAssignableFrom(RegisterViewModel::class.java) ->
+                    RegisterViewModel(apiUseCase)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

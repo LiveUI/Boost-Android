@@ -3,8 +3,8 @@ package io.liveui.boost.ui.overview
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import io.liveui.boost.api.model.AppOverview
-import io.liveui.boost.api.model.Team
 import io.liveui.boost.api.usecase.BoostApiUseCase
+import io.liveui.boost.common.model.LayoutManagerConfig
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -17,6 +17,7 @@ class OverviewViewModel(private val boostApiUseCase: BoostApiUseCase) : ViewMode
 
     val activeOverview: MutableLiveData<AppOverview> = MutableLiveData()
 
+    val layoutType: MutableLiveData<LayoutManagerConfig> = MutableLiveData()
 
     override fun onCleared() {
         disposable.clear()
@@ -42,5 +43,9 @@ class OverviewViewModel(private val boostApiUseCase: BoostApiUseCase) : ViewMode
                 }, {
 
                 }))
+    }
+
+    fun changeLayoutManager(phone: Boolean, list: Boolean) {
+        layoutType.postValue(LayoutManagerConfig.getType(phone, list))
     }
 }

@@ -12,23 +12,10 @@ import javax.inject.Inject
 
 class RegisterActivity : BoostActivity() {
 
-    @Inject
-    lateinit var apiViewModelFactory: ApiViewModeFactory
-
-    lateinit var registerModel: RegisterViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-        registerModel = ViewModelProviders.of(this, apiViewModelFactory).get(RegisterViewModel::class.java)
 
-        registerModel.register(firstName.text.toString(),
-                lastName.text.toString(),
-                email.text.toString(),
-                password.text.toString())
-
-        registerModel.register.observe(this, Observer<User> {
-
-        })
     }
 }

@@ -9,6 +9,21 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MainTheme" parent="Theme.AppCompat.Light">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionBarTheme">@style/ActionBarTransparent</item>
+    </style>
+
+    <style name="ActionBarTransparent" parent="Widget.AppCompat.ActionBar">
+        <item name="background">@android:color/transparent</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="titleTextStyle">@style/TextAppearance.AppCompat.Title</item>
+    </style>
+
     <style name="ChipButton" parent="Widget.MaterialComponents.Chip.Action">
         <item name="android:gravity">center</item>
         <item name="android:paddingLeft">@dimen/btn_padding_left</item>
@@ -17,6 +32,37 @@
         <item name="android:paddingBottom">@dimen/btn_padding_bottom</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="BoostButton">
+
+    </style>
+
+    <style name="BoostButton.Login">
+        <item name="android:background">@drawable/selector_btn_login</item>
+        <item name="android:textColor">@color/btn_pink_white</item>
+    </style>
+
+    <style name="BoostButton.Register">
+        <item name="android:background">@drawable/selector_btn_register</item>
+        <item name="android:textColor">@color/btn_white_pink</item>
+    </style>
+
+    <style name="EditText" parent="Widget.AppCompat.EditText">
+
+    </style>
+
+    <style name="EditText.WhiteTR">
+        <item name="android:background">@drawable/bg_edit_text_login</item>
+        <item name="android:minHeight">@dimen/edit_text_min_height</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingLeft">@dimen/edit_text_padding_left</item>
+        <item name="android:paddingRight">@dimen/edit_text_padding_right</item>
+        <item name="android:paddingTop">@dimen/edit_text_padding_top</item>
+        <item name="android:paddingBottom">@dimen/edit_text_padding_bottom</item>
+        <item name="android:textColor">@color/edit_text_white_transparent</item>
+        <item name="android:textColorHint">@color/text_hint</item>
     </style>
 
 </resources>

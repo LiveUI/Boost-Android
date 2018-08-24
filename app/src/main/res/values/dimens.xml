@@ -17,9 +17,19 @@
     <dimen name="btn_padding_right">16dp</dimen>
     <dimen name="btn_padding_top">4dp</dimen>
 
+    <dimen name="edit_text_padding_left">16dp</dimen>
+    <dimen name="edit_text_padding_right">16dp</dimen>
+    <dimen name="edit_text_padding_top">8dp</dimen>
+    <dimen name="edit_text_padding_bottom">8dp</dimen>
+
     <!-- Side menu -->
     <dimen name="side_menu_icon">40dp</dimen>
     <dimen name="side_menu_content_margin">72dp</dimen>
     <dimen name="listItemHeight">72dp</dimen>
     <dimen name="side_menu_indicator_width">6dp</dimen>
+    <dimen name="edit_text_stroke_width">2dp</dimen>
+    <dimen name="edit_text_corner_radius">4dp</dimen>
+    <dimen name="line_height">1dp</dimen>
+    <dimen name="edit_text_min_height">48dp</dimen>
+    <dimen name="text_size_16">16dp</dimen>
 </resources>

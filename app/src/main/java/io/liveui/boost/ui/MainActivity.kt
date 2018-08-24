@@ -39,14 +39,12 @@ class MainActivity : BoostActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
-        replaceFragmentInActivity(OverviewFragment(), R.id.fragment_container)
         initSideMenu()
 
         ViewModelProviders.of(this, apiViewModelFactory).get(TeamsViewModel::class.java)
                 .activeTeam.observe(this, Observer {
             drawer_layout.closeDrawers()
         })
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

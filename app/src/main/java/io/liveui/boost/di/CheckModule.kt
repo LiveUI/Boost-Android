@@ -2,8 +2,8 @@ package io.liveui.boost.di
 
 import dagger.Module
 import dagger.Provides
-import io.liveui.boost.common.vmfactory.CheckViewModelFactory
 import io.liveui.boost.api.usecase.BoostCheckUseCase
+import io.liveui.boost.common.vmfactory.CheckViewModelFactory
 import io.liveui.boost.db.WorkspaceDao
 
 /**

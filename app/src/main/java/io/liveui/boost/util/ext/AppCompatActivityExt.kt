@@ -62,7 +62,7 @@ fun AppCompatActivity.setupActionBar(@IdRes toolbarId: Int, action: ActionBar.()
 /**
  * Runs a FragmentTransaction, then calls commit().
  */
-private inline fun FragmentManager.transact(action: FragmentTransaction.() -> Unit) {
+inline fun FragmentManager.transact(action: FragmentTransaction.() -> Unit) {
     beginTransaction().apply {
         action()
     }.commit()

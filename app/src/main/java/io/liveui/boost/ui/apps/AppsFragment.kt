@@ -10,9 +10,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import io.liveui.boost.R
 import io.liveui.boost.common.vmfactory.ApiViewModeFactory
 import io.liveui.boost.api.DownloadManager
+import io.liveui.boost.common.EXTRA_APP_ID
 import io.liveui.boost.ui.BoostFragment
 import io.liveui.boost.ui.appdetail.AppDetailActivity
 import io.liveui.boost.ui.overview.OverviewViewModel
@@ -57,7 +59,11 @@ class AppsFragment : BoostFragment() {
         recycler_view.adapter = appsAdapter
         recycler_view.layoutManager = if(resources.getBoolean(R.bool.isPhone)) LinearLayoutManager(context) else GridLayoutManager(context, 3)
         appsAdapter.selectedItem.observe(this, Observer {
-            AppDetailActivity.startActivity(context, it?.id)
+//            AppDetailActivity.startActivity(context, it?.id)
+            Navigation.findNavController(activity!!, R.id.main_nav_host_fragment).navigate(R.id.action_apps_to_appDetail, Bundle().apply {
+                putString(EXTRA_APP_ID, it?.id)
+            })
+
         })
 
         appsAdapter.downloadItem.observe(this, Observer {

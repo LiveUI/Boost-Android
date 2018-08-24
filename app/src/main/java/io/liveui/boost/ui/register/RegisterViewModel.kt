@@ -24,8 +24,8 @@ class RegisterViewModel constructor(private val apiUseCase: BoostApiUseCase) : V
     }
 
     //TODO validate input data
-    fun register(firstName: String, lastName: String, email: String, password: String) {
-        disposables.add(apiUseCase.registerUser(RegisterUser(firstName, lastName, email, password))
+    fun register(firstName: String, lastName: String, username: String, email: String, password: String) {
+        disposables.add(apiUseCase.registerUser(RegisterUser(firstName, lastName, username, email, password))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe({

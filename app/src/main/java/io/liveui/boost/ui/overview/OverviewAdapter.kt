@@ -1,5 +1,6 @@
 package io.liveui.boost.ui.overview
 
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import kotlinx.android.synthetic.main.view_holder_overview.view.*
 class OverviewAdapter : BaseObservableAdapter<AppOverview, OverviewViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OverviewViewHolder {
+        val lm = (parent as? RecyclerView)?.layoutManager
         return OverviewViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_holder_overview, parent, false), this)
     }
 

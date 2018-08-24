@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/btn_corner_radius" />
+            <solid android:color="@android:color/white" />
+        </shape>
+    </item>
+
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/btn_corner_radius" />
+            <stroke android:width="@dimen/btn_stroke_width" android:color="@color/button_login_stroke_pressed" />
+            <solid android:color="@color/button_login_fill_pressed" />
+        </shape>
+    </item>
+
+</selector>

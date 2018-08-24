@@ -9,6 +9,5 @@ class WorkspaceAddActivity: BoostActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         replaceFragmentInActivity(WorkspaceAddFragment(), android.R.id.content)
-
     }
 }

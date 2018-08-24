@@ -26,7 +26,7 @@ class SplashActivity : BoostActivity() {
         splashViewModel = ViewModelProviders.of(this, splashViewModelFactory).get(SplashViewModel::class.java)
         splashViewModel.loadData().observe(this, Observer {
             when (it) {
-                null -> startActivity(Intent(this@SplashActivity, WorkspaceAddActivity::class.java))
+                null -> startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
                 else -> {
                     when (it.status) {
                         Workspace.Status.SERVER_VERIFIED -> startActivity(Intent(this@SplashActivity, LoginActivity::class.java))

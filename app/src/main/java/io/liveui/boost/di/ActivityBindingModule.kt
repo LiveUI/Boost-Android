@@ -9,12 +9,16 @@ import io.liveui.boost.ui.teams.TeamsActivity
 import io.liveui.boost.ui.teams.TeamsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
 import io.liveui.boost.ui.account.MyAccountFragment
 import io.liveui.boost.ui.appdetail.AppDetailActivity
 import io.liveui.boost.ui.apps.AppsModule
+import io.liveui.boost.ui.intro.ChooseServerFragment
 import io.liveui.boost.ui.keys.ApiKeysFragment
+import io.liveui.boost.ui.login.LoginFragment
 import io.liveui.boost.ui.overview.OverviewFragment
 import io.liveui.boost.ui.overview.OverviewModule
+import io.liveui.boost.ui.register.RegisterFragment
 import io.liveui.boost.ui.settings.SettingsFragment
 import io.liveui.boost.ui.settings.SettingsModule
 import io.liveui.boost.ui.teams.CreateTeamFragment
@@ -23,30 +27,26 @@ import io.liveui.boost.ui.users.TeamUsersFragment
 import io.liveui.boost.ui.users.TeamUsersModule
 import io.liveui.boost.ui.users.UsersFragment
 import io.liveui.boost.ui.users.UsersModule
-import io.liveui.boost.ui.workspace.add.WorkspaceAddActivity
 import io.liveui.boost.ui.workspace.add.WorkspaceAddFragment
 import io.liveui.boost.ui.workspace.all.WorkspaceListFragment
 import io.liveui.boost.ui.workspace.all.WorkspaceListModule
 
-@Module
+@Module(includes = [AndroidSupportInjectionModule::class])
 abstract class ActivityBindingModule {
 
-    @ContributesAndroidInjector(modules = [ActivityModule::class, SplashModule::class])
+    @ContributesAndroidInjector(modules = [SplashModule::class])
     abstract fun provideSplashActivity(): SplashActivity
 
-    @ContributesAndroidInjector(modules = [ActivityModule::class])
-    abstract fun provideWorkspaceActivity(): WorkspaceAddActivity
-
-    @ContributesAndroidInjector(modules = [AuthModule::class, ActivityModule::class])
+    @ContributesAndroidInjector(modules = [AuthModule::class, BaseActivityModule::class])
     abstract fun provideLoginActivity(): LoginActivity
 
-    @ContributesAndroidInjector(modules = [ApiModule::class, AppsModule::class, ActivityModule::class])
+    @ContributesAndroidInjector(modules = [ApiModule::class, AppsModule::class, BaseActivityModule::class])
     abstract fun provideAppsActivity(): MainActivity
 
-    @ContributesAndroidInjector(modules = [ApiModule::class, ActivityModule::class])
+    @ContributesAndroidInjector(modules = [ApiModule::class, BaseActivityModule::class])
     abstract fun provideTeamsActivity(): TeamsActivity
 
-    @ContributesAndroidInjector(modules = [ApiModule::class, ActivityModule::class])
+    @ContributesAndroidInjector(modules = [ApiModule::class, BaseActivityModule::class])
     abstract fun provideAppDetailsActivity(): AppDetailActivity
 
     @ContributesAndroidInjector(modules = [ApiModule::class, AppsModule::class])
@@ -82,7 +82,16 @@ abstract class ActivityBindingModule {
     @ContributesAndroidInjector(modules = [WorkspaceListModule::class])
     abstract fun provideWorkspaceListFragment(): WorkspaceListFragment
 
-    @ContributesAndroidInjector(modules = [ApiModule::class, OverviewModule::class])
+    @ContributesAndroidInjector(modules = [MainActivityModule::class, ApiModule::class, OverviewModule::class])
     abstract fun provideOverviewFragment(): OverviewFragment
+
+    @ContributesAndroidInjector(modules = [ApiModule::class, CheckModule::class])
+    abstract fun provideChooseServerFragment(): ChooseServerFragment
+
+    @ContributesAndroidInjector(modules = [ApiModule::class, AuthModule::class])
+    abstract fun provideLoginFragment(): LoginFragment
+
+    @ContributesAndroidInjector(modules = [ApiModule::class])
+    abstract fun provideRegisterFragment(): RegisterFragment
 
 }

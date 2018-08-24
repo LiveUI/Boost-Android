@@ -3,7 +3,13 @@ package io.liveui.boost.util.ext
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.support.annotation.IdRes
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
+import android.support.v7.app.ActionBar
+import android.support.v7.app.AppCompatActivity
 import java.io.Serializable
 
 fun Fragment.putString(key: String, value: String) {
@@ -38,8 +44,16 @@ fun Fragment.putParcelable(key: String, value: Parcelable) {
 
 fun Fragment.putIntentExtras(intent: Intent) {
     val arg: Bundle = arguments ?: Bundle()
-    if(intent.extras != null) {
+    if (intent.extras != null) {
         arg.putAll(intent.extras)
     }
     arguments = arg
 }
+
+fun Fragment.replaceChildFragment(fragment: Fragment, frameId: Int): Fragment {
+    childFragmentManager.transact {
+        replace(frameId, fragment)
+    }
+    return fragment
+}
+
