@@ -1,16 +1,14 @@
 package io.liveui.boost.di
 
 import android.app.Application
+import android.app.DownloadManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
-import io.liveui.boost.common.UserSession
 import io.liveui.boost.util.permission.PermissionHelper
 import javax.inject.Singleton
-import android.arch.persistence.room.Room
-import io.liveui.boost.db.BoostDatabase
 
 
 /**
@@ -30,6 +28,12 @@ class UtilModule {
     @Singleton
     fun providePermissionHelper(application: Application): PermissionHelper {
         return PermissionHelper(application)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAndroidDownloadManager(application: Application): DownloadManager {
+        return application.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
     }
 
 }

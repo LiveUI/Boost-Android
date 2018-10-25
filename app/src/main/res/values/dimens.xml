@@ -4,7 +4,7 @@
     <dimen name="margin_8">8dp</dimen>
     <dimen name="margin_16">16dp</dimen>
 
-    <dimen name="app_list_image">60dp</dimen>
+    <dimen name="app_list_image">100dp</dimen>
     <dimen name="app_detail_image">120dp</dimen>
     <dimen name="profile_image">150dp</dimen>
 
@@ -32,4 +32,8 @@
     <dimen name="line_height">1dp</dimen>
     <dimen name="edit_text_min_height">48dp</dimen>
     <dimen name="text_size_16">16dp</dimen>
+    <dimen name="app_icon_size">72dp</dimen>
+    <dimen name="tile_border_width">1dp</dimen>
+    <dimen name="tile_corner_radius">8dp</dimen>
+    <dimen name="overview_column_space">16dp</dimen>
 </resources>

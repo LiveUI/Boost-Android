@@ -1,12 +1,12 @@
 package io.liveui.boost.ui.appdetail
 
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import io.liveui.boost.common.EXTRA_APP_ID
 
 import io.liveui.boost.R
@@ -38,7 +38,7 @@ class AppDetailFragment : BoostFragment() {
         appDetailViewModel = ViewModelProviders.of(this, apiViewModelFactory).get(AppDetailViewModel::class.java)
         appDetailViewModel.loadingStatus.observe(this, ProgressViewObserver(progressBar))
         appDetailViewModel.loadingStatus.observe(this, ProgressViewObserver(content_group, false))
-        appDetailViewModel.app.observe(this, Observer<App> {
+        appDetailViewModel.appInfo.observe(this, Observer<App> {
             app_name?.text = it?.name
             app_package_name?.text = it?.identifier
             app_platform?.text = getString(R.string.app_detail_platform, it?.platform)

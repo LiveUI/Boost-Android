@@ -1,50 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true"
-    android:padding="@dimen/margin_16">
+    android:layout_marginLeft="@dimen/margin_16"
+    android:layout_marginRight="@dimen/margin_16"
+    android:layout_marginBottom="2dp"
+    app:cardElevation="1dp"
+    android:layout_height="wrap_content">
 
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/app_logo"
-        android:layout_width="@dimen/app_list_image"
-        android:layout_height="@dimen/app_list_image"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:src="@drawable/ic_download" />
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/app_name"
-        style="@style/TextAppearance.AppCompat.Title"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/btn_download"
-        app:layout_constraintStart_toEndOf="@+id/app_logo"
-        tools:text="Boost App" />
+        android:background="?attr/selectableItemBackground">
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/app_version"
-        style="@style/TextAppearance.AppCompat.Subhead"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/btn_download"
-        app:layout_constraintStart_toEndOf="@+id/app_logo"
-        app:layout_constraintTop_toBottomOf="@+id/app_name"
-        tools:text="1.0.1" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/app_logo"
+            android:layout_width="@dimen/app_list_image"
+            android:layout_height="@dimen/app_list_image"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:src="@drawable/ic_download" />
 
-    <android.support.v7.widget.AppCompatImageButton
-        android:id="@+id/btn_download"
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_download"
-        android:tint="@color/tint_btn_download"
-        android:minWidth="0dp"
-        android:minHeight="0dp"
-        android:background="@drawable/selector_btn_download"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/app_name"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/margin_8"
+            android:layout_marginLeft="@dimen/margin_8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/app_logo"
+            tools:text="Boost App" />
 
-</android.support.constraint.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/app_version"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/app_name"
+            app:layout_constraintTop_toBottomOf="@+id/app_name"
+            tools:text="1.0.1" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="app_version,app_logo" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_app_downloaded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="btn_settings,btn_open,btn_more"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_settings"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/btn_open"
+            app:layout_constraintTop_toBottomOf="@+id/barrier"
+            android:text="@string/app_settings" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_open"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/btn_more"
+            app:layout_constraintTop_toBottomOf="@+id/barrier"
+            android:text="@string/app_open" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_more"
+            app:srcCompat="@drawable/ic_more"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            app:layout_constraintTop_toBottomOf="@+id/barrier"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_download"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_download"
+            tools:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/barrier" />
+
+        <ProgressBar
+            android:id="@+id/download_progress_bar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_16"
+            android:layout_marginBottom="@dimen/margin_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/barrier" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

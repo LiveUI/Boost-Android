@@ -1,7 +1,7 @@
 package io.liveui.boost.common.vmfactory
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import io.liveui.boost.api.usecase.BoostAuthUseCase
 import io.liveui.boost.db.WorkspaceDao
 import io.liveui.boost.ui.login.LoginViewModel

@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorAccentTransparent">#80FF4081</color>
-    <color name="sideMenuBackground">#715772</color>
+    <color name="sideMenuBackground">#3E4452</color>
     <color name="sideMenuToolbar">#5a3e5b</color>
     <color name="workspace_list_text">@android:color/white</color>
     <color name="edit_text_stroke_color">#FFFFFF</color>
@@ -20,4 +20,7 @@
     <color name="button_login_fill_pressed">#20FFFFFF</color>
     <color name="text_gray_1">#D8D8D8</color>
     <color name="text_hint">#D8D8D8</color>
+    <color name="text_primary_color">#888888</color>
+    <color name="text_primary_dark_color">#000000</color>
+    <color name="shape_border_gray">#4DAAAAAA</color>
 </resources>

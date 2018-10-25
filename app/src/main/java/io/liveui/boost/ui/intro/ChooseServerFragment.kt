@@ -1,25 +1,29 @@
 package io.liveui.boost.ui.intro
 
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.design.widget.TabLayout
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.navigation.Navigation
 import io.liveui.boost.BuildConfig
 import io.liveui.boost.R
 import io.liveui.boost.common.UserSession
 import io.liveui.boost.common.vmfactory.CheckViewModelFactory
+import io.liveui.boost.di.scope.ActivityScope
 import io.liveui.boost.ui.BoostFragment
+import io.liveui.boost.ui.login.LoginFragment
+import io.liveui.boost.ui.register.RegisterFragment
 import io.liveui.boost.ui.workspace.add.WorkspaceAddViewModel
 import io.liveui.boost.util.ProgressViewObserver
 import io.liveui.boost.util.ext.getString
 import io.liveui.boost.util.ext.showSnackBar
+import io.liveui.boost.util.navigation.FragmentNavigationItem
+import io.liveui.boost.util.navigation.MainNavigator
 import kotlinx.android.synthetic.main.fragment_intro.*
 import javax.inject.Inject
 
@@ -37,6 +41,10 @@ class ChooseServerFragment : BoostFragment() {
 
     @Inject
     lateinit var userSession: UserSession
+
+    @Inject
+    @ActivityScope
+    lateinit var mainNavigator: MainNavigator
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -62,7 +70,7 @@ class ChooseServerFragment : BoostFragment() {
         workspaceAddViewModel = ViewModelProviders.of(this, checkViewModelFactory).get(WorkspaceAddViewModel::class.java)
         workspaceAddViewModel.serverExists.observe(this, Observer {
             if (it == true) {
-                Navigation.findNavController(activity!!, R.id.login_nav_host_fragment).navigate(R.id.action_chooseServer_to_login)
+                mainNavigator.replaceFragment(FragmentNavigationItem(clazz = LoginFragment::class.java, addToBackStack = true))
             } else {
                 view.showSnackBar("Server doesn't exists", Snackbar.LENGTH_SHORT)
             }
@@ -79,13 +87,13 @@ class ChooseServerFragment : BoostFragment() {
 
         custom_server_url.setAdapter(ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, BuildConfig.URL))
 
-        btn_login.setOnClickListener({
+        btn_login.setOnClickListener {
             userSession.workspace.url = custom_server_url.getString()
             workspaceAddViewModel.checkServer(userSession.workspace)
-        })
+        }
 
         btn_register.setOnClickListener {
-            Navigation.findNavController(activity!!, R.id.login_nav_host_fragment).navigate(R.id.action_chooseServer_to_register)
+            mainNavigator.replaceFragment(FragmentNavigationItem(clazz = RegisterFragment::class.java, addToBackStack = true))
         }
     }
 

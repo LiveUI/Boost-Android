@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,7 +7,7 @@
     android:padding="@dimen/margin_16"
     tools:context=".ui.appdetail.AppDetailFragment">
 
-    <android.support.v7.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/app_logo"
         android:layout_width="@dimen/app_detail_image"
         android:layout_height="@dimen/app_detail_image"
@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/ic_download" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_install"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="0dp"
@@ -26,7 +26,7 @@
         app:layout_constraintStart_toStartOf="@+id/app_logo"
         app:layout_constraintTop_toBottomOf="@+id/app_logo" />
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/app_name"
         style="@style/TextAppearance.AppCompat.Headline"
         android:layout_width="0dp"
@@ -37,7 +37,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Boost App" />
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/app_package_name"
         style="@style/TextAppearance.AppCompat.Caption"
         android:layout_width="0dp"
@@ -48,7 +48,7 @@
         app:layout_constraintTop_toBottomOf="@+id/app_name"
         tools:text="io.liveui.boost" />
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/app_version"
         style="@style/TextAppearance.AppCompat.Caption"
         android:layout_width="0dp"
@@ -59,7 +59,7 @@
         app:layout_constraintTop_toBottomOf="@+id/app_package_name"
         tools:text="Version: 1.2.3" />
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/app_platform"
         style="@style/TextAppearance.AppCompat.Caption"
         android:layout_width="0dp"
@@ -70,7 +70,7 @@
         app:layout_constraintTop_toBottomOf="@+id/app_version"
         tools:text="Platform: Android" />
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/app_description"
         style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="0dp"
@@ -92,10 +92,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.constraint.Group
+    <androidx.constraintlayout.widget.Group
         android:id="@+id/content_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="app_logo,btn_install,app_name,app_package_name,app_version,app_platform,app_description"/>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

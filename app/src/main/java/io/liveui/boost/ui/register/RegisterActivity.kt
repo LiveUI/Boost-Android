@@ -1,7 +1,7 @@
 package io.liveui.boost.ui.register
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import io.liveui.boost.R
 import io.liveui.boost.api.model.User

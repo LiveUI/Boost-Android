@@ -11,23 +11,23 @@ class BaseUrlInterceptor(val workspace: Workspace) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain?): Response {
         var request = chain!!.request()
-        val newUrl = request.url().newBuilder()
-        try {
-            val url = URL(workspace.url)
-            newUrl.host(url.host)
-            newUrl.scheme(url.protocol)
-            val port = url.port
-            if(port != -1) newUrl.port(port)
-        } catch (e: MalformedURLException) {
-            val urlPart = workspace.url.split(":")
-            newUrl.host(urlPart[0])
-            if(urlPart.size > 1) {
-                newUrl.port(urlPart[1].toInt())
-            }
-        }
-        request = request.newBuilder()
-                .url(newUrl.build())
-                .build()
+//        val newUrl = request.url().newBuilder()
+//        try {
+//            val url = URL(workspace.url)
+//            newUrl.host(url.host)
+//            newUrl.scheme(url.protocol)
+//            val port = url.port
+//            if(port != -1) newUrl.port(port)
+//        } catch (e: MalformedURLException) {
+//            val urlPart = workspace.url.split(":")
+//            newUrl.host(urlPart[0])
+//            if(urlPart.size > 1) {
+//                newUrl.port(urlPart[1].toInt())
+//            }
+//        }
+//        request = request.newBuilder()
+//                .url(newUrl.build())
+//                .build()
         return chain.proceed(request)
     }
 

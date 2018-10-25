@@ -1,7 +1,7 @@
 package io.liveui.boost.ui.splash
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import io.liveui.boost.common.UserSession
 import io.liveui.boost.db.Workspace
 import io.liveui.boost.db.WorkspaceDao

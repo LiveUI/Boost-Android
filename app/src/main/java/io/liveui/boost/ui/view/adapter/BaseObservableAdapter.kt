@@ -1,15 +1,15 @@
 package io.liveui.boost.ui.view.adapter
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Observer
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
+import io.reactivex.subjects.PublishSubject
 
 abstract class BaseObservableAdapter<T, VH : BaseViewHolder<T>> : RecyclerView.Adapter<VH>(), Observer<MutableList<T>>, OnItemClickListener {
 
     val items: MutableList<T> = ArrayList()
-    val selectedItem: MutableLiveData<T> = MutableLiveData()
+    val subject: PublishSubject<T> = PublishSubject.create()
 
     override fun onChanged(newItems: MutableList<T>?) {
         addItems(newItems)
@@ -53,7 +53,7 @@ abstract class BaseObservableAdapter<T, VH : BaseViewHolder<T>> : RecyclerView.A
     }
 
     override fun onItemClick(view: View?, position: Int) {
-        selectedItem.value = items[position]
+        subject.onNext(getItem(position))
     }
 
 }

@@ -6,20 +6,25 @@ import android.view.Menu
 import android.view.MenuItem
 import io.liveui.boost.R
 import io.liveui.boost.ui.BoostActivity
-import io.liveui.boost.util.ext.replaceFragmentInActivity
+import io.liveui.boost.util.navigation.FragmentNavigationItem
+import io.liveui.boost.util.navigation.MainNavigator
 import kotlinx.android.synthetic.main.activity_apps.*
+import javax.inject.Inject
 
 /**
  * Created by Vojtech Hrdina on 05/03/2018.
  */
 class AppsActivity : BoostActivity() {
 
+    @Inject
+    lateinit var mainNavigator: MainNavigator
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_apps)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        replaceFragmentInActivity(AppsFragment(), R.id.fragment_container)
+        mainNavigator.replaceFragment(FragmentNavigationItem(clazz = AppsFragment::class.java))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

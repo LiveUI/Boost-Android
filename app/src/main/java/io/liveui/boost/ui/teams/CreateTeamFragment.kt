@@ -1,9 +1,9 @@
 package io.liveui.boost.ui.teams
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.design.widget.Snackbar
+import com.google.android.material.snackbar.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,9 +30,9 @@ class CreateTeamFragment : BoostFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         teamsViewModel = ViewModelProviders.of(this, apiViewModelFactory).get(TeamsViewModel::class.java)
-        btn_create.setOnClickListener({
+        btn_create.setOnClickListener {
             teamsViewModel.createTeam(CreateTeamRequest(team_name.getString(), team_identifier.getString()))
-        })
+        }
 
         teamsViewModel.teamCreate.observe(this, Observer {
             activity?.findViewById<View>(android.R.id.content)?.showSnackBar(R.string.team_create_success, Snackbar.LENGTH_SHORT)

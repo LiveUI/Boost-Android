@@ -15,4 +15,7 @@ interface BoostCheckService {
     @GET("info")
     fun getInfo(): Observable<ServerInfo>
 
+//    @GET("error")
+//    fun getErrors(): Observable<>
+
 }

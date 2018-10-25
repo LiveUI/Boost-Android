@@ -1,69 +1,44 @@
-/*
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package io.liveui.boost.util.ext
 
 /**
  * Various extension functions for AppCompatActivity.
  */
 
-import android.support.annotation.IdRes
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentTransaction
-import android.support.v7.app.ActionBar
-import android.support.v7.app.AppCompatActivity
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import io.liveui.boost.util.navigation.FragmentNavigationItem
 
 
-/**
- * The `fragment` is added to the container view with id `frameId`. The operation is
- * performed by the `fragmentManager`.
- */
-fun FragmentActivity.replaceFragmentInActivity(fragment: Fragment, frameId: Int): Fragment {
-    supportFragmentManager.transact {
-        replace(frameId, fragment)
-    }
-    return fragment
-}
-
-/**
- * The `fragment` is added to the container view with tag. The operation is
- * performed by the `fragmentManager`.
- */
-fun FragmentActivity.addFragmentToActivity(fragment: Fragment, tag: String) {
-    supportFragmentManager.transact {
-        add(fragment, tag)
-    }
-}
-
-fun AppCompatActivity.setupActionBar(@IdRes toolbarId: Int, action: ActionBar.() -> Unit) {
-    setSupportActionBar(findViewById(toolbarId))
-    supportActionBar?.run {
-        action()
-    }
-}
-
-//fun <T : ViewModel> AppCompatActivity.obtainViewModel(viewModelClass: Class<T>) =
-//        ViewModelProviders.of(this, ViewModelFactory.getInstance(application)).get(viewModelClass)
-
-/**
- * Runs a FragmentTransaction, then calls commit().
- */
-inline fun FragmentManager.transact(action: FragmentTransaction.() -> Unit) {
+inline fun FragmentManager.transactWithNavigationItem(navigationItem: FragmentNavigationItem, action: FragmentTransaction.() -> Unit) {
     beginTransaction().apply {
+        navigationItem.transitionOptions?.sharedViews?.forEach {
+            val sharedView = it.first.get()
+            if (sharedView != null) {
+                val transitionName: String? = ViewCompat.getTransitionName(sharedView)
+                if (transitionName != null) {
+                    addSharedElement(sharedView, transitionName)
+                }
+            }
+        }
+        if (navigationItem.addToBackStack) {
+            addToBackStack(navigationItem.backStackName)
+        }
+        setReorderingAllowed(navigationItem.reorderingAllowed)
         action()
     }.commit()
+}
+
+fun <T : View> AppCompatActivity.setupView(resId: Int, action: T.() -> Unit) {
+    findViewById<T>(resId)?.apply {
+        action()
+    }
+}
+
+fun <T> setupView(view: T?, action: T.() -> Unit) {
+    view?.apply {
+        action()
+    }
 }

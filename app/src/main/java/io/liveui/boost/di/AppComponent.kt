@@ -6,6 +6,8 @@ import dagger.android.AndroidInjector
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
+import io.liveui.boost.util.glide.GlideComponent
+import io.liveui.boost.util.glide.HeaderGlideModule
 import javax.inject.Singleton
 
 @Singleton
@@ -15,8 +17,10 @@ import javax.inject.Singleton
     NetworkModule::class,
     UtilModule::class,
     DataModule::class,
-    DownloadModule::class])
+    AppModule::class])
 interface AppComponent : AndroidInjector<AppStoreApplication> {
+
+    fun glideComponentBuilder(): GlideComponent.Builder
 
     @Component.Builder
     interface Builder {

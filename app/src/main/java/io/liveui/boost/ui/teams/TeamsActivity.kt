@@ -1,6 +1,6 @@
 package io.liveui.boost.ui.teams
 
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import io.liveui.boost.R
 import io.liveui.boost.common.vmfactory.ApiViewModeFactory

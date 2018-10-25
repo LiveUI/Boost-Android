@@ -1,39 +1,43 @@
 package io.liveui.boost.ui.appdetail
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import io.liveui.boost.api.model.App
 import io.liveui.boost.api.usecase.BoostApiUseCase
+import io.liveui.boost.download.BoostDownloadManager
+import io.liveui.boost.ui.apps.AppsItemViewModel
+import io.liveui.boost.util.ContextProvider
+import io.liveui.boost.util.IOUtil
+import io.liveui.boost.util.LifecycleViewModel
+import io.liveui.boost.util.glide.GlideProvider
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
-class AppDetailViewModel constructor(private val apiUseCase: BoostApiUseCase) : ViewModel() {
-
-    private val disposables: CompositeDisposable = CompositeDisposable()
+class AppDetailViewModel constructor(private val apiUseCase: BoostApiUseCase,
+                                     downloadManager: BoostDownloadManager,
+                                     glideProvider: GlideProvider,
+                                     ioUtil: IOUtil,
+                                     contextProvider: ContextProvider) : AppsItemViewModel(downloadManager, glideProvider, ioUtil, contextProvider) {
 
     val loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
 
-    val app: MutableLiveData<App> = MutableLiveData()
+    val appInfo: MutableLiveData<App> = MutableLiveData()
 
     val exception: MutableLiveData<Throwable> = MutableLiveData()
 
-    override fun onCleared() {
-        disposables.clear()
-    }
-
     fun getApp(id: String) {
-        disposables.add(apiUseCase.getApp(id)
+        addDisposable(apiUseCase.getApp(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe({
+                .doOnSubscribe {
                     loadingStatus.value = true
-                })
-                .doOnNext({
+                }
+                .doOnNext {
                     loadingStatus.value = false
-                })
-                .subscribe({ result -> app.value = result },
+                }
+                .subscribe({ result -> appInfo.value = result },
                         { e -> exception.value = e })
         )
     }

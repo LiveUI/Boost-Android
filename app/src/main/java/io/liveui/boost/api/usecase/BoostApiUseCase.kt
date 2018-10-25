@@ -110,7 +110,7 @@ class BoostApiUseCase @Inject constructor(private val apiService: BoostApiServic
         return apiService.teamAppsOverview(id)
     }
 
-    fun getTeamInfo(id: String): Observable<MutableList<TeamInfo>> {
+    fun getTeamInfo(id: String): Observable<TeamInfo> {
         return apiService.getTeamInfo(id)
     }
 

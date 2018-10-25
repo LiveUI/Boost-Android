@@ -7,11 +7,10 @@ package io.liveui.boost.util.ext
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
-import android.support.annotation.IdRes
-import android.support.annotation.StringRes
-import android.support.design.widget.Snackbar
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.StringRes
+import com.google.android.material.snackbar.Snackbar
 
 
 fun View.toggleVisibilityWithFade(show: Boolean) {

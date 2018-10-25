@@ -1,7 +1,7 @@
 package io.liveui.boost.ui.workspace.all
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import io.liveui.boost.db.Workspace
 import io.liveui.boost.db.WorkspaceDao
 import io.reactivex.Completable
@@ -18,9 +18,9 @@ class WorkspaceListViewModel(val workspaceDao: WorkspaceDao) : ViewModel() {
     }
 
     fun changeWorkspace(workspace: Workspace) {
-        disposables.add(Completable.fromCallable({
+        disposables.add(Completable.fromCallable {
             return@fromCallable workspaceDao.setActive(workspace)
-        }).subscribeOn(Schedulers.io())
+        }.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe())
 
     }

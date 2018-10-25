@@ -80,7 +80,7 @@ interface BoostApiService {
     fun teamAppsOverview(@Path("teamId") id: String): Observable<MutableList<AppOverview>>
 
     @GET("teams/{teamId}/apps/info")
-    fun getTeamInfo(@Path("teamId") id: String): Observable<MutableList<TeamInfo>>
+    fun getTeamInfo(@Path("teamId") id: String): Observable<TeamInfo>
 
     @GET("settings")
     fun getSettings(): Observable<MutableList<Settings>>

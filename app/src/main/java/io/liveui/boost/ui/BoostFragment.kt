@@ -1,7 +1,8 @@
 package io.liveui.boost.ui
 
 import android.content.Context
-import android.support.v4.app.Fragment
+import android.os.Bundle
+import androidx.fragment.app.Fragment
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
@@ -18,7 +19,13 @@ abstract class BoostFragment: Fragment(), HasSupportFragmentInjector {
         super.onAttach(context)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun supportFragmentInjector(): AndroidInjector<Fragment>? {
         return childFragmentInjector
     }
+
 }

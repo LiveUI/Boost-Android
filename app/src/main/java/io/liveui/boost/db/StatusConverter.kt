@@ -1,6 +1,6 @@
 package io.liveui.boost.db
 
-import android.arch.persistence.room.TypeConverter
+import androidx.room.TypeConverter
 
 
 class StatusConverter {

@@ -1,23 +1,22 @@
 package io.liveui.boost.ui.overview
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.navigation.Navigation
+import android.view.*
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import io.liveui.boost.R
-import io.liveui.boost.common.EXTRA_APP_ID
 import io.liveui.boost.common.model.LayoutManagerConfig
 import io.liveui.boost.common.vmfactory.ApiViewModeFactory
+import io.liveui.boost.di.scope.ActivityScope
 import io.liveui.boost.ui.BoostFragment
 import io.liveui.boost.ui.apps.AppsFragment
 import io.liveui.boost.ui.teams.TeamsViewModel
+import io.liveui.boost.ui.view.adapter.SpaceItemDecoration
 import io.liveui.boost.util.ProgressViewObserver
-import io.liveui.boost.util.ext.replaceFragmentInActivity
+import io.liveui.boost.util.navigation.FragmentNavigationItem
+import io.liveui.boost.util.navigation.MainNavigator
 import kotlinx.android.synthetic.main.fragment_overview.*
 import javax.inject.Inject
 
@@ -33,6 +32,10 @@ class OverviewFragment : BoostFragment() {
     @Inject
     lateinit var overviewAdapter: OverviewAdapter
 
+    @Inject
+    @ActivityScope
+    lateinit var mainNavigator: MainNavigator
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_overview, container, false)
     }
@@ -45,8 +48,13 @@ class OverviewFragment : BoostFragment() {
         teamsViewModel.loadingStatus.observe(this, ProgressViewObserver(recycler_view, false))
 
         overviewViewModel.overviewData.observe(this, overviewAdapter)
+
         recycler_view.adapter = overviewAdapter
-        recycler_view.layoutManager = if (resources.getBoolean(R.bool.isPhone)) LinearLayoutManager(context) else GridLayoutManager(context, 3)
+        recycler_view.layoutManager = GridLayoutManager(context, 2)
+        recycler_view.addItemDecoration(SpaceItemDecoration(resources.getDimensionPixelSize(R.dimen.overview_column_space)))
+
+        btn_show_grid.setOnClickListener { overviewViewModel.showGrid() }
+        btn_show_list.setOnClickListener { overviewViewModel.showList() }
 
         teamsViewModel.activeTeam.observe(this, Observer {
             if (it == null) {
@@ -56,17 +64,20 @@ class OverviewFragment : BoostFragment() {
             }
         })
 
-        overviewAdapter.selectedItem.observe(this, Observer {
-            overviewViewModel.activeOverview.value = it
-            Navigation.findNavController(activity!!, R.id.main_nav_host_fragment).navigate(R.id.action_overview_to_apps)
-//            activity!!.replaceFragmentInActivity(AppsFragment(), R.id.fragment_container)
-        })
+        recycler_view.addDisposable(
+                overviewAdapter.subject.subscribe {
+                    overviewViewModel.activeOverview.value = it
+                    mainNavigator.replaceFragment(FragmentNavigationItem(clazz = AppsFragment::class.java, addToBackStack = true))
+                }
+        )
 
         overviewViewModel.layoutType.observe(this, Observer {
             when (it) {
                 LayoutManagerConfig.PHONE_LIST -> {
+                    recycler_view.layoutManager = LinearLayoutManager(context)
                 }
                 LayoutManagerConfig.PHONE_GRID -> {
+                    recycler_view.layoutManager = GridLayoutManager(context, 2)
                 }
                 LayoutManagerConfig.TABLET_LIST -> {
                 }
@@ -76,5 +87,8 @@ class OverviewFragment : BoostFragment() {
         })
     }
 
-
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_search, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 }

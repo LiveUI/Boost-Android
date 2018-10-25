@@ -1,7 +1,7 @@
 package io.liveui.boost.ui.login
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import io.liveui.boost.api.model.AuthRequest
 import io.liveui.boost.api.usecase.BoostAuthUseCase
 import io.liveui.boost.db.Workspace
@@ -40,9 +40,9 @@ class LoginViewModel constructor(private val authUseCase: BoostAuthUseCase,
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe({
+                .doOnSubscribe {
                     loadingStatus.postValue(true)
-                })
+                }
                 .subscribe({ result ->
                     loadingStatus.postValue(false)
                     auth.postValue(true)

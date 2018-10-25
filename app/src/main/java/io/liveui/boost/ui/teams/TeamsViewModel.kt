@@ -1,19 +1,22 @@
 package io.liveui.boost.ui.teams
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.LiveDataReactiveStreams
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import io.liveui.boost.api.model.*
 import io.liveui.boost.api.usecase.BoostApiUseCase
-import io.reactivex.disposables.CompositeDisposable
+import io.liveui.boost.util.LifecycleViewModel
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
-class TeamsViewModel constructor(private val apiUseCase: BoostApiUseCase) : ViewModel() {
+class TeamsViewModel constructor(private val apiUseCase: BoostApiUseCase) : LifecycleViewModel() {
 
-    private val disposables: CompositeDisposable = CompositeDisposable()
-
-    val activeTeam: MutableLiveData<Team> = MutableLiveData()
+    val activeTeam: MutableLiveData<Team?> = MutableLiveData()
 
     val loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -31,129 +34,191 @@ class TeamsViewModel constructor(private val apiUseCase: BoostApiUseCase) : View
 
     val exception: MutableLiveData<Throwable> = MutableLiveData()
 
-    override fun onCleared() {
-        disposables.clear()
+    val teamInfo: LiveData<TeamInfo> = Transformations.switchMap(activeTeam) { currentTeam ->
+        currentTeam?.let {
+            LiveDataReactiveStreams.fromPublisher(getTeamInfoObservable(currentTeam.id).toFlowable(BackpressureStrategy.LATEST))
+        }
+    }
+
+    fun getTeamsObservable(): Observable<MutableList<Team>> {
+        return apiUseCase.getTeams()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    loadingStatus.value = true
+                }
+                .doOnNext {
+                    loadingStatus.value = false
+                    teams.value = it
+                }
+                .doOnError {
+                    loadingStatus.value = false
+                    exception.value = it
+                }
     }
 
     fun loadTeams() {
-        disposables.add(apiUseCase.getTeams()
+        addDisposable(getTeamsObservable().subscribe())
+    }
+
+    fun getCreateTeamObservable(team: CreateTeamRequest): Observable<Team> {
+        return apiUseCase.createTeam(team)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe({
+                .doOnSubscribe {
                     loadingStatus.value = true
-                })
-                .doOnNext({
+                }
+                .doOnNext {
                     loadingStatus.value = false
-                })
-                .subscribe({ result -> teams.value = result },
-                        { e -> exception.value = e })
-        )
+                    teamCreate.value = it
+                }
+                .doOnError {
+                    loadingStatus.value = false
+                    exception.value = it
+                }
     }
 
     fun createTeam(team: CreateTeamRequest) {
-        disposables.add(apiUseCase.createTeam(team)
+        addDisposable(getCreateTeamObservable(team).subscribe())
+    }
+
+    fun getCheckTeamObservable(team: TeamCheckRequest): Observable<TeamCheckResponse> {
+        return apiUseCase.checkTeam(team)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe({
+                .doOnSubscribe {
                     loadingStatus.value = true
-                })
-                .doOnNext({
+                }
+                .doOnNext {
                     loadingStatus.value = false
-                })
-                .subscribe({ result -> teamCreate.value = result },
-                        { e -> exception.value = e })
-        )
+                    teamCheck.value = it
+                }
+                .doOnError {
+                    loadingStatus.value = false
+                    exception.value = it
+                }
     }
 
     fun checkTeam(team: TeamCheckRequest) {
-        disposables.add(apiUseCase.checkTeam(team)
+        addDisposable(getCheckTeamObservable(team).subscribe())
+    }
+
+    fun getTeamObservable(id: String): Observable<Team> {
+        return apiUseCase.getTeam(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe({
+                .doOnSubscribe {
                     loadingStatus.value = true
-                })
-                .doOnNext({
+                }
+                .doOnNext {
                     loadingStatus.value = false
-                })
-                .subscribe({ result -> teamCheck.value = result },
-                        { e -> exception.value = e })
-        )
+                    team.value = it
+                }
+                .doOnError {
+                    loadingStatus.value = false
+                    exception.value = it
+                }
     }
 
     fun getTeam(id: String) {
-        disposables.add(apiUseCase.getTeam(id)
+        addDisposable(getTeamObservable(id).subscribe())
+    }
+
+    fun getUpdateTeamObservable(team: Team): Observable<Team> {
+        return apiUseCase.updateTeam(team.id, team)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe({
+                .doOnSubscribe {
                     loadingStatus.value = true
-                })
-                .doOnNext({
+                }
+                .doOnNext {
                     loadingStatus.value = false
-                })
-                .subscribe({ result -> team.value = result },
-                        { e -> exception.value = e })
-        )
+                    teamUpdate.value = it
+                }
+                .doOnError {
+                    loadingStatus.value = false
+                    exception.value = it
+                }
     }
 
     fun updateTeam(team: Team) {
-        disposables.add(apiUseCase.updateTeam(team.id, team)
+        addDisposable(getUpdateTeamObservable(team).subscribe())
+    }
+
+    fun getTeamUsersObservable(id: String): Observable<MutableList<User>> {
+        return apiUseCase.getTeamUsers(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe({
+                .doOnSubscribe {
                     loadingStatus.value = true
-                })
-                .doOnNext({
+                }
+                .doOnNext {
                     loadingStatus.value = false
-                })
-                .subscribe({ result -> teamUpdate.value = result },
-                        { e -> exception.value = e })
-        )
+                    users.value = it
+                }
+                .doOnError {
+                    loadingStatus.value = false
+                    exception.value = it
+                }
     }
 
     fun getTeamUsers(id: String) {
-        disposables.add(apiUseCase.getTeamUsers(id)
+        addDisposable(getTeamUsersObservable(id).subscribe())
+    }
+
+    fun getAddUserToTeamCompletable(id: String, user: User): Completable {
+        return apiUseCase.addUserToTeam(id, user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe({
+                .doOnSubscribe {
                     loadingStatus.value = true
-                })
-                .doOnNext({
+                }
+                .doOnComplete {
                     loadingStatus.value = false
-                })
-                .subscribe({ result -> users.value = result },
-                        { e -> exception.value = e })
-        )
+                }
+                .doOnError {
+                    loadingStatus.value = false
+                    exception.value = it
+                }
     }
 
     fun addUserToTeam(id: String, user: User) {
-        disposables.add(apiUseCase.addUserToTeam(id, user)
+        addDisposable(getAddUserToTeamCompletable(id, user).subscribe())
+    }
+
+    fun getRemoveUserFromTeamCompletable(id: String, user: User): Completable {
+        return apiUseCase.removeUserFromTeam(id, user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe({
+                .doOnSubscribe {
                     loadingStatus.value = true
-                }).doOnComplete({
+                }
+                .doOnComplete {
                     loadingStatus.value = false
-                }).subscribe({ },
-                        { e ->
-                            exception.value = e
-                            loadingStatus.value = false
-                        })
-        )
+                }
+                .doOnError {
+                    loadingStatus.value = false
+                    exception.value = it
+                }
     }
 
     fun removeUserFromTeam(id: String, user: User) {
-        disposables.add(apiUseCase.removeUserFromTeam(id, user)
+        addDisposable(getRemoveUserFromTeamCompletable(id, user).subscribe())
+    }
+
+    fun getTeamInfoObservable(id: String): Observable<TeamInfo> {
+        return apiUseCase.getTeamInfo(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe({
-                    loadingStatus.value = true
-                }).doOnComplete({
-                    loadingStatus.value = false
-                }).subscribe({ },
-                        { e ->
-                            exception.value = e
-                            loadingStatus.value = false
-                        })
-        )
+                .doOnSubscribe {
+                    loadingStatus.postValue(true)
+                }
+                .doOnNext {
+                    loadingStatus.postValue(false)
+                }
+                .doOnError {
+                    loadingStatus.postValue(false)
+                    exception.postValue(it)
+                }
     }
 }

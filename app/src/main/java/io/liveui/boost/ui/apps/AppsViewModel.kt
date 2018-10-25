@@ -1,17 +1,16 @@
 package io.liveui.boost.ui.apps
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import io.liveui.boost.api.model.App
 import io.liveui.boost.api.usecase.BoostApiUseCase
+import io.liveui.boost.util.LifecycleViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
-class AppsViewModel constructor(private val apiUseCase: BoostApiUseCase) : ViewModel() {
-
-    private val disposables: CompositeDisposable = CompositeDisposable()
+class AppsViewModel constructor(private val apiUseCase: BoostApiUseCase) : LifecycleViewModel() {
 
     val loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -19,41 +18,41 @@ class AppsViewModel constructor(private val apiUseCase: BoostApiUseCase) : ViewM
 
     val exception: MutableLiveData<Throwable> = MutableLiveData()
 
-    override fun onCleared() {
-        disposables.clear()
-    }
-
     fun getAllApps() {
-        disposables.add(apiUseCase.getApps()
+        addDisposable(apiUseCase.getApps()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe({
+                .doOnSubscribe {
                     loadingStatus.value = true
-                })
-                .subscribe({ result ->
+                }
+                .doOnNext{
+                    apps.value = it
                     loadingStatus.value = false
-                    apps.value = result
-                }, { e ->
+                }
+                .doOnError {
                     loadingStatus.value = false
-                    exception.value = e
-                })
+                    exception.value = it
+                }
+                .subscribe()
         )
     }
 
     fun getFilteredApps(identifier: String?) {
-        disposables.add(apiUseCase.filter(identifier = identifier)
+        addDisposable(apiUseCase.filter(identifier = identifier)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe({
+                .doOnSubscribe {
                     loadingStatus.value = true
-                })
-                .subscribe({ result ->
+                }
+                .doOnNext{
+                    apps.value = it
                     loadingStatus.value = false
-                    apps.value = result
-                }, { e ->
+                }
+                .doOnError {
                     loadingStatus.value = false
-                    exception.value = e
-                })
+                    exception.value = it
+                }
+                .subscribe()
         )
     }
 }

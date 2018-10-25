@@ -1,11 +1,11 @@
 package io.liveui.boost.ui.workspace.all
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,20 +38,21 @@ class WorkspaceListFragment : BoostFragment() {
         workspaceViewModel.loadWorkspace().observe(this, workspaceListAdapter)
         recycler_view.adapter = workspaceListAdapter
         recycler_view.layoutManager = if (resources.getBoolean(R.bool.isPhone)) LinearLayoutManager(context) else GridLayoutManager(context, 3)
-
-        workspaceListAdapter.selectedItem.observe(this, Observer {
-            when (it?.status) {
-                Workspace.Status.NEW -> {
-                    startActivity(Intent(context, WorkspaceAddActivity::class.java))
-                }
-                else -> {
-                    if(it?.active == 0) {
-                        workspaceViewModel.changeWorkspace(it).run {
-                            startActivity(Intent(context, SplashActivity::class.java).apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK })
+        recycler_view.addDisposable(
+                workspaceListAdapter.subject.subscribe {
+                    when (it?.status) {
+                        Workspace.Status.NEW -> {
+                            startActivity(Intent(context, WorkspaceAddActivity::class.java))
+                        }
+                        else -> {
+                            if(it?.active == 0) {
+                                workspaceViewModel.changeWorkspace(it).run {
+                                    startActivity(Intent(context, SplashActivity::class.java).apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK })
+                                }
+                            }
                         }
                     }
                 }
-            }
-        })
+        )
     }
 }

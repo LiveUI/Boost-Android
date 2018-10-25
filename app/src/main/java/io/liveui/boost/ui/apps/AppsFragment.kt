@@ -2,19 +2,17 @@ package io.liveui.boost.ui.apps
 
 
 import android.Manifest
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import io.liveui.boost.R
+import io.liveui.boost.download.BoostDownloadManager
 import io.liveui.boost.common.vmfactory.ApiViewModeFactory
-import io.liveui.boost.api.DownloadManager
-import io.liveui.boost.common.EXTRA_APP_ID
 import io.liveui.boost.ui.BoostFragment
 import io.liveui.boost.ui.appdetail.AppDetailActivity
 import io.liveui.boost.ui.overview.OverviewViewModel
@@ -32,16 +30,11 @@ class AppsFragment : BoostFragment() {
     lateinit var apiViewModelFactory: ApiViewModeFactory
 
     lateinit var appsViewModel: AppsViewModel
+
     lateinit var overviewViewModel: OverviewViewModel
 
     @Inject
     lateinit var appsAdapter: AppsAdapter
-
-    @Inject
-    lateinit var downloadManager: DownloadManager
-
-    @Inject
-    lateinit var permissionHelper: PermissionHelper
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -57,20 +50,7 @@ class AppsFragment : BoostFragment() {
         appsViewModel.loadingStatus.observe(this, ProgressViewObserver(recycler_view, false))
         appsViewModel.apps.observe(this, appsAdapter)
         recycler_view.adapter = appsAdapter
-        recycler_view.layoutManager = if(resources.getBoolean(R.bool.isPhone)) LinearLayoutManager(context) else GridLayoutManager(context, 3)
-        appsAdapter.selectedItem.observe(this, Observer {
-//            AppDetailActivity.startActivity(context, it?.id)
-            Navigation.findNavController(activity!!, R.id.main_nav_host_fragment).navigate(R.id.action_apps_to_appDetail, Bundle().apply {
-                putString(EXTRA_APP_ID, it?.id)
-            })
-
-        })
-
-        appsAdapter.downloadItem.observe(this, Observer {
-            if (permissionHelper.checkPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, 1)) {
-                downloadManager.downloadApp(it!!.id)
-            }
-        })
+        recycler_view.layoutManager = if (resources.getBoolean(R.bool.isPhone)) LinearLayoutManager(context) else GridLayoutManager(context, 3)
 
         overviewViewModel.activeOverview.observe(this, Observer {
             appsViewModel.getFilteredApps(it?.identifier)

@@ -1,11 +1,10 @@
 package io.liveui.boost.ui.teams
 
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,9 +39,11 @@ class TeamsFragment : BoostFragment() {
         teamsViewModel.teams.observe(this, teamsAdapter)
         recycler_view.adapter = teamsAdapter
         recycler_view.layoutManager = if (resources.getBoolean(R.bool.isPhone)) LinearLayoutManager(context) else GridLayoutManager(context, 3)
-        teamsAdapter.selectedItem.observe(this, Observer {
-            teamsViewModel.activeTeam.value = it
-        })
+        recycler_view.addDisposable(
+                teamsAdapter.subject.subscribe {
+                    teamsViewModel.activeTeam.value = it
+                }
+        )
         teamsViewModel.loadTeams()
     }
 

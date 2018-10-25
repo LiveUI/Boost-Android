@@ -1,7 +1,7 @@
 package io.liveui.boost.ui.teams
 
 import android.content.res.ColorStateList
-import android.support.v4.view.ViewCompat
+import androidx.core.view.ViewCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,14 +23,6 @@ class TeamsAdapter : BaseObservableAdapter<Team, TeamViewHolder>() {
         holder.setData(items[position])
     }
 
-    override fun onChanged(newItems: MutableList<Team>?) {
-        super.onChanged(newItems)
-
-        val item = selectedItem.value
-        if (items.size > 0 && (item == null || !items.contains(item))) {
-            selectedItem.postValue(items[0])
-        }
-    }
 }
 
 class TeamViewHolder(itemView: View, onClickListener: OnItemClickListener?) : BaseViewHolder<Team>(itemView, onClickListener) {

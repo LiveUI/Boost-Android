@@ -1,9 +1,9 @@
 package io.liveui.boost.ui.view.adapter
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 
-abstract class BaseViewHolder<T>(itemView: View, val onItemClickListener: OnItemClickListener?) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+abstract class BaseViewHolder<T>(itemView: View, private val onItemClickListener: OnItemClickListener?) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
     init {
         if(onItemClickListener != null) {
@@ -11,7 +11,7 @@ abstract class BaseViewHolder<T>(itemView: View, val onItemClickListener: OnItem
         }
     }
 
-    override fun onClick(v: View?) {
+    override fun onClick(v: View) {
         onItemClickListener?.onItemClick(v, adapterPosition)
     }
 

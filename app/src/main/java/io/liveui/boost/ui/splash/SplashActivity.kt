@@ -1,7 +1,7 @@
 package io.liveui.boost.ui.splash
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import io.liveui.boost.R

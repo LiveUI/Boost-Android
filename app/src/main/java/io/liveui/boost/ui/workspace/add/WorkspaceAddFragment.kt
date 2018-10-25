@@ -1,10 +1,10 @@
 package io.liveui.boost.ui.workspace.add
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
+import com.google.android.material.snackbar.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,10 +51,10 @@ class WorkspaceAddFragment : BoostFragment() {
 
         workspace_url.setAdapter(ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, BuildConfig.URL))
 
-        btn_continue.setOnClickListener({
+        btn_continue.setOnClickListener {
             userSession.workspace.url = workspace_url.getString()
             workspaceAddViewModel.checkServer(userSession.workspace)
-        })
+        }
 
     }
 }

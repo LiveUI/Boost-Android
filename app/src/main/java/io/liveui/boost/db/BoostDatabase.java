@@ -1,9 +1,9 @@
 package io.liveui.boost.db;
 
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.RoomDatabase;
-import android.arch.persistence.room.TypeConverters;
 
+import androidx.room.Database;
+import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import io.liveui.boost.api.model.User;
 
 @Database(entities = {Workspace.class, User.class}, version = 1)

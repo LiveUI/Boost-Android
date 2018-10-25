@@ -1,6 +1,7 @@
 package io.liveui.boost.di
 
 import android.app.Application
+import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.liveui.boost.BuildConfig
@@ -10,8 +11,12 @@ import io.liveui.boost.api.service.BoostAuthService
 import io.liveui.boost.api.service.BoostDownloadService
 import dagger.Module
 import dagger.Provides
+import io.liveui.boost.api.BoostUrlProvider
 import io.liveui.boost.api.service.BoostCheckService
 import io.liveui.boost.common.UserSession
+import io.liveui.boost.util.GsonUtil
+import io.liveui.boost.util.UrlProvider
+import io.liveui.boost.util.glide.GlideComponent
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -22,7 +27,7 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 
-@Module
+@Module(subcomponents = [(GlideComponent::class)])
 class NetworkModule {
 
     @Provides
@@ -40,14 +45,21 @@ class NetworkModule {
     }
 
     @Provides
+    fun provideGsonBuilder(): GsonBuilder = GsonBuilder()
+
+    @Provides
     @Singleton
     @Named("apiClient")
-    fun provideApiOkHttpClient(cache: Cache, authService: BoostAuthService, userSession: UserSession, @Named("apiInterceptors") interceptors: ArrayList<Interceptor>): OkHttpClient {
+    fun provideApiOkHttpClient(cache: Cache,
+                               authService: BoostAuthService,
+                               userSession: UserSession,
+                               @Named("apiInterceptors") apiInterceptors: ArrayList<Interceptor>,
+                               sharedPreferences: SharedPreferences): OkHttpClient {
         val client = OkHttpClient.Builder()
-        for (interceptor in interceptors) {
+        for (interceptor in apiInterceptors) {
             client.addInterceptor(interceptor)
         }
-        client.authenticator(TokenAuthenticator(authService, userSession.workspace))
+        client.authenticator(TokenAuthenticator(authService, userSession.workspace, sharedPreferences))
         client.cache(cache)
         return client.build()
     }
@@ -134,6 +146,12 @@ class NetworkModule {
     @Singleton
     fun provideCheckService(@Named("baseRetrofit") retrofit: Retrofit): BoostCheckService {
         return retrofit.create(BoostCheckService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUrlProvider(): UrlProvider {
+        return BoostUrlProvider()
     }
 
 }

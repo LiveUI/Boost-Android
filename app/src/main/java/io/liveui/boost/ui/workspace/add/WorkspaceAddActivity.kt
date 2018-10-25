@@ -2,12 +2,18 @@ package io.liveui.boost.ui.workspace.add
 
 import android.os.Bundle
 import io.liveui.boost.ui.BoostActivity
-import io.liveui.boost.util.ext.replaceFragmentInActivity
+import io.liveui.boost.util.navigation.FragmentNavigationItem
+import io.liveui.boost.util.navigation.MainNavigator
+import javax.inject.Inject
 
-class WorkspaceAddActivity: BoostActivity() {
+class WorkspaceAddActivity : BoostActivity() {
+
+    @Inject
+    lateinit var mainNavigator: MainNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        replaceFragmentInActivity(WorkspaceAddFragment(), android.R.id.content)
+        mainNavigator.containerId = android.R.id.content
+        mainNavigator.replaceFragment(FragmentNavigationItem(clazz = WorkspaceAddFragment::class.java))
     }
 }

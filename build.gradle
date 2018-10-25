@@ -1,15 +1,14 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.2.31'
+    ext.kotlin_version = '1.2.70'
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0-beta05'
+        classpath 'com.android.tools.build:gradle:3.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0-alpha01"
     }
 }
 
@@ -33,33 +32,33 @@ task clean(type: Delete) {
 ext {
     versionName = '0.1'
     minSdkVersion = 19
-    targetSdkVersion = "P"
-    compileSdkVersion = "android-P"
+    targetSdkVersion = 28
+    compileSdkVersion = 28
 
     //app
-    buildToolsVersion = '27.0.3'
-    supportLibVersion = '28.0.0-alpha1'
+    buildToolsVersion = '28.0.2'
+    supportLibVersion = '28.0.0'
     gson = '2.8.2'
     answers = '1.4.1'
     crashlytics = '2.8.0'
     multidex = '1.0.3'
     flexbox = '0.3.2'
-    glide = '4.6.1'
+    glide = '4.8.0'
     retrofit = '2.3.0'
-    constraint = '1.1.0-beta6'
+    constraint = '1.1.3'
     navigation = '1.0.0-alpha01'
     lifecycle = '1.1.1'
-    room = '1.1.0-beta2'
+    room = '1.1.1'
     rxjava = '2.1.9'
     rxandroid = '2.0.2'
     rxbinding = '2.1.1'
     okHttp = '3.9.0'
     okio = '1.13.0'
     okHttpLogging = '3.6.0'
-    timber = '4.6.1'
+    timber = '4.7.0'
     guava = '24.0-android'
-    dagger = '2.14.1'
-    ktx = '0.2'
+    dagger = '2.16'
+    ktx = '1.0.0'
     navigation = '1.0.0-alpha01'
 
     //android test
