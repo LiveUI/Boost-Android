@@ -6,16 +6,22 @@
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
     android:clickable="true"
-    android:focusable="true"
-    android:padding="@dimen/margin_16">
+    android:focusable="true">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/app_logo"
+        android:layout_width="@dimen/app_list_image"
+        android:layout_height="@dimen/app_list_image"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:src="@drawable/ic_download" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/app_name"
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/builds_count"
+        app:layout_constraintStart_toEndOf="@+id/app_logo"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Boost App" />
 
@@ -24,19 +30,27 @@
         style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_show_all"
+        app:layout_constraintStart_toStartOf="@+id/app_name"
         app:layout_constraintTop_toBottomOf="@+id/app_name"
         tools:text="com.example.app" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/app_version"
+        android:id="@+id/builds_count"
         style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_identifier"
-        tools:text="1.0.1" />
+        app:layout_constraintBottom_toBottomOf="@+id/app_name"
+        tools:text="1222" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_show_all"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/builds_count"
+        android:layout_height="wrap_content"
+        android:text="Show All"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

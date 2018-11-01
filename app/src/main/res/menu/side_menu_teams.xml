@@ -2,10 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/action_workspace"
-        android:icon="@drawable/ic_workspace"
-        android:title="@string/menu_workspace"
-        app:showAsAction="ifRoom" />
+    <group>
+        <item
+            android:id="@+id/action_workspace"
+            android:icon="@drawable/ic_workspace"
+            android:title="@string/menu_workspace" />
+
+        <item
+            android:id="@+id/action_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/menu_settings" />
+    </group>
 
 </menu>

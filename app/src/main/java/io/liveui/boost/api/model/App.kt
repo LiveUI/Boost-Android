@@ -27,13 +27,12 @@ data class App(val build: String,
                val name: String,
                val min_sdk: String?,
                val icon: Boolean,
-               val size_total: Long): IApp {
+               val size_total: Long) : IApp {
 
-    override fun getAppId(): String {
-       return id
-    }
+    override fun getAppVersion() = version
+    override fun getAppPlatform() = platform
+    override fun getAppId() = id
+    override fun getAppIdentifier() = identifier
+    override fun getAppName() = name
 
-    override fun getAppIdentifier(): String {
-        return identifier
-    }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.liveui.boost.common.EXTRA_APP_ID
@@ -38,14 +39,46 @@ class AppDetailFragment : BoostFragment() {
         appDetailViewModel = ViewModelProviders.of(this, apiViewModelFactory).get(AppDetailViewModel::class.java)
         appDetailViewModel.loadingStatus.observe(this, ProgressViewObserver(progressBar))
         appDetailViewModel.loadingStatus.observe(this, ProgressViewObserver(content_group, false))
-        appDetailViewModel.appInfo.observe(this, Observer<App> {
-            app_name?.text = it?.name
-            app_package_name?.text = it?.identifier
-            app_platform?.text = getString(R.string.app_detail_platform, it?.platform)
-            app_version?.text = getString(R.string.app_detail_version, it?.version)
+
+        appDetailViewModel.appName.observe(this, Observer {
+            app_name?.text = it
         })
+
+        appDetailViewModel.appIdentifier.observe(this, Observer {
+            app_package_name?.text = it
+        })
+
+        appDetailViewModel.appVersion.observe(this, Observer {
+            app_version?.text = it
+        })
+
+        appDetailViewModel.id.observe(this, Observer {
+            appDetailViewModel.loadAppIcon(app_logo, it)
+        })
+
         appDetailViewModel.getApp(arguments?.getString(EXTRA_APP_ID) ?: "")
-        btn_install.setOnClickListener({})
+
+        btn_install.setOnClickListener {
+            appDetailViewModel.downloadApp()
+        }
+        btn_settings.setOnClickListener {
+            appDetailViewModel.openSettings()
+        }
+        btn_open.setOnClickListener {
+            appDetailViewModel.openApp()
+        }
+
+        appDetailViewModel.isApkDownloadIdle.observe(this, Observer {
+            group_app_not_downloaded.visibility = if(it) ConstraintLayout.VISIBLE else ConstraintLayout.GONE
+        })
+
+        appDetailViewModel.isAppDownloadInProgress.observe(this, Observer {
+            group_app_downloaded_in_progress.visibility = if(it) ConstraintLayout.VISIBLE else ConstraintLayout.GONE
+        })
+
+        appDetailViewModel.isAppDownloaded.observe(this, Observer {
+            group_app_downloaded.visibility = if(it) ConstraintLayout.VISIBLE else ConstraintLayout.GONE
+        })
     }
 
 }

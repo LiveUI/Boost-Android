@@ -1,24 +1,22 @@
 package io.liveui.boost.ui.overview
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.*
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import io.liveui.boost.R
-import io.liveui.boost.common.model.LayoutManagerConfig
 import io.liveui.boost.common.vmfactory.ApiViewModeFactory
 import io.liveui.boost.di.scope.ActivityScope
 import io.liveui.boost.ui.BoostFragment
-import io.liveui.boost.ui.apps.AppsFragment
 import io.liveui.boost.ui.teams.TeamsViewModel
 import io.liveui.boost.ui.view.adapter.SpaceItemDecoration
 import io.liveui.boost.util.ProgressViewObserver
-import io.liveui.boost.util.navigation.FragmentNavigationItem
+import io.liveui.boost.util.navigation.MAIN_NAVIGATOR
 import io.liveui.boost.util.navigation.MainNavigator
 import kotlinx.android.synthetic.main.fragment_overview.*
 import javax.inject.Inject
+import javax.inject.Named
 
 class OverviewFragment : BoostFragment() {
 
@@ -30,10 +28,12 @@ class OverviewFragment : BoostFragment() {
     lateinit var overviewViewModel: OverviewViewModel
 
     @Inject
-    lateinit var overviewAdapter: OverviewAdapter
+    lateinit var overviewGridAdapter: OverviewGridAdapter
 
     @Inject
-    @ActivityScope
+    lateinit var overviewListAdapter: OverviewListAdapter
+
+    @field:[Inject ActivityScope Named(MAIN_NAVIGATOR)]
     lateinit var mainNavigator: MainNavigator
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -47,43 +47,32 @@ class OverviewFragment : BoostFragment() {
         teamsViewModel.loadingStatus.observe(this, ProgressViewObserver(progress_bar))
         teamsViewModel.loadingStatus.observe(this, ProgressViewObserver(recycler_view, false))
 
-        overviewViewModel.overviewData.observe(this, overviewAdapter)
+        overviewViewModel.overviewData.observe(this, overviewGridAdapter)
+        overviewViewModel.overviewData.observe(this, overviewListAdapter)
 
-        recycler_view.adapter = overviewAdapter
+        recycler_view.adapter = overviewGridAdapter
         recycler_view.layoutManager = GridLayoutManager(context, 2)
         recycler_view.addItemDecoration(SpaceItemDecoration(resources.getDimensionPixelSize(R.dimen.overview_column_space)))
 
-        btn_show_grid.setOnClickListener { overviewViewModel.showGrid() }
-        btn_show_list.setOnClickListener { overviewViewModel.showList() }
+        btn_show_grid.setOnClickListener {
+            recycler_view.adapter = overviewGridAdapter
+            overviewViewModel.showGrid()
+        }
+        btn_show_list.setOnClickListener {
+            recycler_view.adapter = overviewListAdapter
+            overviewViewModel.showList()
+        }
 
         teamsViewModel.activeTeam.observe(this, Observer {
-            if (it == null) {
-                overviewViewModel.loadAppsOverview()
+            if (it != null && !it.id.isEmpty()) {
+                overviewViewModel.activeTeam.postValue(it)
             } else {
-                overviewViewModel.loadTeamAppsOverview(it.id)
+                overviewViewModel.activeTeam.postValue(null)
             }
         })
 
-        recycler_view.addDisposable(
-                overviewAdapter.subject.subscribe {
-                    overviewViewModel.activeOverview.value = it
-                    mainNavigator.replaceFragment(FragmentNavigationItem(clazz = AppsFragment::class.java, addToBackStack = true))
-                }
-        )
-
-        overviewViewModel.layoutType.observe(this, Observer {
-            when (it) {
-                LayoutManagerConfig.PHONE_LIST -> {
-                    recycler_view.layoutManager = LinearLayoutManager(context)
-                }
-                LayoutManagerConfig.PHONE_GRID -> {
-                    recycler_view.layoutManager = GridLayoutManager(context, 2)
-                }
-                LayoutManagerConfig.TABLET_LIST -> {
-                }
-                LayoutManagerConfig.TABLET_GRID -> {
-                }
-            }
+        overviewViewModel.layoutManager.observe(this, Observer {
+            recycler_view.layoutManager = it
         })
     }
 

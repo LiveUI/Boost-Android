@@ -15,17 +15,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/ic_download" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_install"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_16"
-        android:text="@string/common_install"
-        app:layout_constraintEnd_toEndOf="@+id/app_logo"
-        app:layout_constraintStart_toStartOf="@+id/app_logo"
-        app:layout_constraintTop_toBottomOf="@+id/app_logo" />
-
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/app_name"
         style="@style/TextAppearance.AppCompat.Headline"
@@ -59,16 +48,100 @@
         app:layout_constraintTop_toBottomOf="@+id/app_package_name"
         tools:text="Version: 1.2.3" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/app_platform"
-        style="@style/TextAppearance.AppCompat.Caption"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier_app_info_general"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="app_logo,app_name,app_package_name,app_version" />
+
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_app_not_downloaded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="btn_install" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_app_downloaded"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="btn_open,btn_settings,btn_more" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_app_downloaded_in_progress"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="app_download_progress_bar"/>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier_actions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="app_download_progress_bar,btn_install,btn_open,btn_settings,btn_more"/>
+
+    <ProgressBar
+        android:id="@+id/app_download_progress_bar"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_16"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/app_name"
-        app:layout_constraintTop_toBottomOf="@+id/app_version"
-        tools:text="Platform: Android" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barrier_app_info_general" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_install"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:text="@string/common_install"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barrier_app_info_general" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_open"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/app_detail_button_height"
+        android:layout_marginTop="@dimen/margin_16"
+        android:drawableTop="@drawable/ic_open_app"
+        android:drawablePadding="@dimen/margin_8"
+        android:text="@string/common_open"
+        app:layout_constraintRight_toLeftOf="@+id/btn_settings"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barrier_app_info_general" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_settings"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/app_detail_button_height"
+        android:layout_marginTop="@dimen/margin_16"
+        android:drawableTop="@drawable/ic_settings"
+        android:drawablePadding="@dimen/margin_8"
+        android:text="@string/common_settings"
+        app:layout_constraintLeft_toRightOf="@+id/btn_open"
+        app:layout_constraintRight_toLeftOf="@+id/btn_more"
+        app:layout_constraintTop_toBottomOf="@+id/barrier_app_info_general" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_more"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/app_detail_button_height"
+        android:layout_marginTop="@dimen/margin_16"
+        android:drawableTop="@drawable/ic_more_horiz"
+        android:drawablePadding="@dimen/margin_8"
+        android:text="@string/common_more"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/btn_settings"
+        app:layout_constraintTop_toBottomOf="@+id/barrier_app_info_general" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/app_description"
@@ -78,7 +151,7 @@
         android:layout_marginTop="@dimen/margin_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/app_name"
-        app:layout_constraintTop_toBottomOf="@+id/app_platform"
+        app:layout_constraintTop_toBottomOf="@+id/barrier_actions"
         tools:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin pede metus, vulputate nec, fermentum fringilla, vehicula vitae, justo. Curabitur vitae diam non enim vestibulum interdum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos." />
 
     <ProgressBar
@@ -96,6 +169,6 @@
         android:id="@+id/content_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="app_logo,btn_install,app_name,app_package_name,app_version,app_platform,app_description"/>
+        app:constraint_referenced_ids="app_logo,app_name,app_package_name,app_version,app_description" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

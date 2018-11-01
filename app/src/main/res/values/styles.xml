@@ -1,21 +1,23 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:textColor">@color/text_primary_color</item>
     </style>
 
-    <style name="MainTheme" parent="Theme.AppCompat.Light">
+    <style name="MainTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowTranslucentStatus">true</item>
         <item name="actionBarTheme">@style/ActionBarTransparent</item>
         <item name="android:textColor">@color/text_primary_color</item>
     </style>
@@ -75,6 +77,13 @@
         <item name="android:paddingBottom">@dimen/edit_text_padding_bottom</item>
         <item name="android:textColor">@color/edit_text_white_transparent</item>
         <item name="android:textColorHint">@color/text_hint</item>
+    </style>
+
+    <style name="Widget.Design.NavigationView.Dark">
+        <item name="itemBackground">@color/sideMenuBackground</item>
+        <item name="android:background">@color/sideMenuBackground</item>
+        <item name="itemIconTint">@android:color/white</item>
+        <item name="itemTextColor">@android:color/white</item>
     </style>
 
 </resources>

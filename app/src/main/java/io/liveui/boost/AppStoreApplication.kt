@@ -16,18 +16,18 @@ class AppStoreApplication : DaggerApplication() {
     @Inject
     lateinit var permissionHelper: PermissionHelper
 
-    companion object {
-        lateinit var component: AppComponent
-    }
-
-
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         MultiDex.install(this)
         Timber.plant(Timber.DebugTree())
         RxJavaPlugins.setErrorHandler {
-            Timber.d(it)
+            Timber.e(it)
         }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        permissionHelper.start()
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
@@ -37,8 +37,7 @@ class AppStoreApplication : DaggerApplication() {
         return component
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        permissionHelper.start()
+    companion object {
+        lateinit var component: AppComponent
     }
 }

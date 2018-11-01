@@ -1,60 +1,64 @@
 package io.liveui.boost.ui.overview
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.Transformations
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import io.liveui.boost.api.model.AppOverview
+import io.liveui.boost.api.model.Team
 import io.liveui.boost.api.usecase.BoostApiUseCase
 import io.liveui.boost.common.model.LayoutManagerConfig
+import io.liveui.boost.util.ContextProvider
 import io.liveui.boost.util.LifecycleViewModel
+import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class OverviewViewModel(private val boostApiUseCase: BoostApiUseCase) : LifecycleViewModel() {
+class OverviewViewModel(private val boostApiUseCase: BoostApiUseCase,
+                        private val contextProvider: ContextProvider) : LifecycleViewModel() {
 
-    private val disposable: CompositeDisposable = CompositeDisposable()
-
-    val overviewData: MutableLiveData<MutableList<AppOverview>> = MutableLiveData()
-
-    val activeOverview: MutableLiveData<AppOverview> = MutableLiveData()
-
-    val layoutType: MutableLiveData<LayoutManagerConfig> = MutableLiveData()
-
-    override fun onCleared() {
-        disposable.clear()
-    }
-
-    fun loadAppsOverview() {
-        addDisposable(boostApiUseCase.appsOverview()
+    val activeTeam: MutableLiveData<Team?> = MutableLiveData()
+    val overviewData: LiveData<MutableList<AppOverview>> = Transformations.switchMap(activeTeam) { team ->
+        team?.let {
+            LiveDataReactiveStreams.fromPublisher(boostApiUseCase.teamAppsOverview(it.id)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread()).toFlowable(BackpressureStrategy.BUFFER))
+        } ?: LiveDataReactiveStreams.fromPublisher(boostApiUseCase.appsOverview()
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    overviewData.postValue(it)
-                }, {
-                    it.printStackTrace()
-                }))
+                .observeOn(AndroidSchedulers.mainThread()).toFlowable(BackpressureStrategy.BUFFER))
+    }
+    val layoutManager: MutableLiveData<RecyclerView.LayoutManager> = MutableLiveData()
+
+    fun setLayoutManager(phone: Boolean, list: Boolean) {
+        val managerConfig = LayoutManagerConfig.getType(phone, list)
+        layoutManager.postValue(getLayoutManagerByConfiguration(managerConfig))
     }
 
-    fun loadTeamAppsOverview(id: String) {
-        addDisposable(boostApiUseCase.teamAppsOverview(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    overviewData.postValue(it)
-                }, {
-                    it.printStackTrace()
-                }))
-    }
-
-    fun changeLayoutManager(phone: Boolean, list: Boolean) {
-        layoutType.postValue(LayoutManagerConfig.getType(phone, list))
+    fun getLayoutManagerByConfiguration(layoutManagerConfig: LayoutManagerConfig): RecyclerView.LayoutManager {
+        return when (layoutManagerConfig) {
+            LayoutManagerConfig.PHONE_LIST -> {
+                LinearLayoutManager(contextProvider.app)
+            }
+            LayoutManagerConfig.PHONE_GRID -> {
+                GridLayoutManager(contextProvider.app, 2)
+            }
+            LayoutManagerConfig.TABLET_LIST -> {
+                LinearLayoutManager(contextProvider.app)
+            }
+            LayoutManagerConfig.TABLET_GRID -> {
+                GridLayoutManager(contextProvider.app, 4)
+            }
+        }
     }
 
     fun showList() {
-        layoutType.postValue(LayoutManagerConfig.PHONE_LIST)
+        setLayoutManager(true, true)
     }
 
     fun showGrid() {
-        layoutType.postValue(LayoutManagerConfig.PHONE_GRID)
+        setLayoutManager(true, false)
     }
 }

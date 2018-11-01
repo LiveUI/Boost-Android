@@ -1,14 +1,13 @@
 package io.liveui.boost.ui.workspace.all
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import io.liveui.boost.R
 import io.liveui.boost.common.vmfactory.WorkspaceModelFactory
 import io.liveui.boost.db.Workspace

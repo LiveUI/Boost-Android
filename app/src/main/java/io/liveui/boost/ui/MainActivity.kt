@@ -1,23 +1,29 @@
 package io.liveui.boost.ui
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.MenuItem
-import androidx.appcompat.app.ActionBar
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.liveui.boost.R
-import io.liveui.boost.common.UserSession
 import io.liveui.boost.common.vmfactory.ApiViewModeFactory
+import io.liveui.boost.databinding.ActivityMainBinding
 import io.liveui.boost.di.scope.ActivityScope
 import io.liveui.boost.ui.overview.OverviewFragment
+import io.liveui.boost.ui.settings.SettingsActivity
+import io.liveui.boost.ui.teams.TeamsFragment
 import io.liveui.boost.ui.teams.TeamsViewModel
-import io.liveui.boost.util.ext.setupView
+import io.liveui.boost.ui.workspace.all.WorkspaceListActivity
+import io.liveui.boost.util.ext.setDatabindingContentView
+import io.liveui.boost.util.ext.setupToolbar
 import io.liveui.boost.util.navigation.FragmentNavigationItem
+import io.liveui.boost.util.navigation.MAIN_NAVIGATOR
 import io.liveui.boost.util.navigation.MainNavigator
+import io.liveui.boost.util.navigation.SECONDARY_NAVIGATOR
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.view_toolbar.*
 import javax.inject.Inject
+import javax.inject.Named
 
 
 /**
@@ -26,39 +32,78 @@ import javax.inject.Inject
 class MainActivity : BoostActivity() {
 
     @Inject
-    lateinit var userSession: UserSession
-
-    @Inject
     lateinit var apiViewModelFactory: ApiViewModeFactory
 
-    @Inject
-    @ActivityScope
+    @field:[Inject ActivityScope Named(MAIN_NAVIGATOR)]
     lateinit var mainNavigator: MainNavigator
+
+    @field:[Inject ActivityScope Named(SECONDARY_NAVIGATOR)]
+    lateinit var sideNavigator: MainNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
-        supportActionBar?.apply {
-           setDisplayHomeAsUpEnabled(true)
-           setHomeAsUpIndicator(R.drawable.ic_sidemenu_button)
-        }
         val teamsViewModel = ViewModelProviders.of(this, apiViewModelFactory).get(TeamsViewModel::class.java)
+        val toolbarVM = ViewModelProviders.of(this, apiViewModelFactory).get(ToolbarViewModel::class.java)
+        setDatabindingContentView<ActivityMainBinding>(R.layout.activity_main) {
+            toolbarViewModel = toolbarVM
+        }
 
-        mainNavigator.fragmentManager = supportFragmentManager
-        mainNavigator.containerId = R.id.fragment_container
+        setupToolbar(toolbar) {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_sidemenu_button)
+        }
+
+        initMainNavigator()
+        initSideMenuNavigator()
+        showAppOverviewFragment()
+        showTeamsFragment()
 
         teamsViewModel.activeTeam.observe(this, Observer {
-            toolbar.title = it?.name
+            toolbarVM.title.postValue(it?.name)
             drawer_layout.closeDrawers()
         })
 
         teamsViewModel.teamInfo.observe(this, Observer {
-            toolbar.subtitle = "${it.apps} Applications, ${it.builds} builds"
+            toolbarVM.subtitle.postValue("${it.apps} Applications, ${it.builds} builds")
         })
 
+        navigation_view.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.action_workspace -> {
+                    WorkspaceListActivity.startActivity(this)
+                    true
+                }
+                R.id.action_settings -> {
+                    SettingsActivity.startActivity(this)
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
+    }
 
+    private fun initMainNavigator() {
+        mainNavigator.apply {
+            fragmentManager = supportFragmentManager
+            containerId = R.id.fragment_container
+        }
+    }
+
+    private fun initSideMenuNavigator() {
+        sideNavigator.apply {
+            fragmentManager = supportFragmentManager
+            containerId = R.id.side_menu_container
+        }
+    }
+
+    private fun showAppOverviewFragment() {
         mainNavigator.replaceFragment(FragmentNavigationItem(OverviewFragment::class.java))
+    }
+
+    private fun showTeamsFragment() {
+        sideNavigator.replaceFragment(FragmentNavigationItem(TeamsFragment::class.java))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -74,7 +119,7 @@ class MainActivity : BoostActivity() {
     }
 
     override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(Gravity.START)) {
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawers()
         } else {
             super.onBackPressed()

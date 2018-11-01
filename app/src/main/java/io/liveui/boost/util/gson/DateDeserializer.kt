@@ -11,14 +11,6 @@ import java.util.*
 
 class DateDeserializer : JsonDeserializer<Calendar>, JsonSerializer<Calendar> {
 
-    companion object {
-        @SuppressLint("ConstantLocale")
-        val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-        @SuppressLint("ConstantLocale")
-        private val SIMPLE_DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val DATE_FORMATS = arrayOf<DateFormat>(DATE_FORMAT, SIMPLE_DATE_FORMAT)
-    }
-
     override fun serialize(cal: Calendar, arg1: Type, arg2: JsonSerializationContext): JsonElement {
         return JsonPrimitive(DATE_FORMAT.format(cal.time))
     }
@@ -35,5 +27,13 @@ class DateDeserializer : JsonDeserializer<Calendar>, JsonSerializer<Calendar> {
             }
         }
         return null
+    }
+
+    companion object {
+        @SuppressLint("ConstantLocale")
+        val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+        @SuppressLint("ConstantLocale")
+        private val SIMPLE_DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val DATE_FORMATS = arrayOf<DateFormat>(DATE_FORMAT, SIMPLE_DATE_FORMAT)
     }
 }

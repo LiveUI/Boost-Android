@@ -4,6 +4,8 @@ import io.liveui.boost.api.model.*
 import io.liveui.boost.api.service.BoostApiService
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import retrofit2.http.Query
 import javax.inject.Inject
 
@@ -67,7 +69,7 @@ class BoostApiUseCase @Inject constructor(private val apiService: BoostApiServic
     }
 
     fun getApp(id: String): Observable<App> {
-        return apiService.getApp(id)
+        return apiService.getApp(id).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
     }
 
     fun updateApp(id: String, app: App): Observable<App> {

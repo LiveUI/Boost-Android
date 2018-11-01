@@ -25,9 +25,12 @@ class IOUtil @Inject constructor(val gsonUtil: GsonUtil,
         }
     }
 
-    fun <T> loadJsonObjectFromFile(dest: File, fileName: String, clazz: Class<T>): Observable<T?> {
+    fun <T> loadJsonObjectFromFile(dest: File, fileName: String, clazz: Class<T>): Observable<T> {
         return Observable.fromCallable {
             val file = File(dest, fileName)
+            if (!file.exists()) {
+                throw FileNotFoundException()
+            }
             val json = file.readText()
             gsonUtil.get().fromJson(json, clazz)
         }
@@ -37,7 +40,7 @@ class IOUtil @Inject constructor(val gsonUtil: GsonUtil,
         return File(dest, fileName + suffix).exists()
     }
 
-    fun getApkInfoFile(appId: String): Observable<FileInfo?> {
+    fun getApkInfoFile(appId: String): Observable<FileInfo> {
         return loadJsonObjectFromFile(storageProvider.getExternalDownloadFolder(), appId + JSON, FileInfo::class.java)
     }
 

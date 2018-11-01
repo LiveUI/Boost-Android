@@ -48,6 +48,7 @@ class TeamsViewModel constructor(private val apiUseCase: BoostApiUseCase) : Life
                     loadingStatus.value = true
                 }
                 .doOnNext {
+                    activeTeam.postValue(it.firstOrNull())
                     loadingStatus.value = false
                     teams.value = it
                 }

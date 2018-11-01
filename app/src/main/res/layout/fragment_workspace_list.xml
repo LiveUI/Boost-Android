@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/sideMenuBackground">
+    android:fitsSystemWindows="true">
 
     <io.liveui.boost.ui.view.adapter.BoostRecyclerView
         android:id="@+id/recycler_view"

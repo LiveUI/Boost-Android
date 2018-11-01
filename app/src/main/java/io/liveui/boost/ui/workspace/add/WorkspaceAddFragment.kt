@@ -38,7 +38,7 @@ class WorkspaceAddFragment : BoostFragment() {
         super.onViewCreated(view, savedInstanceState)
         workspaceAddViewModel = ViewModelProviders.of(this, checkViewModelFactory).get(WorkspaceAddViewModel::class.java)
         workspaceAddViewModel.serverExists.observe(this, Observer {
-            if (it!!) {
+            if (it == true) {
                 startActivity(Intent(context, LoginActivity::class.java))
             } else {
                 view.showSnackBar("Server doesn't exists", Snackbar.LENGTH_SHORT)

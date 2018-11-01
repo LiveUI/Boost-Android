@@ -23,16 +23,13 @@ import io.liveui.boost.util.ProgressViewObserver
 import io.liveui.boost.util.ext.getString
 import io.liveui.boost.util.ext.showSnackBar
 import io.liveui.boost.util.navigation.FragmentNavigationItem
+import io.liveui.boost.util.navigation.MAIN_NAVIGATOR
 import io.liveui.boost.util.navigation.MainNavigator
 import kotlinx.android.synthetic.main.fragment_intro.*
 import javax.inject.Inject
+import javax.inject.Named
 
 class ChooseServerFragment : BoostFragment() {
-
-    companion object {
-        const val TAB_LOCAL = "local"
-        const val TAB_CUSTOM = "custom"
-    }
 
     @Inject
     lateinit var checkViewModelFactory: CheckViewModelFactory
@@ -42,8 +39,7 @@ class ChooseServerFragment : BoostFragment() {
     @Inject
     lateinit var userSession: UserSession
 
-    @Inject
-    @ActivityScope
+    @field:[Inject ActivityScope Named(MAIN_NAVIGATOR)]
     lateinit var mainNavigator: MainNavigator
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -95,6 +91,11 @@ class ChooseServerFragment : BoostFragment() {
         btn_register.setOnClickListener {
             mainNavigator.replaceFragment(FragmentNavigationItem(clazz = RegisterFragment::class.java, addToBackStack = true))
         }
+    }
+
+    companion object {
+        const val TAB_LOCAL = "local"
+        const val TAB_CUSTOM = "custom"
     }
 
 }

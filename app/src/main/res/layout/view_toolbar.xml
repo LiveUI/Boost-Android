@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="io.liveui.boost.ui.ToolbarViewModel" />
+
+    </data>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
+        app:subtitleTextAppearance="@style/ToolbarSubtitle"
+        app:subtitleTextColor="@color/text_primary_color"
+        app:titleTextAppearance="@style/ToolbarTitle"
+        app:titleTextColor="@color/text_primary_dark_color"
+        app:title="@{viewModel.title}"
+        app:subtitle="@{viewModel.subtitle}"
+        tools:showIn="@layout/activity_main" />
+
+</layout>
+        

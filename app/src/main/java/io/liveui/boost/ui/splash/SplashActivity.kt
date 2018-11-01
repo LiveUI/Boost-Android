@@ -10,7 +10,6 @@ import io.liveui.boost.db.Workspace
 import io.liveui.boost.ui.BoostActivity
 import io.liveui.boost.ui.MainActivity
 import io.liveui.boost.ui.login.LoginActivity
-import io.liveui.boost.ui.workspace.add.WorkspaceAddActivity
 import javax.inject.Inject
 
 class SplashActivity : BoostActivity() {

@@ -14,20 +14,19 @@ apply plugin: 'kotlin-kapt'
 
 android {
 
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion versions.compileSdkVersion
 
     defaultConfig {
         applicationId "io.liveui.boost"
-        minSdkVersion rootProject.ext.minSdkVersion
-        versionName rootProject.ext.versionName
+        minSdkVersion versions.minSdkVersion
+        targetSdkVersion versions.targetSdkVersion
+        versionName versions.versionName
         versionCode getAppVersionCode()
-        targetSdkVersion rootProject.ext.targetSdkVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
-        resValue "string", "default_username", "admin@liveui.io"
-        resValue "string", "default_password", "admin"
+        resValue "string", "default_username", "core@liveui.io"
+        resValue "string", "default_password", "sup3rS3cr3t"
     }
 
     buildTypes {
@@ -94,6 +93,10 @@ android {
         }
     }
 
+    dataBinding {
+        enabled = true
+    }
+
 }
 
 
@@ -113,68 +116,51 @@ tasks.withType(SpotBugsTask) {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-    implementation 'androidx.room:room-runtime:2.0.0'
-    implementation 'androidx.room:room-rxjava2:2.0.0'
-    implementation 'androidx.lifecycle:lifecycle-reactivestreams:2.0.0'
-    implementation 'androidx.multidex:multidex:2.0.0'
-    implementation 'androidx.annotation:annotation:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
-    implementation "com.google.android:flexbox:${rootProject.ext.flexbox}"
-    implementation "androidx.core:core-ktx:${rootProject.ext.ktx}"
-    implementation "com.google.code.gson:gson:${rootProject.ext.gson}"
-    implementation "com.google.dagger:dagger:${rootProject.ext.dagger}"
-    implementation "com.google.dagger:dagger-android-support:${rootProject.ext.dagger}"
-    implementation "com.google.guava:guava:${rootProject.ext.guava}"
-    implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:${rootProject.ext.rxbinding}"
-    implementation "com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:${rootProject.ext.rxbinding}"
-    implementation "com.jakewharton.rxbinding2:rxbinding-design-kotlin:${rootProject.ext.rxbinding}"
-    implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:${rootProject.ext.rxbinding}"
-    implementation "com.jakewharton.timber:timber:${rootProject.ext.timber}"
-    implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofit}"
-    implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofit}"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:${rootProject.ext.retrofit}"
-    implementation "com.squareup.okhttp3:okhttp:${rootProject.ext.okHttp}"
-    implementation "com.squareup.okio:okio:${rootProject.ext.okio}"
-    implementation "com.squareup.okhttp3:logging-interceptor:${rootProject.ext.okHttpLogging}"
-    implementation "com.github.bumptech.glide:annotations:${rootProject.ext.glide}"
-    implementation "com.github.bumptech.glide:glide:${rootProject.ext.glide}"
-    implementation "com.github.bumptech.glide:okhttp3-integration:${rootProject.ext.glide}"
-    implementation "io.reactivex.rxjava2:rxjava:${rootProject.ext.rxjava}"
-    implementation "io.reactivex.rxjava2:rxandroid:${rootProject.ext.rxandroid}"
-    implementation group: 'commons-io', name: 'commons-io', version: '2.6'
-    implementation group: 'org.apache.commons', name: 'commons-text', version: '1.2'
+    api dept.androidx.annotation
+    api dept.androidx.appcompat
+    api dept.androidx.cardview
+    api dept.androidx.constraint
+    api dept.androidx.ktx
+    api dept.androidx.legacy_support_v4
+    api dept.androidx.lifecycle_extensions
+    api dept.androidx.lifecycle_reactivestreams
+    api dept.androidx.multidex
+    api dept.androidx.recyclerview
+    api dept.androidx.room_runtime
+    api dept.androidx.room_rxjava2
 
-    kapt "com.github.bumptech.glide:compiler:${rootProject.ext.glide}"
-    kapt "com.google.dagger:dagger-compiler:${rootProject.ext.dagger}"
-    kapt "com.google.dagger:dagger-android-processor:${rootProject.ext.dagger}"
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.0.0'
-    kapt 'androidx.room:room-compiler:2.0.0'
+    api dept.databinding.databinding_adapter
+    api dept.databinding.databinding_adapter_recyclerview
 
-    testImplementation 'androidx.arch.core:core-testing:2.0.0'
-    testImplementation 'androidx.room:room-testing:2.0.0'
-    testImplementation "org.mockito:mockito-inline:2.15.0"
-    androidTestImplementation 'androidx.annotation:annotation:1.0.0'
-    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0-alpha4'
-    androidTestImplementation "org.hamcrest:hamcrest-integration:${rootProject.ext.hamcrest}"
-    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0-alpha4') {
-        exclude module: 'support-annotations'
-        exclude group: 'com.google.code.findbugs'
-    }
-    androidTestImplementation('androidx.test:runner:1.1.0-alpha4') {
-        exclude module: 'support-annotations'
-    }
+    api dept.github.glide
+    api dept.github.glide_annotations
+    api dept.github.glide_okhttp3
 
-    androidTestImplementation('androidx.test:rules:1.1.0-alpha4') {
-        exclude module: 'support-annotations'
-    }
+    api dept.google.dagger
+    api dept.google.dagger_support
+    api dept.google.gson
+    api dept.google.material
+
+    api dept.kotlin.kotlin_stdlib
+
+    api dept.rxjava.rxandroid
+    api dept.rxjava.rxjava
+
+    api dept.square.okhttp3
+    api dept.square.okHttp_logging
+    api dept.square.okio
+    api dept.square.retrofit
+    api dept.square.retrofit_adapter_rx
+    api dept.square.retrofit_converter_gson
+    api dept.square.timber
+
+    kapt dept.google.dagger_compiler
+    kapt dept.google.dagger_apt
+    kapt dept.github.glide_compiler
+    kapt dept.androidx.lifecycle_compiler
+    kapt dept.androidx.room_compiler
+
 }
 
 

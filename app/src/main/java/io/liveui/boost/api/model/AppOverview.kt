@@ -23,11 +23,10 @@ data class AppOverview(val latest_app_name: String,
                        val latest_app_icon: Boolean,
                        val latest_app_id: String) : IApp {
 
-    override fun getAppId(): String {
-        return latest_app_id
-    }
+    override fun getAppVersion() = latest_app_version
+    override fun getAppPlatform() = platform
+    override fun getAppId() = latest_app_id
+    override fun getAppIdentifier() = identifier
+    override fun getAppName() = latest_app_name
 
-    override fun getAppIdentifier(): String {
-        return identifier
-    }
 }
