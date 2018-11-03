@@ -16,8 +16,7 @@ import javax.inject.Singleton
     InterceptorModule::class,
     NetworkModule::class,
     UtilModule::class,
-    DataModule::class,
-    AppModule::class])
+    DataModule::class])
 interface AppComponent : AndroidInjector<AppStoreApplication> {
 
     fun glideComponentBuilder(): GlideComponent.Builder

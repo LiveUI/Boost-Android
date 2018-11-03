@@ -1,13 +1,15 @@
 package io.liveui.boost.di
 
-import io.liveui.boost.common.vmfactory.ApiViewModeFactory
-import io.liveui.boost.api.usecase.BoostApiUseCase
 import dagger.Module
 import dagger.Provides
-import io.liveui.boost.download.BoostDownloadManager
-import io.liveui.boost.util.ContextProvider
-import io.liveui.boost.util.IOUtil
-import io.liveui.boost.util.glide.GlideProvider
+import io.liveui.boost.common.vmfactory.ApiViewModeFactory
+import io.liveui.boost.ui.ToolbarViewModel
+import io.liveui.boost.ui.appdetail.AppDetailViewModel
+import io.liveui.boost.ui.apps.AppsViewModel
+import io.liveui.boost.ui.overview.OverviewViewModel
+import io.liveui.boost.ui.register.RegisterViewModel
+import io.liveui.boost.ui.teams.TeamsViewModel
+import javax.inject.Provider
 
 /**
  * Created by Vojtech Hrdina on 26/02/2018.
@@ -16,12 +18,13 @@ import io.liveui.boost.util.glide.GlideProvider
 class ApiModule {
 
     @Provides
-    fun providesApiViewModelFactory(apiUseCase: BoostApiUseCase,
-                                    downloadManager: BoostDownloadManager,
-                                    glideProvider: GlideProvider,
-                                    ioUtil: IOUtil,
-                                    contextProvider: ContextProvider):
+    fun providesApiViewModelFactory(appViewModelProvider: Provider<AppsViewModel>,
+                                    teamsViewModel: Provider<TeamsViewModel>,
+                                    appDetailViewModel: Provider<AppDetailViewModel>,
+                                    overviewViewModel: Provider<OverviewViewModel>,
+                                    registerViewModel: Provider<RegisterViewModel>,
+                                    toolbarViewModel: Provider<ToolbarViewModel>):
             ApiViewModeFactory {
-        return ApiViewModeFactory(apiUseCase, downloadManager, glideProvider, ioUtil, contextProvider)
+        return ApiViewModeFactory(appViewModelProvider,teamsViewModel, appDetailViewModel, overviewViewModel, registerViewModel, toolbarViewModel)
     }
 }

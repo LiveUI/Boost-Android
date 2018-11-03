@@ -1,7 +1,6 @@
 package io.liveui.boost.util.glide
 
 import dagger.Subcomponent
-import io.liveui.boost.di.AppModule
 
 @Subcomponent
 interface GlideComponent {

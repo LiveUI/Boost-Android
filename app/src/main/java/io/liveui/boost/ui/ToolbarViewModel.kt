@@ -6,7 +6,7 @@ import io.liveui.boost.util.LifecycleViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
-class ToolbarViewModel @Inject constructor(contextProvider: ContextProvider) : LifecycleViewModel() {
+class ToolbarViewModel @Inject constructor() : LifecycleViewModel() {
 
     val title = MutableLiveData<String?>()
     val subtitle = MutableLiveData<String?>()

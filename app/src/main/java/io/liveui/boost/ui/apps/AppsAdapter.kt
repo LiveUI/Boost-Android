@@ -14,13 +14,13 @@ import kotlinx.android.synthetic.main.view_holder_app.view.*
 import javax.inject.Inject
 import javax.inject.Provider
 
-class AppsAdapter @Inject constructor(val baseAppViewModelProvider: Provider<AppViewModel>) : BaseObservableAdapter<App, AppsViewHolder>() {
+class AppsAdapter @Inject constructor(private val appsItemViewModelProvider: Provider<AppsItemViewModel>) : BaseObservableAdapter<App, AppsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppsViewHolder {
         return AppsViewHolder(
                 LayoutInflater.from(parent.context).inflate(R.layout.view_holder_app, parent, false),
                 this,
-                baseAppViewModelProvider.get())
+                appsItemViewModelProvider.get())
     }
 
     override fun onBindViewHolder(holder: AppsViewHolder, position: Int) {
@@ -30,7 +30,7 @@ class AppsAdapter @Inject constructor(val baseAppViewModelProvider: Provider<App
 
 class AppsViewHolder(itemView: View,
                      onClickListener: OnItemClickListener?,
-                     val baseAppViewModel: AppViewModel) : BaseViewHolder<App>(itemView, onClickListener) {
+                     private val appsItemViewModel: AppsItemViewModel) : BaseViewHolder<App>(itemView, onClickListener) {
 
     init {
         itemView.setOnClickListener(this)
@@ -43,26 +43,26 @@ class AppsViewHolder(itemView: View,
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btn_download -> {
-                baseAppViewModel.downloadApp()
+                appsItemViewModel.downloadApp()
             }
             R.id.btn_settings -> {
-                baseAppViewModel.openSettings()
+                appsItemViewModel.openSettings()
             }
             R.id.btn_open -> {
-                baseAppViewModel.openApp()
+                appsItemViewModel.openApp()
             }
             R.id.btn_more -> {
                 showMenuMore(v)
             }
             else -> {
-                baseAppViewModel.openAppDetail()
+                appsItemViewModel.openAppDetail()
             }
         }
     }
 
     override fun setData(item: App) {
-        baseAppViewModel.app = item
-        baseAppViewModel.downloadStatus.observeForever {
+        appsItemViewModel.app = item
+        appsItemViewModel.downloadStatus.observeForever {
             when {
                 it == DownloadStatus.COMPLETED -> {
                     itemView.group_app_downloaded.visibility = View.VISIBLE
@@ -85,7 +85,7 @@ class AppsViewHolder(itemView: View,
         itemView.app_version.text = item.version
         itemView.app_identifier.text = item.identifier
 
-        baseAppViewModel.loadAppIcon(itemView.app_logo, item.id)
+        appsItemViewModel.loadAppIcon(itemView.app_logo, item.id)
     }
 
     fun showMenuMore(view: View) {
@@ -94,7 +94,7 @@ class AppsViewHolder(itemView: View,
         menu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_download -> {
-                    baseAppViewModel.downloadApp()
+                    appsItemViewModel.downloadApp()
                 }
             }
             true

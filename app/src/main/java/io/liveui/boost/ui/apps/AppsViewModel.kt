@@ -1,16 +1,19 @@
 package io.liveui.boost.ui.apps
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.LiveDataReactiveStreams
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import io.liveui.boost.api.model.App
 import io.liveui.boost.api.usecase.BoostApiUseCase
 import io.liveui.boost.util.LifecycleViewModel
 import io.reactivex.BackpressureStrategy
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 
-class AppsViewModel constructor(private val apiUseCase: BoostApiUseCase) : LifecycleViewModel() {
+class AppsViewModel @Inject constructor(private val apiUseCase: BoostApiUseCase) : LifecycleViewModel() {
 
     val activeIdentifier = MutableLiveData<String?>()
     val loadingStatus: MutableLiveData<Boolean> = MutableLiveData()

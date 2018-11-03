@@ -2,17 +2,15 @@ package io.liveui.boost.common.vmfactory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import io.liveui.boost.common.UserSession
-import io.liveui.boost.db.WorkspaceDao
 import io.liveui.boost.ui.splash.SplashViewModel
+import javax.inject.Provider
 
 
-class SplashViewModelFactory constructor(private val session: UserSession,
-                                         private val workspaceDao: WorkspaceDao): ViewModelProvider.Factory {
+class SplashViewModelFactory constructor(val splashViewModelProvider: Provider<SplashViewModel>) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SplashViewModel::class.java)) {
-            return SplashViewModel(session, workspaceDao) as T
+            return splashViewModelProvider.get() as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

@@ -1,10 +1,10 @@
 package io.liveui.boost.di
 
-import io.liveui.boost.common.vmfactory.AuthViewModelFactory
-import io.liveui.boost.api.usecase.BoostAuthUseCase
 import dagger.Module
 import dagger.Provides
-import io.liveui.boost.db.WorkspaceDao
+import io.liveui.boost.common.vmfactory.AuthViewModelFactory
+import io.liveui.boost.ui.login.LoginViewModel
+import javax.inject.Provider
 
 /**
  * Created by Vojtech Hrdina on 26/02/2018.
@@ -13,9 +13,9 @@ import io.liveui.boost.db.WorkspaceDao
 class AuthModule {
 
     @Provides
-    fun providesAuthViewModelFactory(authUseCase: BoostAuthUseCase, workspaceDao: WorkspaceDao):
+    fun providesAuthViewModelFactory(liginViewModelProvider: Provider<LoginViewModel>):
             AuthViewModelFactory {
-        return AuthViewModelFactory(authUseCase, workspaceDao)
+        return AuthViewModelFactory(liginViewModelProvider)
     }
 
 }

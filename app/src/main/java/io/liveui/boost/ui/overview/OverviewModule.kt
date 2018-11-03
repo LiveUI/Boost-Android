@@ -2,19 +2,25 @@ package io.liveui.boost.ui.overview
 
 import dagger.Module
 import dagger.Provides
+import io.liveui.boost.ui.overview.grid.OverviewGridAdapter
+import io.liveui.boost.ui.overview.grid.OverviewGridItemViewModel
+import io.liveui.boost.ui.overview.list.OverviewListAdapter
+import io.liveui.boost.ui.overview.list.OverviewListAppItemViewModel
+import io.liveui.boost.ui.overview.list.OverviewListItemViewModel
 import javax.inject.Provider
 
 @Module
 class OverviewModule {
 
     @Provides
-    fun provideOvewievAdapter(baseGridViewModelProvider: Provider<OverviewGridItemViewModel>): OverviewGridAdapter {
-        return OverviewGridAdapter(baseGridViewModelProvider)
+    fun provideOverviewAdapter(overviewGridItemViewModel: Provider<OverviewGridItemViewModel>): OverviewGridAdapter {
+        return OverviewGridAdapter(overviewGridItemViewModel)
     }
 
     @Provides
-    fun provideOvewievListAdapter(baseGridViewModelProvider: Provider<OverviewListItemViewModel>): OverviewListAdapter {
-        return OverviewListAdapter(baseGridViewModelProvider)
+    fun provideOverviewListAdapter(overviewListItemViewModelProvider: Provider<OverviewListItemViewModel>,
+                                   overviewListAppItemViewModelProvider: Provider<OverviewListAppItemViewModel>): OverviewListAdapter {
+        return OverviewListAdapter(overviewListItemViewModelProvider, overviewListAppItemViewModelProvider)
     }
 
 }

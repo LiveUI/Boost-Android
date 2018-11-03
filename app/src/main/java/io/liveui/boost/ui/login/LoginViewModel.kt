@@ -6,16 +6,16 @@ import io.liveui.boost.api.model.AuthRequest
 import io.liveui.boost.api.usecase.BoostAuthUseCase
 import io.liveui.boost.db.Workspace
 import io.liveui.boost.db.WorkspaceDao
+import io.liveui.boost.util.LifecycleViewModel
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 
-class LoginViewModel constructor(private val authUseCase: BoostAuthUseCase,
-                                 private val workspaceDao: WorkspaceDao) : ViewModel() {
-
-    private val disposables: CompositeDisposable = CompositeDisposable()
+class LoginViewModel @Inject constructor(private val authUseCase: BoostAuthUseCase,
+                                         private val workspaceDao: WorkspaceDao) : LifecycleViewModel() {
 
     val loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -23,12 +23,9 @@ class LoginViewModel constructor(private val authUseCase: BoostAuthUseCase,
 
     val exception: MutableLiveData<Throwable> = MutableLiveData()
 
-    override fun onCleared() {
-        disposables.clear()
-    }
 
     fun auth(username: String, password: String, workspace: Workspace) {
-        disposables.add(authUseCase.auth(AuthRequest(username, password))
+        addDisposable(authUseCase.auth(AuthRequest(username, password))
                 .flatMap {
                     return@flatMap Observable.fromCallable {
                         workspaceDao.updateWorkspace(workspace.apply {

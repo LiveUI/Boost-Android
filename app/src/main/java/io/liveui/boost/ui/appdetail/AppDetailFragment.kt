@@ -12,7 +12,6 @@ import io.liveui.boost.common.EXTRA_APP_ID
 
 import io.liveui.boost.R
 import io.liveui.boost.common.vmfactory.ApiViewModeFactory
-import io.liveui.boost.api.model.App
 import io.liveui.boost.ui.BoostFragment
 import io.liveui.boost.util.ProgressViewObserver
 import kotlinx.android.synthetic.main.fragment_app_detail.*
@@ -56,7 +55,7 @@ class AppDetailFragment : BoostFragment() {
             appDetailViewModel.loadAppIcon(app_logo, it)
         })
 
-        appDetailViewModel.getApp(arguments?.getString(EXTRA_APP_ID) ?: "")
+        appDetailViewModel.downloadAppDetail(arguments?.getString(EXTRA_APP_ID) ?: "")
 
         btn_install.setOnClickListener {
             appDetailViewModel.downloadApp()

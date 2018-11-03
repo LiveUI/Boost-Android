@@ -3,6 +3,7 @@ package io.liveui.boost.api
 import okhttp3.Interceptor
 import okhttp3.Response
 import io.liveui.boost.db.Workspace
+import okhttp3.HttpUrl
 import java.net.MalformedURLException
 import java.net.URL
 
@@ -18,7 +19,11 @@ class BaseUrlInterceptor(val workspace: Workspace) : Interceptor {
                 newUrl.host(url.host)
                 newUrl.scheme(url.protocol)
                 val port = url.port
-                if (port != -1) newUrl.port(port)
+                if (port != -1) {
+                    newUrl.port(port)
+                } else {
+                    newUrl.port(HttpUrl.defaultPort(url.protocol))
+                }
             } catch (e: MalformedURLException) {
                 val urlPart = workspace.url.split(":")
                 newUrl.host(urlPart[0])

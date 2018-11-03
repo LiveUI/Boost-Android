@@ -5,8 +5,9 @@ import androidx.lifecycle.ViewModel
 import io.liveui.boost.common.UserSession
 import io.liveui.boost.db.Workspace
 import io.liveui.boost.db.WorkspaceDao
+import javax.inject.Inject
 
-class SplashViewModel(val userSession: UserSession, val workspaceDao: WorkspaceDao) : ViewModel() {
+class SplashViewModel @Inject constructor(val userSession: UserSession, val workspaceDao: WorkspaceDao) : ViewModel() {
 
     fun loadData(): LiveData<Workspace> {
         return workspaceDao.getActiveWorkspace()

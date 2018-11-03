@@ -2,9 +2,9 @@ package io.liveui.boost.di
 
 import dagger.Module
 import dagger.Provides
-import io.liveui.boost.common.UserSession
 import io.liveui.boost.common.vmfactory.SplashViewModelFactory
-import io.liveui.boost.db.WorkspaceDao
+import io.liveui.boost.ui.splash.SplashViewModel
+import javax.inject.Provider
 
 /**
  * Created by Vojtech Hrdina on 26/02/2018.
@@ -13,8 +13,8 @@ import io.liveui.boost.db.WorkspaceDao
 class SplashModule {
 
     @Provides
-    fun providesSplashViewModelFactory(userSession: UserSession, workspaceDao: WorkspaceDao):
+    fun providesSplashViewModelFactory(splashViewModelProvider: Provider<SplashViewModel>):
             SplashViewModelFactory {
-        return SplashViewModelFactory(userSession, workspaceDao)
+        return SplashViewModelFactory(splashViewModelProvider)
     }
 }

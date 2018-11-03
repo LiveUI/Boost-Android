@@ -16,8 +16,9 @@ import io.liveui.boost.util.LifecycleViewModel
 import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class OverviewViewModel(private val boostApiUseCase: BoostApiUseCase,
+class OverviewViewModel @Inject constructor(private val boostApiUseCase: BoostApiUseCase,
                         private val contextProvider: ContextProvider) : LifecycleViewModel() {
 
     val activeTeam: MutableLiveData<Team?> = MutableLiveData()

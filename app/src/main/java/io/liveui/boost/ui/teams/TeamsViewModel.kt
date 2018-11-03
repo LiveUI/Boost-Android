@@ -12,9 +12,10 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 
-class TeamsViewModel constructor(private val apiUseCase: BoostApiUseCase) : LifecycleViewModel() {
+class TeamsViewModel @Inject constructor(private val apiUseCase: BoostApiUseCase) : LifecycleViewModel() {
 
     val activeTeam: MutableLiveData<Team?> = MutableLiveData()
 
@@ -48,7 +49,6 @@ class TeamsViewModel constructor(private val apiUseCase: BoostApiUseCase) : Life
                     loadingStatus.value = true
                 }
                 .doOnNext {
-                    activeTeam.postValue(it.firstOrNull())
                     loadingStatus.value = false
                     teams.value = it
                 }
@@ -59,7 +59,9 @@ class TeamsViewModel constructor(private val apiUseCase: BoostApiUseCase) : Life
     }
 
     fun loadTeams() {
-        addDisposable(getTeamsObservable().subscribe())
+        addDisposable(getTeamsObservable().doOnComplete {
+            activeTeam.postValue(null)
+        }.subscribe())
     }
 
     fun getCreateTeamObservable(team: CreateTeamRequest): Observable<Team> {

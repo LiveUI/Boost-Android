@@ -1,4 +1,4 @@
-package io.liveui.boost.ui.overview
+package io.liveui.boost.ui.overview.list
 
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +14,15 @@ import kotlinx.android.synthetic.main.view_holder_overview.view.*
 import javax.inject.Inject
 import javax.inject.Provider
 
-class OverviewListAdapter @Inject constructor(val baseGridViewModelProvider: Provider<OverviewListItemViewModel>) : BaseObservableAdapter<AppOverview, OverviewListViewHolder>() {
+class OverviewListAdapter @Inject constructor(val overviewListItemViewModelProvider: Provider<OverviewListItemViewModel>,
+                                              val overviewListAppItemViewModelProvider: Provider<OverviewListAppItemViewModel>)
+    : BaseObservableAdapter<AppOverview, OverviewListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OverviewListViewHolder {
-        return OverviewListViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_holder_overview, parent, false), this, baseGridViewModelProvider.get(), baseGridViewModelProvider)
+        return OverviewListViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_holder_overview, parent, false),
+                this,
+                overviewListItemViewModelProvider.get(),
+                overviewListAppItemViewModelProvider)
     }
 
     override fun onBindViewHolder(holder: OverviewListViewHolder, position: Int) {
@@ -26,20 +31,24 @@ class OverviewListAdapter @Inject constructor(val baseGridViewModelProvider: Pro
 
 }
 
-class OverviewListViewHolder(itemView: View, onItemClickListener: OnItemClickListener?, val baseGridViewModel: OverviewListItemViewModel, baseGridViewModelProvider: Provider<OverviewListItemViewModel>) : BaseViewHolder<AppOverview>(itemView, onItemClickListener) {
+class OverviewListViewHolder(itemView: View,
+                             onItemClickListener: OnItemClickListener?,
+                             val overviewListItemViewModel: OverviewListItemViewModel,
+                             overviewListAppItemViewModelProvider: Provider<OverviewListAppItemViewModel>)
+    : BaseViewHolder<AppOverview>(itemView, onItemClickListener) {
 
-    val adapter = OverviewListItemAdapter(baseGridViewModelProvider)
+    val adapter = OverviewListItemAdapter(overviewListAppItemViewModelProvider)
 
     init {
-        baseGridViewModel.latestBuilds.observeForever(adapter)
+        overviewListItemViewModel.latestBuilds.observeForever(adapter)
     }
 
     override fun setData(item: AppOverview) {
-        baseGridViewModel.app = item
+        overviewListItemViewModel.app = item
         itemView.app_name.text = item.latest_app_name
         itemView.builds_count.text = "${item.build_count} builds"
         itemView.app_identifier.text = item.identifier
-        baseGridViewModel.loadAppIcon(itemView.app_logo, item.latest_app_id)
+        overviewListItemViewModel.loadAppIcon(itemView.app_logo, item.latest_app_id)
         itemView.recycler_view_apps.layoutManager = LinearLayoutManager(itemView.context)
         itemView.recycler_view_apps.adapter = adapter
         itemView.recycler_view_apps.updateLayoutParams<ViewGroup.LayoutParams> {
@@ -49,6 +58,6 @@ class OverviewListViewHolder(itemView: View, onItemClickListener: OnItemClickLis
     }
 
     override fun onClick(v: View) {
-        baseGridViewModel.openAppList()
+        overviewListItemViewModel.openAppList()
     }
 }

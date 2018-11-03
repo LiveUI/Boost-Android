@@ -10,9 +10,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
+import javax.inject.Inject
 
 
-class WorkspaceAddViewModel constructor(private val checkUseCase: BoostCheckUseCase, private val workspaceDao: WorkspaceDao) : ViewModel() {
+class WorkspaceAddViewModel @Inject constructor(private val checkUseCase: BoostCheckUseCase, private val workspaceDao: WorkspaceDao) : ViewModel() {
 
     private val disposables: CompositeDisposable = CompositeDisposable()
 
@@ -38,9 +39,9 @@ class WorkspaceAddViewModel constructor(private val checkUseCase: BoostCheckUseC
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe({
+                .doOnSubscribe {
                     loadingStatus.postValue(true)
-                })
+                }
                 .subscribe({
                     Timber.i("Workspace created")
                     loadingStatus.postValue(false)

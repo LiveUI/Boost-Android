@@ -9,6 +9,8 @@ import io.liveui.boost.R
 import io.liveui.boost.common.vmfactory.ApiViewModeFactory
 import io.liveui.boost.di.scope.ActivityScope
 import io.liveui.boost.ui.BoostFragment
+import io.liveui.boost.ui.overview.grid.OverviewGridAdapter
+import io.liveui.boost.ui.overview.list.OverviewListAdapter
 import io.liveui.boost.ui.teams.TeamsViewModel
 import io.liveui.boost.ui.view.adapter.SpaceItemDecoration
 import io.liveui.boost.util.ProgressViewObserver

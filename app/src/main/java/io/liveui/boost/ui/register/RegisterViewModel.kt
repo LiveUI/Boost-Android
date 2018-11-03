@@ -7,9 +7,10 @@ import io.liveui.boost.api.usecase.BoostApiUseCase
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 
-class RegisterViewModel constructor(private val apiUseCase: BoostApiUseCase) : ViewModel() {
+class RegisterViewModel @Inject constructor(private val apiUseCase: BoostApiUseCase) : ViewModel() {
 
     private val disposables: CompositeDisposable = CompositeDisposable()
 
