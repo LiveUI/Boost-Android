@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import io.liveui.boost.R
 import io.liveui.boost.api.model.AppOverview
 import io.liveui.boost.download.DownloadStatus
-import io.liveui.boost.ui.apps.BaseAppViewModel
 import io.liveui.boost.ui.view.adapter.BaseObservableAdapter
 import io.liveui.boost.ui.view.adapter.BaseViewHolder
 import io.liveui.boost.ui.view.adapter.OnItemClickListener
@@ -14,10 +13,10 @@ import kotlinx.android.synthetic.main.view_holder_overview_grid.view.*
 import javax.inject.Inject
 import javax.inject.Provider
 
-class OverviewGridAdapter @Inject constructor(val baseAppViewModelProvider: Provider<OverviewAppItemViewModel>) : BaseObservableAdapter<AppOverview, OverviewGridViewHolder>() {
+class OverviewGridAdapter @Inject constructor(val baseGridViewModelProvider: Provider<OverviewGridItemViewModel>) : BaseObservableAdapter<AppOverview, OverviewGridViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OverviewGridViewHolder {
-        return OverviewGridViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_holder_overview_grid, parent, false), this, baseAppViewModelProvider.get())
+        return OverviewGridViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_holder_overview_grid, parent, false), this, baseGridViewModelProvider.get())
     }
 
     override fun onBindViewHolder(holder: OverviewGridViewHolder, position: Int) {
@@ -26,19 +25,19 @@ class OverviewGridAdapter @Inject constructor(val baseAppViewModelProvider: Prov
 
 }
 
-class OverviewGridViewHolder(itemView: View, onItemClickListener: OnItemClickListener?, val baseAppViewModel: OverviewAppItemViewModel) : BaseViewHolder<AppOverview>(itemView, onItemClickListener) {
+class OverviewGridViewHolder(itemView: View, onItemClickListener: OnItemClickListener?, val baseGridViewModel: OverviewGridItemViewModel) : BaseViewHolder<AppOverview>(itemView, onItemClickListener) {
 
     init {
         itemView.btn_download.setOnClickListener(this)
     }
 
     override fun setData(item: AppOverview) {
-        baseAppViewModel.app = item
+        baseGridViewModel.app = item
         itemView.app_name.text = item.latest_app_name
         itemView.app_version.text = item.latest_app_version
-        baseAppViewModel.loadAppIcon(itemView.app_icon, item.latest_app_id)
+        baseGridViewModel.loadAppIcon(itemView.app_icon, item.latest_app_id)
 
-        baseAppViewModel.downloadStatus.observeForever {
+        baseGridViewModel.downloadStatus.observeForever {
             when {
                 it == DownloadStatus.COMPLETED -> {
                     itemView.btn_download.visibility = View.VISIBLE
@@ -59,10 +58,10 @@ class OverviewGridViewHolder(itemView: View, onItemClickListener: OnItemClickLis
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btn_download -> {
-                baseAppViewModel.downloadApp()
+                baseGridViewModel.downloadApp()
             }
             else -> {
-                baseAppViewModel.openAppList()
+                baseGridViewModel.openAppList()
             }
         }
     }

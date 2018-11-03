@@ -13,7 +13,9 @@ interface BoostApiService {
                @Query("platform") platform: String? = null,
                @Query("identifier") identifier: String? = null,
                @Query("build") build: Int? = null,
-               @Query("version") version: String? = null): Observable<MutableList<App>>
+               @Query("version") version: String? = null,
+               @Query("limit") limit: Int? = null,
+               @Query("page") page: Int? = null): Observable<MutableList<App>>
 
     @Multipart
     @POST("apps")

@@ -56,8 +56,10 @@ class BoostApiUseCase @Inject constructor(private val apiService: BoostApiServic
                platform: String? = null,
                identifier: String? = null,
                build: Int? = null,
-               version: String? = null): Observable<MutableList<App>> {
-        return apiService.filter(name, info, platform, identifier, build, version)
+               version: String? = null,
+               limit: Int? = null,
+               page: Int? = null): Observable<MutableList<App>> {
+        return apiService.filter(name, info, platform, identifier, build, version, limit, page)
     }
 
     fun upload(tags: String): Observable<App> {

@@ -10,26 +10,32 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/app_logo"
-        android:layout_width="@dimen/app_list_image"
-        android:layout_height="@dimen/app_list_image"
+        android:layout_width="@dimen/overview_app_list_image"
+        android:layout_height="@dimen/overview_app_list_image"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_16"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/ic_download" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/app_name"
-        style="@style/TextAppearance.AppCompat.Title"
+        style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_16"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/builds_count"
         app:layout_constraintStart_toEndOf="@+id/app_logo"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/app_logo"
         tools:text="Boost App" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/app_identifier"
-        style="@style/TextAppearance.AppCompat.Subhead"
+        style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btn_show_all"
         app:layout_constraintEnd_toStartOf="@+id/btn_show_all"
         app:layout_constraintStart_toStartOf="@+id/app_name"
         app:layout_constraintTop_toBottomOf="@+id/app_name"
@@ -37,20 +43,52 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/builds_count"
-        style="@style/TextAppearance.AppCompat.Subhead"
+        style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_16"
+        app:layout_constraintBaseline_toBaselineOf="@+id/app_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/app_name"
         tools:text="1222" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/btn_show_all"
-        style="@style/Widget.AppCompat.Button.Borderless"
+        style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/builds_count"
         android:layout_height="wrap_content"
-        android:text="Show All"/>
+        android:text="Show All"
+        android:textStyle="bold"
+        android:layout_marginEnd="@dimen/margin_16"
+        app:layout_constraintEnd_toStartOf="@+id/arrow_right"
+        app:layout_constraintTop_toBottomOf="@+id/builds_count" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/arrow_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_show_all"
+        app:layout_constraintEnd_toEndOf="@+id/builds_count"
+        app:layout_constraintTop_toTopOf="@+id/btn_show_all"
+        app:srcCompat="@drawable/ic_list_arrow_right" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/header_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="btn_show_all,app_logo" />
+
+    <io.liveui.boost.ui.view.adapter.BoostRecyclerView
+        android:id="@+id/recycler_view_apps"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/overview_list_item_height"
+        android:layout_marginTop="@dimen/margin_16"
+        android:maxHeight="@dimen/overview_list_height"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header_barrier"
+        tools:itemCount="3"
+        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/view_holder_overview_list_app" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

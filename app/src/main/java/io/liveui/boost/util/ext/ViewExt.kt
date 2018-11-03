@@ -10,6 +10,7 @@ import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.StringRes
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -37,4 +38,9 @@ fun View.showSnackBar(message: String, duration: Int) {
 
 fun View.showSnackBar(@StringRes message: Int, duration: Int) {
     Snackbar.make(this, message, duration).show()
+}
+
+inline fun <reified T: RecyclerView.ItemDecoration>RecyclerView.replaceItemDecoration(decoration: T) {
+    removeItemDecoration(decoration)
+    addItemDecoration(decoration)
 }

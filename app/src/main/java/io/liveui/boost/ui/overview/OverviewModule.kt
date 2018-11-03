@@ -8,13 +8,13 @@ import javax.inject.Provider
 class OverviewModule {
 
     @Provides
-    fun provideOvewievAdapter(baseAppViewModelProvider: Provider<OverviewAppItemViewModel>): OverviewGridAdapter {
-        return OverviewGridAdapter(baseAppViewModelProvider)
+    fun provideOvewievAdapter(baseGridViewModelProvider: Provider<OverviewGridItemViewModel>): OverviewGridAdapter {
+        return OverviewGridAdapter(baseGridViewModelProvider)
     }
 
-//    @Provides
-//    fun provideOvewievAdapter(baseAppViewModelProvider: Provider<OverviewAppItemViewModel>,): OverviewGridAdapter {
-//        return OverviewGridAdapter(baseAppViewModelProvider)
-//    }
+    @Provides
+    fun provideOvewievListAdapter(baseGridViewModelProvider: Provider<OverviewListItemViewModel>): OverviewListAdapter {
+        return OverviewListAdapter(baseGridViewModelProvider)
+    }
 
 }

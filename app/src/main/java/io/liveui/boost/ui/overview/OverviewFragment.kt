@@ -12,6 +12,7 @@ import io.liveui.boost.ui.BoostFragment
 import io.liveui.boost.ui.teams.TeamsViewModel
 import io.liveui.boost.ui.view.adapter.SpaceItemDecoration
 import io.liveui.boost.util.ProgressViewObserver
+import io.liveui.boost.util.ext.replaceItemDecoration
 import io.liveui.boost.util.navigation.MAIN_NAVIGATOR
 import io.liveui.boost.util.navigation.MainNavigator
 import kotlinx.android.synthetic.main.fragment_overview.*
@@ -33,6 +34,10 @@ class OverviewFragment : BoostFragment() {
     @Inject
     lateinit var overviewListAdapter: OverviewListAdapter
 
+    val gridDecoration by lazy {
+        SpaceItemDecoration(resources.getDimensionPixelSize(R.dimen.overview_column_space))
+    }
+
     @field:[Inject ActivityScope Named(MAIN_NAVIGATOR)]
     lateinit var mainNavigator: MainNavigator
 
@@ -52,13 +57,15 @@ class OverviewFragment : BoostFragment() {
 
         recycler_view.adapter = overviewGridAdapter
         recycler_view.layoutManager = GridLayoutManager(context, 2)
-        recycler_view.addItemDecoration(SpaceItemDecoration(resources.getDimensionPixelSize(R.dimen.overview_column_space)))
+        recycler_view.addItemDecoration(gridDecoration)
 
         btn_show_grid.setOnClickListener {
+            recycler_view.replaceItemDecoration(gridDecoration)
             recycler_view.adapter = overviewGridAdapter
             overviewViewModel.showGrid()
         }
         btn_show_list.setOnClickListener {
+            recycler_view.removeItemDecoration(gridDecoration)
             recycler_view.adapter = overviewListAdapter
             overviewViewModel.showList()
         }

@@ -28,5 +28,6 @@ data class AppOverview(val latest_app_name: String,
     override fun getAppId() = latest_app_id
     override fun getAppIdentifier() = identifier
     override fun getAppName() = latest_app_name
+    override fun getAppBuild() = latest_app_build
 
 }

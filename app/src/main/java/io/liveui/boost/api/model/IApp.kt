@@ -6,4 +6,5 @@ interface IApp {
     fun getAppVersion(): String
     fun getAppPlatform(): String
     fun getAppName(): String
+    fun getAppBuild(): String
 }
