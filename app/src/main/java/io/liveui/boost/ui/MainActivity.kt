@@ -77,6 +77,9 @@ class MainActivity : BoostActivity() {
                     SettingsActivity.startActivity(this)
                     true
                 }
+                R.id.action_logout -> {
+                    true
+                }
                 else -> {
                     false
                 }

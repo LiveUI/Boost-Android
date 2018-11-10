@@ -130,4 +130,7 @@ class BoostApiUseCase @Inject constructor(private val apiService: BoostApiServic
         return apiService.deleteSettings(id)
     }
 
+    fun getDownloadToken(id: String): Observable<AppTokenResponse> {
+        return apiService.getDownloadToken(id)
+    }
 }

@@ -6,7 +6,7 @@ import android.database.Cursor
 import android.net.Uri
 import androidx.core.net.toUri
 import io.liveui.boost.api.model.AppTokenResponse
-import io.liveui.boost.api.usecase.BoostDownloadUseCase
+import io.liveui.boost.api.usecase.BoostApiUseCase
 import io.liveui.boost.util.IOUtil
 import io.liveui.boost.util.StorageProvider
 import io.reactivex.Observable
@@ -17,10 +17,10 @@ import javax.inject.Inject
 
 class SystemDownloader @Inject constructor(val downloadManager: DownloadManager,
                                            val sharedPreferences: SharedPreferences,
+                                           apiUseCase: BoostApiUseCase,
                                            downloadsHolder: DownloadsHolder,
-                                           downloadUseCase: BoostDownloadUseCase,
                                            storageProvider: StorageProvider,
-                                           ioUtil: IOUtil) : BaseDownloader(downloadsHolder, downloadUseCase, storageProvider, ioUtil) {
+                                           ioUtil: IOUtil) : BaseDownloader(downloadsHolder, apiUseCase, storageProvider, ioUtil) {
 
     var updatesAllowed = true
 

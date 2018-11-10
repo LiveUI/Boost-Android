@@ -1,5 +1,6 @@
 package io.liveui.boost.ui.workspace.all
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,6 +28,12 @@ class WorkspaceListFragment : BoostFragment() {
     @Inject
     lateinit var workspaceListAdapter: WorkspaceListAdapter
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        workspaceListAdapter.lifecycleOwner = this
+        workspaceListAdapter.mainNavigator = (context as WorkspaceListActivity).mainNavigator //TODO fix
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_workspace_list, container, false)
     }
@@ -37,21 +44,5 @@ class WorkspaceListFragment : BoostFragment() {
         workspaceViewModel.loadWorkspace().observe(this, workspaceListAdapter)
         recycler_view.adapter = workspaceListAdapter
         recycler_view.layoutManager = if (resources.getBoolean(R.bool.isPhone)) LinearLayoutManager(context) else GridLayoutManager(context, 3)
-        recycler_view.addDisposable(
-                workspaceListAdapter.subject.subscribe {
-                    when (it?.status) {
-                        Workspace.Status.NEW -> {
-                            startActivity(Intent(context, WorkspaceAddActivity::class.java))
-                        }
-                        else -> {
-                            if(it?.active == 0) {
-                                workspaceViewModel.changeWorkspace(it).run {
-                                    startActivity(Intent(context, SplashActivity::class.java).apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK })
-                                }
-                            }
-                        }
-                    }
-                }
-        )
     }
 }

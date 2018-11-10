@@ -10,7 +10,7 @@ import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.module.AppGlideModule
 import io.liveui.boost.AppStoreApplication
-import io.liveui.boost.util.ContextProvider
+import io.liveui.boost.di.GLIDE_CLIENT
 import okhttp3.OkHttpClient
 import java.io.InputStream
 import javax.inject.Inject
@@ -20,7 +20,7 @@ import javax.inject.Named
 @GlideModule
 class HeaderGlideModule : AppGlideModule() {
 
-    @field:[Inject Named("apiClient")]
+    @field:[Inject Named(GLIDE_CLIENT)]
     lateinit var okClient: OkHttpClient
 
     init {

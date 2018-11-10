@@ -6,16 +6,13 @@ import retrofit2.http.*
 
 interface BoostCheckService {
 
-    @GET("ping")
-    fun ping(): Observable<Message>
+    @GET
+    fun ping(@Url url: String): Observable<Message>
 
     @GET("teapot")
     fun teapot(): Observable<Message>
 
-    @GET("info")
-    fun getInfo(): Observable<ServerInfo>
-
-//    @GET("error")
-//    fun getErrors(): Observable<>
+    @GET
+    fun getInfo(@Url url: String): Observable<ServerInfo>
 
 }

@@ -102,4 +102,7 @@ interface BoostApiService {
     @POST("users")
     fun registerUser(@Body user: RegisterUser): Observable<User>
 
+    @GET("apps/{id}/auth")
+    fun getDownloadToken(@Path("id") id: String): Observable<AppTokenResponse>
+
 }

@@ -23,4 +23,6 @@
     <color name="text_primary_color">#888888</color>
     <color name="text_primary_dark_color">#000000</color>
     <color name="shape_border_gray">#4DAAAAAA</color>
+    <color name="server_status_active">#009A55</color>
+    <color name="server_status_inactive">#CE232E</color>
 </resources>

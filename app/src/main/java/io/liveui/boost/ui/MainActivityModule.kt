@@ -22,7 +22,6 @@ import io.liveui.boost.ui.users.UsersFragment
 import io.liveui.boost.ui.users.UsersModule
 import io.liveui.boost.ui.workspace.add.WorkspaceAddFragment
 import io.liveui.boost.ui.workspace.all.WorkspaceListFragment
-import io.liveui.boost.ui.workspace.all.WorkspaceListModule
 
 @Module
 abstract class MainActivityModule {
@@ -57,7 +56,7 @@ abstract class MainActivityModule {
     @ContributesAndroidInjector(modules = [CheckModule::class])
     abstract fun provideWorkspaceAddFragment(): WorkspaceAddFragment
 
-    @ContributesAndroidInjector(modules = [WorkspaceListModule::class])
+    @ContributesAndroidInjector(modules = [CheckModule::class])
     abstract fun provideWorkspaceListFragment(): WorkspaceListFragment
 
     @ContributesAndroidInjector(modules = [ApiModule::class, OverviewModule::class])

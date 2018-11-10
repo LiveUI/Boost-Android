@@ -10,6 +10,7 @@ import io.liveui.boost.api.model.User
 data class Workspace(@ColumnInfo(name = "name") var name: String? = null,
                      @PrimaryKey @ColumnInfo(name = "url") var url: String,
                      @ColumnInfo(name = "perm_token") var permToken: String? = null,
+                     @ColumnInfo(name = "jwt_token") var jwtToken: String? = null,
                      @ColumnInfo(name = "active") var active: Int = 1,
                      @ColumnInfo(name = "status") var status: Status = Status.NEW) {
 

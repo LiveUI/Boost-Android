@@ -23,20 +23,12 @@ class SplashActivity : BoostActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         splashViewModel = ViewModelProviders.of(this, splashViewModelFactory).get(SplashViewModel::class.java)
-        splashViewModel.loadData().observe(this, Observer {
-            when (it) {
-                null -> startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
-                else -> {
-                    when (it.status) {
-                        Workspace.Status.SERVER_VERIFIED -> startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
-                        Workspace.Status.ACTIVATED -> startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-                        else -> {
-                        }
-                    }
-                }
+        splashViewModel.workspaceStatus.observe(this, Observer { status ->
+            when (status) {
+                Workspace.Status.NEW,
+                Workspace.Status.SERVER_VERIFIED -> startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                Workspace.Status.ACTIVATED -> startActivity(Intent(this@SplashActivity, MainActivity::class.java))
             }
         })
-
-
     }
 }

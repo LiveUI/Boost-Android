@@ -43,6 +43,7 @@ buildscript {
             'okHttpLogging'                   : '3.6.0',
             'okio'                            : '1.13.0',
             'retrofit'                        : '2.3.0',
+            'retrofit_coroutines_adapter'     : '0.9.2',
             'rxandroid'                       : '2.1.0',
             'rxjava'                          : '2.2.2',
             'timber'                          : '4.7.0',
@@ -101,13 +102,14 @@ buildscript {
                     'rxandroid': "io.reactivex.rxjava2:rxandroid:${versions.rxandroid}"
             ],
             square     : [
-                    'retrofit'               : "com.squareup.retrofit2:retrofit:${versions.retrofit}",
-                    'retrofit_converter_gson': "com.squareup.retrofit2:converter-gson:${versions.retrofit}",
-                    'retrofit_adapter_rx'    : "com.squareup.retrofit2:adapter-rxjava2:${versions.retrofit}",
-                    'okhttp3'                : "com.squareup.okhttp3:okhttp:${versions.okHttp}",
-                    'okio'                   : "com.squareup.okio:okio:${versions.okio}",
-                    'okHttp_logging'         : "com.squareup.okhttp3:logging-interceptor:${versions.okHttpLogging}",
-                    'timber'                 : "com.jakewharton.timber:timber:${versions.timber}"
+                    'retrofit'                   : "com.squareup.retrofit2:retrofit:${versions.retrofit}",
+                    'retrofit_converter_gson'    : "com.squareup.retrofit2:converter-gson:${versions.retrofit}",
+                    'retrofit_adapter_rx'        : "com.squareup.retrofit2:adapter-rxjava2:${versions.retrofit}",
+                    'okhttp3'                    : "com.squareup.okhttp3:okhttp:${versions.okHttp}",
+                    'okio'                       : "com.squareup.okio:okio:${versions.okio}",
+                    'okHttp_logging'             : "com.squareup.okhttp3:logging-interceptor:${versions.okHttpLogging}",
+                    'timber'                     : "com.jakewharton.timber:timber:${versions.timber}",
+                    'retrofit_adapter_coroutines': "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${versions.retrofit_coroutines_adapter}"
             ],
             testing    : [
                     'junit'            : "junit:junit:${versions.junit}",

@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.liveui.boost.api.model.AuthRequest
 import io.liveui.boost.api.usecase.BoostAuthUseCase
+import io.liveui.boost.common.UserSession
 import io.liveui.boost.db.Workspace
 import io.liveui.boost.db.WorkspaceDao
 import io.liveui.boost.util.LifecycleViewModel
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 
 class LoginViewModel @Inject constructor(private val authUseCase: BoostAuthUseCase,
-                                         private val workspaceDao: WorkspaceDao) : LifecycleViewModel() {
+                                         private val workspaceDao: WorkspaceDao,
+                                         private val userSession: UserSession) : LifecycleViewModel() {
 
     val loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -24,11 +26,11 @@ class LoginViewModel @Inject constructor(private val authUseCase: BoostAuthUseCa
     val exception: MutableLiveData<Throwable> = MutableLiveData()
 
 
-    fun auth(username: String, password: String, workspace: Workspace) {
+    fun auth(username: String, password: String) {
         addDisposable(authUseCase.auth(AuthRequest(username, password))
                 .flatMap {
                     return@flatMap Observable.fromCallable {
-                        workspaceDao.updateWorkspace(workspace.apply {
+                        workspaceDao.updateWorkspace(userSession.workspace!!.apply {
                             permToken = it.token
                             status = Workspace.Status.ACTIVATED
                             user = it.user

@@ -1,38 +1,36 @@
 package io.liveui.boost.api
 
-import android.content.SharedPreferences
 import io.liveui.boost.api.model.RefreshTokenRequest
-import io.liveui.boost.api.service.BoostAuthService
-import io.liveui.boost.db.Workspace
-import okhttp3.*
+import io.liveui.boost.api.usecase.BoostAuthUseCase
+import io.liveui.boost.common.UserSession
+import io.liveui.boost.util.AuthHeaderProvider
+import okhttp3.Authenticator
+import okhttp3.Request
+import okhttp3.Response
+import okhttp3.Route
 import timber.log.Timber
-import java.lang.Exception
+import javax.inject.Inject
 
-class TokenAuthenticator constructor(private val authService: BoostAuthService,
-                                     private val workspace: Workspace,
-                                     private val sharedPreferences: SharedPreferences) : Authenticator {
+class TokenAuthenticator @Inject constructor(private val authUseCase: BoostAuthUseCase,
+                                     private val userSession: UserSession,
+                                     private val authHeaderProvider: AuthHeaderProvider) : Authenticator {
 
     private var retryCount = 0
 
     override fun authenticate(route: Route?, response: Response?): Request? {
         val builder = response?.request()?.newBuilder()
-        Timber.e("Auth start")
         try {
-            val tokenResponse = authService.refreshToken(RefreshTokenRequest(workspace.permToken)).toFuture().get()
-            val token = sharedPreferences.getString("jwtToken", null)
-            if (token != null) {
-                retryCount = 0
-                builder?.removeHeader("Authorization")
-                builder?.addHeader("Authorization", token)
-            }
+            Timber.e("Authentication Start")
+            userSession.setTokenInfo(authUseCase.refreshToken(RefreshTokenRequest(userSession.permanentToken)).toFuture().get())
+            authHeaderProvider.applyHeader(builder)
+            Timber.e("Authentication Finish")
             return builder?.build()
         } catch (e: Exception) {
-            Timber.d(e, "Failed to refresh token")
-
+            Timber.d(e, "Authentication - Failed to refresh token")
             retryCount++
-
-            Timber.e("Auth retry attempt $retryCount")
+            Timber.e("Authentication - Auth retry attempt $retryCount")
             return if (retryCount > 3) {
+                Timber.d(e, "Authentication - Failed - Unable to authenticate after third attempt")
                 retryCount = 0
                 null
             } else {

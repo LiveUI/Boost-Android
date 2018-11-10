@@ -48,7 +48,7 @@ class LoginFragment : BoostFragment() {
 
         btn_login.setOnClickListener {
             it.hideKeyboard(activity?.currentFocus)
-            authModel.auth(username.text.toString(), password.text.toString(), userSession.workspace)
+            authModel.auth(username.text.toString(), password.text.toString())
         }
     }
 }

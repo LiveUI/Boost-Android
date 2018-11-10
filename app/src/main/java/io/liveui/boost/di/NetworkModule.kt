@@ -1,19 +1,16 @@
 package io.liveui.boost.di
 
 import android.app.Application
-import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
-import io.liveui.boost.BuildConfig
 import io.liveui.boost.api.BoostUrlProvider
 import io.liveui.boost.api.TokenAuthenticator
 import io.liveui.boost.api.service.BoostApiService
 import io.liveui.boost.api.service.BoostAuthService
 import io.liveui.boost.api.service.BoostCheckService
-import io.liveui.boost.api.service.BoostDownloadService
-import io.liveui.boost.common.UserSession
+import io.liveui.boost.util.GsonUtil
 import io.liveui.boost.util.UrlProvider
 import io.liveui.boost.util.glide.GlideComponent
 import okhttp3.Cache
@@ -25,6 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
 import javax.inject.Singleton
 
+const val GLIDE_CLIENT = "glideClient"
 
 @Module(subcomponents = [(GlideComponent::class)])
 class NetworkModule {
@@ -37,113 +35,97 @@ class NetworkModule {
     }
 
     @Provides
-    @Singleton
-    fun provideGson(): Gson {
-        val gsonBuilder = GsonBuilder()
-        return gsonBuilder.create()
-    }
-
-    @Provides
     fun provideGsonBuilder(): GsonBuilder = GsonBuilder()
 
     @Provides
     @Singleton
-    @Named("apiClient")
-    fun provideApiOkHttpClient(cache: Cache,
-                               authService: BoostAuthService,
-                               userSession: UserSession,
-                               @Named("apiInterceptors") apiInterceptors: ArrayList<Interceptor>,
-                               sharedPreferences: SharedPreferences): OkHttpClient {
-        val client = OkHttpClient.Builder()
-        for (interceptor in apiInterceptors) {
-            client.addInterceptor(interceptor)
-        }
-        client.authenticator(TokenAuthenticator(authService, userSession.workspace, sharedPreferences))
-        client.cache(cache)
-        return client.build()
+    fun provideGson(gsonUtil: GsonUtil): Gson {
+        return gsonUtil.get()
     }
 
     @Provides
     @Singleton
-    @Named("authClient")
-    fun provideAuthOkHttpClient(cache: Cache, @Named("authInterceptors") interceptors: ArrayList<Interceptor>): OkHttpClient {
-        val client = OkHttpClient.Builder()
-        for (interceptor in interceptors) {
-            client.addInterceptor(interceptor)
-        }
-        client.cache(cache)
-        return client.build()
+    @Named(GLIDE_CLIENT)
+    fun provideGlideClient(@Named(API_INTERCEPTORS) apiInterceptors: ArrayList<Interceptor>,
+                           tokenAuthenticator: TokenAuthenticator): OkHttpClient {
+        return OkHttpClient.Builder().apply {
+            for (interceptor in apiInterceptors) {
+                addInterceptor(interceptor)
+                authenticator(tokenAuthenticator)
+            }
+        }.build()
     }
 
     @Provides
     @Singleton
-    @Named("baseClient")
-    fun provideBaseOkHttpClient(cache: Cache, @Named("loggingInterceptor") interceptors: ArrayList<Interceptor>): OkHttpClient {
-        val client = OkHttpClient.Builder()
-        for (interceptor in interceptors) {
-            client.addInterceptor(interceptor)
-        }
-        client.cache(cache)
-        return client.build()
-    }
+    fun provideAuthService(cache: Cache,
+                           gson: Gson,
+                           urlProvider: UrlProvider,
+                           @Named(AUTH_INTERCEPTORS) interceptors: ArrayList<Interceptor>): BoostAuthService {
 
-    @Provides
-    @Singleton
-    @Named("apiRetrofit")
-    fun provideApiRetrofit(gson: Gson, @Named("apiClient") okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(BuildConfig.URL[0])
-                .client(okHttpClient)
-                .build()
-    }
+        val client = OkHttpClient.Builder().apply {
+            for (interceptor in interceptors) {
+                addInterceptor(interceptor)
+            }
+            cache(cache)
+        }.build()
 
-    @Provides
-    @Singleton
-    @Named("authRetrofit")
-    fun provideAuthRetrofit(gson: Gson, @Named("authClient") okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(BuildConfig.URL[0])
-                .client(okHttpClient)
-                .build()
-    }
+        val retrofit = Retrofit.Builder().also {
+            it.addConverterFactory(GsonConverterFactory.create(gson))
+            it.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            it.baseUrl(urlProvider.getUrl())
+            it.client(client)
+        }.build()
 
-    @Provides
-    @Singleton
-    @Named("baseRetrofit")
-    fun provideBaseRetrofit(gson: Gson, @Named("baseClient") okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(BuildConfig.URL[0])
-                .client(okHttpClient)
-                .build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideAuthService(@Named("authRetrofit") retrofit: Retrofit): BoostAuthService {
         return retrofit.create(BoostAuthService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideApiService(@Named("apiRetrofit") retrofit: Retrofit): BoostApiService {
+    fun provideApiService(cache: Cache,
+                          gson: Gson,
+                          urlProvider: UrlProvider,
+                          @Named(API_INTERCEPTORS) apiInterceptors: ArrayList<Interceptor>,
+                          tokenAuthenticator: TokenAuthenticator): BoostApiService {
+
+        val client = OkHttpClient.Builder().apply {
+            for (interceptor in apiInterceptors) {
+                addInterceptor(interceptor)
+                authenticator(tokenAuthenticator)
+                cache(cache)
+            }
+        }.build()
+
+        val retrofit = Retrofit.Builder().apply {
+            addConverterFactory(GsonConverterFactory.create(gson))
+            addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            baseUrl(urlProvider.getUrl())
+            client(client)
+        }.build()
+
         return retrofit.create(BoostApiService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideDownloadService(@Named("apiRetrofit") retrofit: Retrofit): BoostDownloadService {
-        return retrofit.create(BoostDownloadService::class.java)
-    }
+    fun provideCheckService(cache: Cache,
+                            gson: Gson,
+                            urlProvider: UrlProvider,
+                            @Named(LOGGING_INTERCEPTOR) interceptors: ArrayList<Interceptor>): BoostCheckService {
+        val client = OkHttpClient.Builder().apply {
+            for (interceptor in interceptors) {
+                addInterceptor(interceptor)
+            }
+            cache(cache)
+        }.build()
 
-    @Provides
-    @Singleton
-    fun provideCheckService(@Named("baseRetrofit") retrofit: Retrofit): BoostCheckService {
+        val retrofit = Retrofit.Builder().also {
+            it.addConverterFactory(GsonConverterFactory.create(gson))
+            it.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            it.baseUrl(urlProvider.getUrl())
+            it.client(client)
+        }.build()
+
         return retrofit.create(BoostCheckService::class.java)
     }
 

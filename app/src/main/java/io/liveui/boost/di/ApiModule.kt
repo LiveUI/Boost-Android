@@ -25,6 +25,6 @@ class ApiModule {
                                     registerViewModel: Provider<RegisterViewModel>,
                                     toolbarViewModel: Provider<ToolbarViewModel>):
             ApiViewModeFactory {
-        return ApiViewModeFactory(appViewModelProvider,teamsViewModel, appDetailViewModel, overviewViewModel, registerViewModel, toolbarViewModel)
+        return ApiViewModeFactory(appViewModelProvider, teamsViewModel, appDetailViewModel, overviewViewModel, registerViewModel, toolbarViewModel)
     }
 }

@@ -9,11 +9,11 @@
         android:id="@+id/indicator"
         android:layout_width="@dimen/side_menu_indicator_width"
         android:layout_height="@dimen/side_menu_icon"
+        android:background="@drawable/selector_workspace_indicator"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/selector_workspace_indicator"
-        tools:enabled="false"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:enabled="false" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"
@@ -43,7 +43,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/url"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintEnd_toStartOf="@+id/server_status"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
@@ -55,11 +55,20 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintEnd_toStartOf="@+id/server_status"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/name"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="http:localhos:8080/" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/server_status"
+        android:layout_width="@dimen/server_indicator_size"
+        android:layout_height="@dimen/server_indicator_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline3"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/ic_server_inactive" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"

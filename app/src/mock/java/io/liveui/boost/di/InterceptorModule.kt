@@ -1,7 +1,6 @@
 package io.liveui.boost.di
 
 import android.app.Application
-import android.content.SharedPreferences
 import io.liveui.boost.BuildConfig
 import io.liveui.boost.api.SaveAuthInterceptor
 import io.liveui.boost.api.AddHeaderAuthInterceptor
@@ -40,18 +39,20 @@ class InterceptorModule {
     @Provides
     @Singleton
     @Named("apiInterceptors")
-    fun provideApiInterceptors(@Named("loggingInterceptor") loggingInterceptor: ArrayList<Interceptor>, sharedPreferences: SharedPreferences): ArrayList<Interceptor> {
+    fun provideApiInterceptors(@Named("loggingInterceptor") loggingInterceptor: ArrayList<Interceptor>,
+                               addHeaderAuthInterceptor: AddHeaderAuthInterceptor): ArrayList<Interceptor> {
         return loggingInterceptor.apply {
-            add(AddHeaderAuthInterceptor(sharedPreferences))
+            add(addHeaderAuthInterceptor)
         }
     }
 
     @Provides
     @Singleton
     @Named("authInterceptors")
-    fun provideAuthInterceptors(@Named("loggingInterceptor") loggingInterceptor: ArrayList<Interceptor>, sharedPreferences: SharedPreferences): ArrayList<Interceptor> {
+    fun provideAuthInterceptors(@Named("loggingInterceptor") loggingInterceptor: ArrayList<Interceptor>,
+                                saveAuthInterceptor: SaveAuthInterceptor): ArrayList<Interceptor> {
         return loggingInterceptor.apply {
-            add(SaveAuthInterceptor(sharedPreferences))
+            add(saveAuthInterceptor)
         }
     }
 

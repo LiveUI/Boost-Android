@@ -62,21 +62,32 @@
                 app:layout_constraintStart_toEndOf="@+id/guideline_left"
                 app:layout_constraintTop_toBottomOf="@+id/login_title" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password"
-                style="@style/EditText.WhiteTR"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_password"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_16"
-                android:hint="@string/prompt_password"
-                android:imeActionId="6"
-                android:imeActionLabel="@string/action_sign_in_short"
-                android:imeOptions="actionUnspecified"
-                android:inputType="textPassword"
-                android:text="@string/default_password"
+                style="@style/Widget.Design.TextInputLayout"
+                app:passwordToggleEnabled="true"
+                app:hintEnabled="false"
+                app:passwordToggleTint="@color/edit_text_white_transparent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_right"
                 app:layout_constraintStart_toEndOf="@+id/guideline_left"
-                app:layout_constraintTop_toBottomOf="@+id/username" />
+                app:layout_constraintTop_toBottomOf="@+id/username">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password"
+                    style="@style/EditText.WhiteTR"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_password"
+                    android:imeActionId="6"
+                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="textPassword"
+                    android:text="@string/default_password" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchCompat"
@@ -109,7 +120,7 @@
                 android:layout_marginTop="@dimen/margin_16"
                 app:backgroundTint="@android:color/white"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-                app:layout_constraintTop_toBottomOf="@+id/password"
+                app:layout_constraintTop_toBottomOf="@+id/til_password"
                 app:srcCompat="@drawable/ic_check" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

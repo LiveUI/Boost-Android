@@ -11,8 +11,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import io.liveui.boost.BuildConfig
 import io.liveui.boost.R
-import io.liveui.boost.common.UserSession
-import io.liveui.boost.common.vmfactory.CheckViewModelFactory
+import io.liveui.boost.common.vmfactory.WorkspaceModelFactory
 import io.liveui.boost.ui.BoostFragment
 import io.liveui.boost.ui.login.LoginActivity
 import io.liveui.boost.util.ProgressViewObserver
@@ -23,12 +22,9 @@ import javax.inject.Inject
 class WorkspaceAddFragment : BoostFragment() {
 
     @Inject
-    lateinit var checkViewModelFactory: CheckViewModelFactory
+    lateinit var checkViewModelFactory: WorkspaceModelFactory
 
     lateinit var workspaceAddViewModel: WorkspaceAddViewModel
-
-    @Inject
-    lateinit var userSession: UserSession
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_workspace, container, false)
@@ -49,11 +45,10 @@ class WorkspaceAddFragment : BoostFragment() {
         workspaceAddViewModel.loadingStatus.observe(this, ProgressViewObserver(til_workspace_url, false))
         workspaceAddViewModel.loadingStatus.observe(this, ProgressViewObserver(btn_continue, false))
 
-        workspace_url.setAdapter(ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, BuildConfig.URL))
+        workspace_url.setAdapter(ArrayAdapter<String>(view.context, android.R.layout.simple_dropdown_item_1line, BuildConfig.URL))
 
         btn_continue.setOnClickListener {
-            userSession.workspace.url = workspace_url.getString()
-            workspaceAddViewModel.checkServer(userSession.workspace)
+            workspaceAddViewModel.checkServer(workspace_url.getString())
         }
 
     }

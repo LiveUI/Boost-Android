@@ -1,7 +1,7 @@
 package io.liveui.boost.download
 
 import io.liveui.boost.api.model.AppTokenResponse
-import io.liveui.boost.api.usecase.BoostDownloadUseCase
+import io.liveui.boost.api.usecase.BoostApiUseCase
 import io.liveui.boost.util.IOUtil
 import io.liveui.boost.util.StorageProvider
 import io.reactivex.Observable
@@ -10,14 +10,14 @@ import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 abstract class BaseDownloader constructor(downloadsHolder: DownloadsHolder,
-                                          val downloadUseCase: BoostDownloadUseCase,
+                                          val apiUseCase: BoostApiUseCase,
                                           val storageProvider: StorageProvider,
                                           val ioUtil: IOUtil) {
     protected val downloads = downloadsHolder.downloads
     protected val uniqueDownloadId = downloadsHolder.uniqueDownloadId
 
     fun getFileDownloadInfo(appId: String): Observable<AppTokenResponse> {
-        return downloadUseCase.getDownloadToken(appId)
+        return apiUseCase.getDownloadToken(appId)
     }
 
     fun onCreateAppFileInfo(downloadItem: DownloadItem) {

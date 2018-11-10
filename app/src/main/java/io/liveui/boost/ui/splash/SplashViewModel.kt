@@ -1,15 +1,21 @@
 package io.liveui.boost.ui.splash
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import io.liveui.boost.common.UserSession
 import io.liveui.boost.db.Workspace
 import io.liveui.boost.db.WorkspaceDao
+import io.liveui.boost.util.LifecycleViewModel
 import javax.inject.Inject
 
-class SplashViewModel @Inject constructor(val userSession: UserSession, val workspaceDao: WorkspaceDao) : ViewModel() {
+class SplashViewModel @Inject constructor(val userSession: UserSession, val workspaceDao: WorkspaceDao) : LifecycleViewModel() {
 
-    fun loadData(): LiveData<Workspace> {
-        return workspaceDao.getActiveWorkspace()
+    val activeWorkspace: LiveData<Workspace?> = workspaceDao.getActiveWorkspace()
+
+    val workspaceStatus: LiveData<Workspace.Status> = Transformations.map(activeWorkspace) {
+        it?.status ?: Workspace.Status.NEW
     }
+
+
 }

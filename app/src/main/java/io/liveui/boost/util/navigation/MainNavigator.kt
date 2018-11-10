@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import io.liveui.boost.util.ext.transactWithNavigationItem
 import java.util.*
 
-class MainNavigator: FragmentNavigator {
+class MainNavigator : FragmentNavigator {
 
     val navigationItemStack = Stack<FragmentNavigationItem>()
 

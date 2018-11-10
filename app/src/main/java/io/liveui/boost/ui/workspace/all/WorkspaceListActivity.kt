@@ -39,6 +39,7 @@ class WorkspaceListActivity : BoostActivity() {
             setDisplayHomeAsUpEnabled(true)
         }
         initMainNavigator()
+
         mainNavigator.replaceFragment(FragmentNavigationItem(clazz = WorkspaceListFragment::class.java))
     }
 

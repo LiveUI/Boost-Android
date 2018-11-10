@@ -1,14 +1,16 @@
 package io.liveui.boost.api
 
-import android.content.SharedPreferences
+import io.liveui.boost.util.AuthHeaderProvider
+import io.liveui.boost.util.HEADER_AUTHORIZATION
 import okhttp3.Interceptor
 import okhttp3.Response
+import javax.inject.Inject
 
-class SaveAuthInterceptor(val sharedPreferences: SharedPreferences): Interceptor {
+class SaveAuthInterceptor @Inject constructor(private val authHeaderProvider: AuthHeaderProvider) : Interceptor {
     override fun intercept(chain: Interceptor.Chain?): Response {
         val response = chain?.proceed(chain.request())
-        if(response?.headers()?.get("Authorization") != null) {
-            sharedPreferences.edit().putString("jwtToken", response.headers()?.get("Authorization")).apply()
+        response?.headers()?.get(HEADER_AUTHORIZATION)?.let {
+            authHeaderProvider.saveHeader(it)
         }
         return chain!!.proceed(chain.request())
     }

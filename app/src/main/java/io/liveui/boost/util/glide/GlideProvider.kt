@@ -12,4 +12,8 @@ class GlideProvider @Inject constructor(val urlProvider: UrlProvider) {
     fun loadAppIcon(imageView: ImageView, appId: String) {
         Glide.with(imageView).load(urlProvider.getUrl() + "apps/" + appId + "/icon").into(imageView)
     }
+
+    fun loadAppIconFromUrl(imageView: ImageView, url: String) {
+        Glide.with(imageView).load(url).into(imageView)
+    }
 }
