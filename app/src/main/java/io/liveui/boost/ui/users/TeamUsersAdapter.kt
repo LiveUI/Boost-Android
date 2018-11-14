@@ -9,8 +9,9 @@ import io.liveui.boost.ui.view.adapter.BaseObservableAdapter
 import io.liveui.boost.ui.view.adapter.BaseViewHolder
 import io.liveui.boost.ui.view.adapter.OnItemClickListener
 import kotlinx.android.synthetic.main.view_holder_team_user.view.*
+import javax.inject.Inject
 
-class TeamUserAdapter: BaseObservableAdapter<User, TeamUserViewHolder>() {
+class TeamUserAdapter @Inject constructor(): BaseObservableAdapter<User, TeamUserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamUserViewHolder {
         return TeamUserViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_holder_team_user, parent, false), this)

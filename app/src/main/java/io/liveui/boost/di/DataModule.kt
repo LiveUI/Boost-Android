@@ -23,9 +23,9 @@ class DataModule {
         return boostDatabase.workspaceDao()
     }
 
-    @Provides
-    @Singleton
-    fun provideUserSession(workspaceDao: WorkspaceDao): UserSession {
-        return UserSession(workspaceDao)
-    }
+//    @Provides
+//    @Singleton
+//    fun provideUserSession(workspaceDao: WorkspaceDao): UserSession {
+//        return UserSession(workspaceDao)
+//    }
 }

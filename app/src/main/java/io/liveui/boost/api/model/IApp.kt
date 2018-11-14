@@ -7,4 +7,5 @@ interface IApp {
     fun getAppPlatform(): String
     fun getAppName(): String
     fun getAppBuild(): String
+    fun hasIcon(): Boolean
 }

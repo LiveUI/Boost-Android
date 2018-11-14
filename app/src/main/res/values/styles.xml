@@ -30,10 +30,6 @@
 
     <style name="ChipButton" parent="Widget.MaterialComponents.Chip.Action">
         <item name="android:gravity">center</item>
-        <item name="android:paddingLeft">@dimen/btn_padding_left</item>
-        <item name="android:paddingRight">@dimen/btn_padding_right</item>
-        <item name="android:paddingTop">@dimen/btn_padding_top</item>
-        <item name="android:paddingBottom">@dimen/btn_padding_bottom</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
@@ -77,6 +73,14 @@
         <item name="android:paddingBottom">@dimen/edit_text_padding_bottom</item>
         <item name="android:textColor">@color/edit_text_white_transparent</item>
         <item name="android:textColorHint">@color/text_hint</item>
+    </style>
+
+    <style name="Widget.Design.TextInputLayout.Dark">
+        <item name="hintTextAppearance">@style/TextAppearance.Design.Hint.Dark</item>
+        <item name="hintEnabled">false</item>
+    </style>
+
+    <style name="TextAppearance.Design.Hint.Dark">
     </style>
 
     <style name="Widget.Design.NavigationView.Dark">

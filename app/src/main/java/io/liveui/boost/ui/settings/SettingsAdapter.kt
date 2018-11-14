@@ -9,8 +9,9 @@ import io.liveui.boost.ui.view.adapter.BaseObservableAdapter
 import io.liveui.boost.ui.view.adapter.BaseViewHolder
 import io.liveui.boost.ui.view.adapter.OnItemClickListener
 import kotlinx.android.synthetic.main.view_holder_settings.view.*
+import javax.inject.Inject
 
-class SettingsAdapter: BaseObservableAdapter<SettingsItem, SettingsViewHolder>() {
+class SettingsAdapter @Inject constructor(): BaseObservableAdapter<SettingsItem, SettingsViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SettingsViewHolder {

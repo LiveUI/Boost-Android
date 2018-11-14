@@ -8,11 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
+import io.liveui.boost.EXTRA_WORKSPACE
 import io.liveui.boost.R
 import io.liveui.boost.common.vmfactory.WorkspaceModelFactory
+import io.liveui.boost.databinding.FragmentIntroBinding
 import io.liveui.boost.di.scope.ActivityScope
 import io.liveui.boost.ui.BoostFragment
 import io.liveui.boost.ui.login.LoginFragment
@@ -40,15 +43,16 @@ class ChooseServerFragment : BoostFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_intro, container, false)
+        val binding = DataBindingUtil.inflate<FragmentIntroBinding>(inflater, R.layout.fragment_intro, container, false)
+        binding.setLifecycleOwner(this)
+        workspaceAddViewModel = ViewModelProviders.of(this, checkViewModelFactory).get(WorkspaceAddViewModel::class.java)
+        binding.viewModel = workspaceAddViewModel
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        workspaceAddViewModel = ViewModelProviders.of(this, checkViewModelFactory).get(WorkspaceAddViewModel::class.java)
-
         registerLoadingViews()
-
         server_tabs.addTab(server_tabs.newTab().setText(R.string.client_name).setTag(TAB_LOCAL), true)
         server_tabs.addTab(server_tabs.newTab().setText(R.string.common_custom).setTag(TAB_CUSTOM), false)
         server_tabs.setTabSelectedListener(onSelected = { tab ->
@@ -64,42 +68,31 @@ class ChooseServerFragment : BoostFragment() {
 
         val urlAdapter = ArrayAdapter<String>(view.context, android.R.layout.simple_dropdown_item_1line)
         custom_server_url.setAdapter(urlAdapter)
-
         workspaceAddViewModel.suggestedUrl.observe(this, Observer {
             urlAdapter.addAll(it.toList())
         })
 
-        btn_login.setOnClickListener {
-            workspaceAddViewModel.onLoginClicked()
-        }
+        btn_login.setOnClickListener { goToLogin() }
+        btn_register.setOnClickListener { goToRegister() }
+    }
 
-        btn_register.setOnClickListener {
-            mainNavigator.replaceFragment(FragmentNavigationItem(clazz = RegisterFragment::class.java, addToBackStack = true))
-        }
-
-        workspaceAddViewModel.customUrlTextFieldVisibility.observe(this, Observer{
-            custom_server_url.visibility = if(it) View.VISIBLE else View.GONE
+    fun goToLogin() {
+        workspaceAddViewModel.verifyServer(onServerVerified = {
+            mainNavigator.replaceFragment(FragmentNavigationItem(clazz = LoginFragment::class.java, addToBackStack = true, args = Bundle().apply {
+                putParcelable(EXTRA_WORKSPACE, it)
+            }))
+        }, onServerVerifyError = {
+            view?.showSnackBar("Server doesn't exists", Snackbar.LENGTH_SHORT)
         })
+    }
 
-        custom_server_url.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                workspaceAddViewModel.customServerUrl.postValue(custom_server_url.text.toString())
-            }
-
-        })
-
-        workspaceAddViewModel.serverExists.observe(this, Observer {
-            if (it == true) {
-                mainNavigator.replaceFragment(FragmentNavigationItem(clazz = LoginFragment::class.java, addToBackStack = true))
-            } else {
-                view.showSnackBar("Server doesn't exists", Snackbar.LENGTH_SHORT)
-            }
+    fun goToRegister() {
+        workspaceAddViewModel.verifyServer(onServerVerified = {
+            mainNavigator.replaceFragment(FragmentNavigationItem(clazz = RegisterFragment::class.java, addToBackStack = true, args = Bundle().apply {
+                putParcelable(EXTRA_WORKSPACE, it)
+            }))
+        }, onServerVerifyError = {
+            view?.showSnackBar("Server doesn't exists", Snackbar.LENGTH_SHORT)
         })
     }
 

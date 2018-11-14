@@ -7,8 +7,9 @@ import retrofit2.http.*
 
 interface BoostApiService {
 
-    @GET("apps")
-    fun filter(@Query("name") name: String? = null,
+    @GET
+    fun filter(@Url url: String,
+               @Query("name") name: String? = null,
                @Query("info") info: String? = null,
                @Query("platform") platform: String? = null,
                @Query("identifier") identifier: String? = null,
@@ -18,91 +19,88 @@ interface BoostApiService {
                @Query("page") page: Int? = null): Observable<MutableList<App>>
 
     @Multipart
-    @POST("apps")
-    fun upload(@Query("tags") tags: String): Observable<App>
+    @POST
+    fun upload(@Url url: String, @Query("tags") tags: String): Observable<App>
 
-    @GET("apps")
-    fun getApps(): Observable<MutableList<App>>
+    @GET
+    fun getApps(@Url url: String): Observable<MutableList<App>>
 
-    @GET("apps/{id}")
-    fun getApp(@Path("id") id: String): Observable<App>
+    @GET
+    fun getApp(@Url url: String): Observable<App>
 
-    @PUT("apps/{id}")
-    fun updateApp(@Path("id") id: String, @Body app: App): Observable<App>
+    @PUT
+    fun updateApp(@Url url: String, @Body app: App): Observable<App>
 
-    @DELETE("apps/{id}")
-    fun deleteApp(@Path("id") id: String): Observable<App>
+    @DELETE
+    fun deleteApp(@Url url: String): Observable<App>
 
-    @GET("apps/overview")
-    fun appsOverview(): Observable<MutableList<AppOverview>>
+    @GET
+    fun appsOverview(@Url url: String): Observable<MutableList<AppOverview>>
 
-    @GET("keys")
-    fun getUploadTokensForUser(): Observable<MutableList<User>>
+    @GET
+    fun getUploadTokensForUser(@Url url: String): Observable<MutableList<User>>
 
-    @GET("keys/{id}")
-    fun getUploadKey(@Path("id") id: String): Observable<MutableList<User>>
+    @GET
+    fun getUploadKey(@Url url: String): Observable<MutableList<User>>
 
-    @POST("keys/{id}")
-    fun updateUploadKey(@Path("id") id: String): Observable<MutableList<User>>
+    @POST
+    fun updateUploadKey(@Url url: String): Observable<MutableList<User>>
 
-    @DELETE("keys/{id}")
-    fun deleteUploadKey(@Path("id") id: String): Observable<MutableList<User>>
+    @DELETE
+    fun deleteUploadKey(@Url url: String): Observable<MutableList<User>>
 
-    @GET("teams")
-    fun getTeams(): Observable<MutableList<Team>>
+    @GET
+    fun getTeams(@Url url: String): Observable<MutableList<Team>>
 
-    @POST("teams")
-    fun createTeam(@Body team: CreateTeamRequest): Observable<Team>
+    @POST
+    fun createTeam(@Url url: String, @Body team: CreateTeamRequest): Observable<Team>
 
-    @POST("teams/check")
-    fun checkTeam(@Body team: TeamCheckRequest): Observable<TeamCheckResponse>
+    @POST
+    fun checkTeam(@Url url: String, @Body team: TeamCheckRequest): Observable<TeamCheckResponse>
 
-    @GET("teams/{teamId}")
-    fun getTeam(@Path("teamId") id: String): Observable<Team>
+    @GET
+    fun getTeam(@Url url: String): Observable<Team>
 
-    @PUT("teams/{teamId}")
-    fun updateTeam(@Path("teamId") id: String, @Body team: Team): Observable<Team>
+    @PUT
+    fun updateTeam(@Url url: String, @Body team: Team): Observable<Team>
 
-    @GET("teams/{teamId}/users")
-    fun getTeamUsers(@Path("teamId") id: String): Observable<MutableList<User>>
+    @GET
+    fun getTeamUsers(@Url url: String): Observable<MutableList<User>>
 
-    @POST("teams/{teamId}/link")
-    fun addUserToTeam(@Path("teamId") id: String, @Body user: User): Completable
+    @POST
+    fun addUserToTeam(@Url url: String, @Body user: User): Completable
 
-    @POST("teams/{teamId}/unlink")
-    fun removeUserFromTeam(@Path("teamId") id: String, @Body user: User): Completable
+    @POST
+    fun removeUserFromTeam(@Url url: String, @Body user: User): Completable
 
-    @GET("teams/{teamId}/keys")
-    fun getUploadTokensForTeam(@Path("teamId") teamId: String): Observable<MutableList<Team>>
+    @GET
+    fun getUploadTokensForTeam(@Url url: String): Observable<MutableList<Team>>
 
-    @POST("teams/{teamId}/keys")
-    fun createUploadTokenInTeam(@Path("teamId") teamId: String, @Body team: Team): Observable<Team>
+    @POST
+    fun createUploadTokenInTeam(@Url url: String, @Body team: Team): Observable<Team>
 
-    @GET("teams/{teamId}/apps/overview")
-    fun teamAppsOverview(@Path("teamId") id: String): Observable<MutableList<AppOverview>>
+    @GET
+    fun teamAppsOverview(@Url url: String): Observable<MutableList<AppOverview>>
 
-    @GET("teams/{teamId}/apps/info")
-    fun getTeamInfo(@Path("teamId") id: String): Observable<TeamInfo>
+    @GET
+    fun getTeamInfo(@Url url: String): Observable<TeamInfo>
 
-    @GET("settings")
-    fun getSettings(): Observable<MutableList<Settings>>
+    @GET
+    fun getSettings(@Url url: String): Observable<MutableList<Settings>>
 
-    @PUT("settings/{id}")
-    fun addSettings(@Path("id") id: String): Observable<Settings>
+    @PUT
+    fun addSettings(@Url url: String): Observable<Settings>
 
-    @DELETE("settings/{id}")
-    fun deleteSettings(@Path("id") id: String): Observable<Settings>
+    @DELETE
+    fun deleteSettings(@Url url: String): Observable<Settings>
 
-    @GET("users")
-    fun getUsers(): Observable<MutableList<User>>
+    @GET
+    fun getUsers(@Url url: String): Observable<MutableList<User>>
 
-    @GET("users/global")
-    fun getUsersGlobal(): Observable<MutableList<User>>
+    @GET
+    fun getUsersGlobal(@Url url: String): Observable<MutableList<User>>
 
-    @POST("users")
-    fun registerUser(@Body user: RegisterUser): Observable<User>
-
-    @GET("apps/{id}/auth")
-    fun getDownloadToken(@Path("id") id: String): Observable<AppTokenResponse>
+    @GET
+    fun getDownloadToken(@Url url: String): Observable<AppTokenResponse>
 
 }

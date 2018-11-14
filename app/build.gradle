@@ -3,23 +3,14 @@ import groovy.json.JsonSlurper
 
 apply plugin: 'com.android.application'
 
-apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'com.github.spotbugs'
 
-apply plugin: 'kotlin-kapt'
-
+apply from: '../config-android.gradle'
 
 android {
 
-    compileSdkVersion versions.compileSdkVersion
-
     defaultConfig {
         applicationId "io.liveui.boost"
-        minSdkVersion versions.minSdkVersion
-        targetSdkVersion versions.targetSdkVersion
         versionName versions.versionName
         versionCode getAppVersionCode()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -40,8 +31,8 @@ android {
             }
         }
         debug {
-            resValue "string", "default_username", "admin@liveui.io"
-            resValue "string", "default_password", "admin"
+            resValue "string", "default_username", "core@liveui.io"
+            resValue "string", "default_password", "sup3rS3cr3t"
         }
     }
 
@@ -73,7 +64,8 @@ android {
             dimension "default"
             buildConfigField "String[]", "URL", "{" +
                     "\"http://10.0.2.2:8080/\"," +
-                    "\"http://boostappstore.herokuapp.com/\"" +
+                    "\"http://boostappstore.herokuapp.com/\"," +
+                    "\"https://appstore.mgw.cz/\"" +
                     "}"
             resValue "string", "default_username", ""
             resValue "string", "default_password", ""
@@ -143,6 +135,7 @@ dependencies {
     api dept.google.material
 
     api dept.kotlin.kotlin_stdlib
+    api dept.kotlin.coroutines
 
     api dept.rxjava.rxandroid
     api dept.rxjava.rxjava

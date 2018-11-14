@@ -47,7 +47,9 @@ abstract class BaseAppViewModel<T : IApp>(val glideProvider: GlideProvider,
     }
 
     fun loadAppIcon(imageView: ImageView, appId: String) {
-        glideProvider.loadAppIcon(imageView, appId)
+        if(app?.hasIcon() == true ) {
+            glideProvider.loadAppIcon(imageView, appId)
+        }
     }
 
     fun openAppList() {

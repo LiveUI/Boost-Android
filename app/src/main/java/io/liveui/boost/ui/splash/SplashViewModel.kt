@@ -11,9 +11,7 @@ import javax.inject.Inject
 
 class SplashViewModel @Inject constructor(val userSession: UserSession, val workspaceDao: WorkspaceDao) : LifecycleViewModel() {
 
-    val activeWorkspace: LiveData<Workspace?> = workspaceDao.getActiveWorkspace()
-
-    val workspaceStatus: LiveData<Workspace.Status> = Transformations.map(activeWorkspace) {
+    val workspaceStatus: LiveData<Workspace.Status> = Transformations.map(userSession.activeWorkspace) {
         it?.status ?: Workspace.Status.NEW
     }
 

@@ -7,6 +7,10 @@ import javax.inject.Singleton
 @Singleton
 class BoostUrlProvider : UrlProvider {
 
+    override fun setUrl(url: String) {
+        baseUrl = url
+    }
+
     var baseUrl = BuildConfig.URL[0]
 
     override fun getUrl(): String {

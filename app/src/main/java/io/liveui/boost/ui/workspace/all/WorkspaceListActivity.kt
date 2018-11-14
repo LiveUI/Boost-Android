@@ -13,6 +13,7 @@ import io.liveui.boost.di.scope.ActivityScope
 import io.liveui.boost.ui.BoostActivity
 import io.liveui.boost.ui.ToolbarViewModel
 import io.liveui.boost.util.ext.setDatabindingContentView
+import io.liveui.boost.util.ext.setNavigator
 import io.liveui.boost.util.ext.setupToolbar
 import io.liveui.boost.util.navigation.FragmentNavigationItem
 import io.liveui.boost.util.navigation.MAIN_NAVIGATOR
@@ -38,17 +39,11 @@ class WorkspaceListActivity : BoostActivity() {
         setupToolbar(toolbar) {
             setDisplayHomeAsUpEnabled(true)
         }
-        initMainNavigator()
+        setNavigator(mainNavigator, R.id.fragment_container)
 
         mainNavigator.replaceFragment(FragmentNavigationItem(clazz = WorkspaceListFragment::class.java))
     }
 
-    private fun initMainNavigator() {
-        mainNavigator.apply {
-            fragmentManager = supportFragmentManager
-            containerId = R.id.fragment_container
-        }
-    }
 
     companion object {
         fun startActivity(context: Context) {

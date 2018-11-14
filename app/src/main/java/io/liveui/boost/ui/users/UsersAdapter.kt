@@ -9,8 +9,9 @@ import io.liveui.boost.ui.view.adapter.BaseObservableAdapter
 import io.liveui.boost.ui.view.adapter.BaseViewHolder
 import io.liveui.boost.ui.view.adapter.OnItemClickListener
 import kotlinx.android.synthetic.main.view_holder_user.view.*
+import javax.inject.Inject
 
-class UsersAdapter: BaseObservableAdapter<User, UserViewHolder>() {
+class UsersAdapter @Inject constructor(): BaseObservableAdapter<User, UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         return UserViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_holder_user, parent, false), this)

@@ -1,6 +1,7 @@
 package io.liveui.boost.ui.workspace.all
 
 import android.content.Intent
+import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.lifecycle.MutableLiveData
@@ -20,6 +21,8 @@ import io.liveui.boost.util.ResourcesProvider
 import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class WorkspaceListItemViewModel @Inject constructor(val boostCheckUseCase: BoostCheckUseCase,
@@ -69,10 +72,14 @@ class WorkspaceListItemViewModel @Inject constructor(val boostCheckUseCase: Boos
 
     //TODO fix
     fun changeWorkspace(workspace: Workspace) {
-        addDisposable(workspaceDao.setActive(workspace)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe())
+        GlobalScope.launch {
+            workspaceDao.setActive(workspace)
 
+            val context = contextProvider.app
+            context.startActivity(Intent(context, SplashActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            })
+        }
     }
 
     fun onItemClick(onServerVerified: () -> Unit) {
@@ -81,18 +88,14 @@ class WorkspaceListItemViewModel @Inject constructor(val boostCheckUseCase: Boos
         val context = contextProvider.app
         when (status) {
             Workspace.Status.NEW -> {
-                context.startActivity(Intent(context, WorkspaceAddActivity::class.java))
+                WorkspaceAddActivity.startActivity(context)
             }
             Workspace.Status.SERVER_VERIFIED -> {
                 onServerVerified()
             }
             Workspace.Status.ACTIVATED -> {
                 if (inactive) {
-                    changeWorkspace(workspace.value!!).run {
-                        context.startActivity(Intent(context, SplashActivity::class.java).apply {
-                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        })
-                    }
+                    changeWorkspace(workspace.value!!)
                 }
             }
         }

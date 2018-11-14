@@ -8,15 +8,15 @@ import io.liveui.boost.ui.apps.AppsViewModel
 import io.liveui.boost.ui.overview.OverviewViewModel
 import io.liveui.boost.ui.register.RegisterViewModel
 import io.liveui.boost.ui.teams.TeamsViewModel
+import javax.inject.Inject
 import javax.inject.Provider
 
-//TODO rewrite to DI
-class ApiViewModeFactory constructor(val appViewModelProvider: Provider<AppsViewModel>,
-                                     val teamsViewModel: Provider<TeamsViewModel>,
-                                     val appDetailViewModel: Provider<AppDetailViewModel>,
-                                     val overviewViewModel: Provider<OverviewViewModel>,
-                                     val registerViewModel: Provider<RegisterViewModel>,
-                                     val toolbarViewModel: Provider<ToolbarViewModel>) : ViewModelProvider.Factory {
+class ApiViewModeFactory @Inject constructor(val appViewModelProvider: Provider<AppsViewModel>,
+                                             val teamsViewModel: Provider<TeamsViewModel>,
+                                             val appDetailViewModel: Provider<AppDetailViewModel>,
+                                             val overviewViewModel: Provider<OverviewViewModel>,
+                                             val registerViewModel: Provider<RegisterViewModel>,
+                                             val toolbarViewModel: Provider<ToolbarViewModel>) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return with(modelClass) {

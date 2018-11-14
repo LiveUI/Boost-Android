@@ -1,0 +1,67 @@
+ext.dept = [
+        'androidx'   : [
+                'lifecycle_extensions'     : "androidx.lifecycle:lifecycle-extensions:${versions.lifecycle_extensions}",
+                'lifecycle_reactivestreams': "androidx.lifecycle:lifecycle-reactivestreams:${versions.lifecycle_reactivestreams}",
+                'multidex'                 : "androidx.multidex:multidex:${versions.multidex}",
+                'annotation'               : "androidx.annotation:annotation:${versions.annotation}",
+                'recyclerview'             : "androidx.recyclerview:recyclerview:${versions.recyclerview}",
+                'appcompat'                : "androidx.appcompat:appcompat:${versions.appcompat}",
+                'legacy_support_v4'        : "androidx.legacy:legacy-support-v4:${versions.legacy_support_v4}",
+                'cardview'                 : "androidx.cardview:cardview:${versions.cardview}",
+                'constraint'               : "androidx.constraintlayout:constraintlayout:${versions.constraint}",
+                'lifecycle_compiler'       : "androidx.lifecycle:lifecycle-compiler:${versions.lifecycle_compiler}",
+                'ktx'                      : "androidx.core:core-ktx:${versions.ktx}",
+                'room_runtime'             : "androidx.room:room-runtime:${versions.room_runtime}",
+                'room_rxjava2'             : "androidx.room:room-rxjava2:${versions.room_rxjava2}",
+                'room_compiler'            : "android.arch.persistence.room:compiler:${versions.room_compiler}"
+        ],
+        'build'      : [
+                'gradle': "com.android.tools.build:gradle:${versions.gradle}",
+                'kotlin': "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
+        ],
+        'databinding': [
+                'databinding_adapter'             : "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:${versions.databinding_adapter}",
+                'databinding_adapter_recyclerview': "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:${versions.databinding_adapter_recyclerview}"
+        ],
+        'google'     : [
+                'gson'           : "com.google.code.gson:gson:${versions.gson}",
+                'material'       : "com.google.android.material:material:${versions.material}",
+                'dagger'         : "com.google.dagger:dagger:${versions.dagger}",
+                'dagger_support' : "com.google.dagger:dagger-android-support:${versions.dagger}",
+                'dagger_compiler': "com.google.dagger:dagger-compiler:${versions.dagger}",
+                'dagger_apt'     : "com.google.dagger:dagger-android-processor:${versions.dagger}",
+                'guava'          : "com.google.guava:guava:${versions.guava}",
+        ],
+        'github'     : [
+                'glide_annotations': "com.github.bumptech.glide:annotations:${versions.glide}",
+                'glide'            : "com.github.bumptech.glide:glide:${versions.glide}",
+                'glide_okhttp3'    : "com.github.bumptech.glide:okhttp3-integration:${versions.glide}",
+                'glide_compiler'   : "com.github.bumptech.glide:compiler:${versions.glide}"
+        ],
+        'kotlin'     : [
+                'kotlin_stdlib': "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}",
+                "coroutines"   : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
+        ],
+        'rxjava'     : [
+                'rxjava'   : "io.reactivex.rxjava2:rxjava:${versions.rxjava}",
+                'rxandroid': "io.reactivex.rxjava2:rxandroid:${versions.rxandroid}"
+        ],
+        'square'     : [
+                'retrofit'                   : "com.squareup.retrofit2:retrofit:${versions.retrofit}",
+                'retrofit_converter_gson'    : "com.squareup.retrofit2:converter-gson:${versions.retrofit}",
+                'retrofit_adapter_rx'        : "com.squareup.retrofit2:adapter-rxjava2:${versions.retrofit}",
+                'okhttp3'                    : "com.squareup.okhttp3:okhttp:${versions.okHttp}",
+                'okio'                       : "com.squareup.okio:okio:${versions.okio}",
+                'okHttp_logging'             : "com.squareup.okhttp3:logging-interceptor:${versions.okHttpLogging}",
+                'timber'                     : "com.jakewharton.timber:timber:${versions.timber}",
+                'retrofit_adapter_coroutines': "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${versions.retrofit_coroutines_adapter}"
+        ],
+        'testing'    : [
+                'junit'            : "junit:junit:${versions.junit}",
+                'arch_core_testing': "androidx.arch.core:core-testing:${versions.testArchCore}",
+                'mockito_inline'   : "org.mockito:mockito-inline:${versions.testMockitoInline}",
+                'espresso_code'    : "androidx.test.espresso:espresso-core:${versions.espresso}",
+                'rest_runner'      : "androidx.test:runner:${versions.testRunner}",
+                'test_rules'       : "androidx.test:rules:${versions.testRules}"
+        ]
+]

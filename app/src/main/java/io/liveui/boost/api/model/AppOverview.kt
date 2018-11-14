@@ -29,5 +29,6 @@ data class AppOverview(val latest_app_name: String,
     override fun getAppIdentifier() = identifier
     override fun getAppName() = latest_app_name
     override fun getAppBuild() = latest_app_build
+    override fun hasIcon(): Boolean = latest_app_icon
 
 }

@@ -25,10 +25,21 @@ class SplashActivity : BoostActivity() {
         splashViewModel = ViewModelProviders.of(this, splashViewModelFactory).get(SplashViewModel::class.java)
         splashViewModel.workspaceStatus.observe(this, Observer { status ->
             when (status) {
-                Workspace.Status.NEW,
-                Workspace.Status.SERVER_VERIFIED -> startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
-                Workspace.Status.ACTIVATED -> startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                Workspace.Status.NEW -> {
+                    startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                }
+                Workspace.Status.SERVER_VERIFIED -> {
+                    startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                }
+                Workspace.Status.ACTIVATED -> {
+                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                }
             }
         })
+    }
+
+    //TODO move into viewModel
+    fun loadinitialData() {
+
     }
 }

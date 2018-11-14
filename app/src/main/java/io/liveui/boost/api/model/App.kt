@@ -35,5 +35,6 @@ data class App(val build: String,
     override fun getAppIdentifier() = identifier
     override fun getAppName() = name
     override fun getAppBuild() = build
+    override fun hasIcon(): Boolean = icon
 
 }

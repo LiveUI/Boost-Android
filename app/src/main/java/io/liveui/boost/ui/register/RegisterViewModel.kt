@@ -4,15 +4,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.liveui.boost.api.model.*
 import io.liveui.boost.api.usecase.BoostApiUseCase
+import io.liveui.boost.api.usecase.BoostAuthUseCase
+import io.liveui.boost.db.Workspace
+import io.liveui.boost.util.LifecycleViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class RegisterViewModel @Inject constructor(private val apiUseCase: BoostApiUseCase) : ViewModel() {
-
-    private val disposables: CompositeDisposable = CompositeDisposable()
+class RegisterViewModel @Inject constructor(private val authUseCase: BoostAuthUseCase) : LifecycleViewModel() {
 
     val loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -20,25 +21,25 @@ class RegisterViewModel @Inject constructor(private val apiUseCase: BoostApiUseC
 
     val exception: MutableLiveData<Throwable> = MutableLiveData()
 
-    override fun onCleared() {
-        disposables.clear()
-    }
+    var workspace: Workspace? = null
 
     //TODO validate input data
     fun register(firstName: String, lastName: String, username: String, email: String, password: String) {
-        disposables.add(apiUseCase.registerUser(RegisterUser(firstName, lastName, username, email, password))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe({
-                    loadingStatus.value = true
-                })
-                .subscribe({ result ->
-                    loadingStatus.value = false
-                    register.value = result
-                }, { e ->
-                    loadingStatus.value = false
-                    exception.value = e
-                })
-        )
+        workspace?.url?.let {
+            addDisposable(authUseCase.registerUser(it, RegisterUser(firstName, lastName, username, email, password))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe {
+                        loadingStatus.value = true
+                    }
+                    .subscribe({ result ->
+                        loadingStatus.value = false
+                        register.value = result
+                    }, { e ->
+                        loadingStatus.value = false
+                        exception.value = e
+                    })
+            )
+        }
     }
 }

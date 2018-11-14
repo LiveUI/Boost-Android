@@ -12,8 +12,9 @@ import io.liveui.boost.ui.view.adapter.BaseViewHolder
 import io.liveui.boost.ui.view.adapter.OnItemClickListener
 import io.liveui.boost.util.ext.getColor
 import kotlinx.android.synthetic.main.view_holder_teams.view.*
+import javax.inject.Inject
 
-class TeamsAdapter : BaseObservableAdapter<Team, TeamViewHolder>() {
+class TeamsAdapter @Inject constructor(): BaseObservableAdapter<Team, TeamViewHolder>() {
 
     private var lastSelectedPosition: Int = 0
 

@@ -6,10 +6,13 @@ import retrofit2.http.*
 
 interface BoostAuthService {
 
-    @POST("auth")
-    fun auth(@Body auth: AuthRequest): Observable<AuthResponse>
+    @POST
+    fun auth(@Url url: String, @Body auth: AuthRequest): Observable<AuthResponse>
 
-    @POST("token")
-    fun refreshToken(@Body token: RefreshTokenRequest): Observable<RefreshTokenResponse>
+    @POST
+    fun registerUser(@Url url: String, @Body user: RegisterUser): Observable<User>
+
+    @POST
+    fun refreshToken(@Url url: String, @Body token: RefreshTokenRequest): Observable<RefreshTokenResponse>
 
 }

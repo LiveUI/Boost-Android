@@ -10,9 +10,7 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
 
     <string name="first_name">First name</string>
     <string name="menu_apps">Apps</string>
@@ -28,13 +26,14 @@
     <string name="create_team">Create team</string>
     <string name="settings_team">Team</string>
     <string name="team_create_success">Successfully created team</string>
-    <string name="workspace_url_hint">workspace.example.com</string>
+    <string name="workspace_url_hint">Server url</string>
     <string name="common_continue">Continue</string>
     <string name="workspace_name_hint">Workspace name</string>
     <string name="workspace_list_add_title">Add workspaces</string>
     <string name="workspace_list_add_description">Sign in workspace</string>
     <string name="menu_workspace">Workspace</string>
     <string name="menu_filter">Filter</string>
+    <string name="menu_workspace_add">Add</string>
 
     <string name="common_login">Login</string>
     <string name="common_register">Register</string>

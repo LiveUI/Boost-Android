@@ -1,6 +1,7 @@
 package io.liveui.boost.ui.workspace.add
 
 import android.util.Patterns
+import android.webkit.URLUtil
 import androidx.lifecycle.*
 import io.liveui.boost.BuildConfig
 import io.liveui.boost.api.model.ServerInfo
@@ -16,8 +17,10 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_intro.*
 import timber.log.Timber
 import java.net.URL
+import java.util.regex.Matcher
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -29,8 +32,6 @@ class WorkspaceAddViewModel @Inject constructor(private val checkUseCase: BoostC
 
     val loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
 
-    val serverExists: MutableLiveData<Boolean> = MutableLiveData()
-
     val exception: MutableLiveData<Throwable> = MutableLiveData()
 
     val suggestedUrl: MutableLiveData<Array<String>> = MutableLiveData()
@@ -39,8 +40,8 @@ class WorkspaceAddViewModel @Inject constructor(private val checkUseCase: BoostC
 
     val customServerUrl: MutableLiveData<String?> = MutableLiveData()
 
-    val isCustomUrlValid: LiveData<Boolean> = Transformations.map(customServerUrl) {
-        it?.let { Patterns.WEB_URL.matcher(it).matches() } ?: false
+    val isUrlValid: LiveData<Boolean> = Transformations.map(customServerUrl) {
+        it?.let { Pattern.matches(Patterns.WEB_URL.pattern(), it) } ?: false
     }
 
     val customUrlTextFieldVisibility: LiveData<Boolean> = Transformations.map(serverTarget) {
@@ -52,32 +53,34 @@ class WorkspaceAddViewModel @Inject constructor(private val checkUseCase: BoostC
         serverTarget.postValue(ServerTarget.CLIENT_SERVER)
     }
 
-    fun checkServer(url: String) {
-        val workspace = Workspace(url = url)
-        addDisposable(checkUseCase.getInfo(url)
-                .map {
-                    workspace.apply {
-                        name = it.name
-                        status = Workspace.Status.SERVER_VERIFIED
+    fun checkServer(url: String?, onServerVerified: (workspace: Workspace) -> Unit = {}, onServerVerifyError: () -> Unit) {
+        url?.let {
+            if (!Pattern.matches(Patterns.WEB_URL.pattern(), it)) return
+
+            addDisposable(checkUseCase.getInfo(it)
+                    .doOnSubscribe {
+                        loadingStatus.postValue(true)
                     }
-                }.flatMapCompletable {
-                    userSession.workspace = it
-                    workspaceDao.setActive(it)
-                }.doOnSubscribe {
-                    loadingStatus.postValue(true)
-                }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe({
-                    Timber.i("Workspace created")
-                    loadingStatus.postValue(false)
-                    serverExists.postValue(true)
-                }, { e ->
-                    Timber.i(e, "Workspace create failed") //TODO resolve exception
-                    serverExists.postValue(false)
-                    loadingStatus.postValue(false)
-                    exception.postValue(e)
-                })
-        )
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe({ serverInfo ->
+                        Timber.i("Workspace created")
+                        loadingStatus.postValue(false)
+                        onServerVerified(createTempWorkspace(it, serverInfo))
+                    }, { e ->
+                        onServerVerifyError()
+                        Timber.i(e, "Workspace create failed") //TODO resolve exception
+                        loadingStatus.postValue(false)
+                        exception.postValue(e)
+                    })
+            )
+        } ?: onServerVerifyError()
+    }
+
+    fun createTempWorkspace(url: String, serverInfo: ServerInfo): Workspace {
+        return Workspace(url = url).apply {
+            name = serverInfo.name
+            status = Workspace.Status.SERVER_VERIFIED
+        }
     }
 
     fun onClientServerSelected() {
@@ -86,26 +89,18 @@ class WorkspaceAddViewModel @Inject constructor(private val checkUseCase: BoostC
 
     fun onCustomServerSelected() {
         serverTarget.postValue(ServerTarget.CUSTOM_SERVER)
-
     }
 
-    fun onLoginClicked() {
+    fun verifyServer(onServerVerified: (workspace: Workspace) -> Unit, onServerVerifyError: () -> Unit) {
         serverTarget.value?.let {
             when (it) {
                 ServerTarget.CLIENT_SERVER -> {
-                    checkServer(urlProvider.getDefaultUrl())
+                    checkServer(urlProvider.getDefaultUrl(), onServerVerified, onServerVerifyError)
                 }
                 ServerTarget.CUSTOM_SERVER -> {
-                    isCustomUrlValid.value?.let {
-                        checkServer(customServerUrl.value!!)
-                    }
+                    checkServer(customServerUrl.value, onServerVerified, onServerVerifyError)
                 }
             }
-        } ?: onServerUrlError()
+        } ?: onServerVerifyError()
     }
-
-    fun onServerUrlError() {
-
-    }
-
 }

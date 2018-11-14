@@ -3,9 +3,7 @@ package io.liveui.boost.ui.workspace.all
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,7 +29,7 @@ class WorkspaceListFragment : BoostFragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         workspaceListAdapter.lifecycleOwner = this
-        workspaceListAdapter.mainNavigator = (context as WorkspaceListActivity).mainNavigator //TODO fix
+        workspaceListAdapter.mainNavigator = (context as WorkspaceListActivity).mainNavigator //TODO fix - create navigator view model
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -41,8 +39,25 @@ class WorkspaceListFragment : BoostFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         workspaceViewModel = ViewModelProviders.of(this, workspaceModelFactory).get(WorkspaceListViewModel::class.java)
-        workspaceViewModel.loadWorkspace().observe(this, workspaceListAdapter)
+        workspaceViewModel.workspace.observe(this, workspaceListAdapter)
         recycler_view.adapter = workspaceListAdapter
         recycler_view.layoutManager = if (resources.getBoolean(R.bool.isPhone)) LinearLayoutManager(context) else GridLayoutManager(context, 3)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_workspace_add, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.action_add -> {
+                WorkspaceAddActivity.startActivity(context!!)
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
+        }
     }
 }
