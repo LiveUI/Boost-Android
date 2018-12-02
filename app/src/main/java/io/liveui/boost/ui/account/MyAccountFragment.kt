@@ -5,10 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.liveui.boost.R
-import io.liveui.boost.common.UserSession
 import io.liveui.boost.ui.BoostFragment
-import kotlinx.android.synthetic.main.fragment_my_account.*
-import javax.inject.Inject
 
 class MyAccountFragment: BoostFragment() {
 

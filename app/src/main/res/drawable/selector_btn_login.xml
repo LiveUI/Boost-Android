@@ -9,6 +9,13 @@
         </shape>
     </item>
 
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/btn_corner_radius" />
+            <solid android:color="@color/button_login_fill_disabled" />
+        </shape>
+    </item>
+
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="@dimen/btn_corner_radius" />

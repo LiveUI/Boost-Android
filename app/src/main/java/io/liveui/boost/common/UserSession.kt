@@ -4,7 +4,8 @@ import io.liveui.boost.api.model.RefreshTokenResponse
 import io.liveui.boost.db.Workspace
 import io.liveui.boost.db.WorkspaceDao
 import io.liveui.boost.util.UrlProvider
-import io.reactivex.Observable
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,7 +15,9 @@ class UserSession @Inject constructor(val workspaceDao: WorkspaceDao,
                                       val urlProvider: UrlProvider) {
 
     val activeWorkspace = workspaceDao.getActiveWorkspace()
+
     private val activeJwtToken = workspaceDao.getActiveJwtToken()
+
     var workspace: Workspace? = null
     var jwtToken: String? = null
     var permanentToken: String? = null
@@ -29,6 +32,7 @@ class UserSession @Inject constructor(val workspaceDao: WorkspaceDao,
 
             Timber.d("Set Active Workspace: ${it?.toString()}")
         }
+
         activeJwtToken.observeForever {
             jwtToken = it
 
@@ -40,4 +44,8 @@ class UserSession @Inject constructor(val workspaceDao: WorkspaceDao,
 
     }
 
+    fun logout(onLogout: () -> Unit) = GlobalScope.launch {
+            workspaceDao.setInactive()
+            onLogout()
+        }
 }

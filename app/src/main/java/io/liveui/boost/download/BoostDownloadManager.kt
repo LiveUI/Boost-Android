@@ -4,7 +4,6 @@ import android.Manifest
 import io.liveui.boost.util.ContextProvider
 import io.liveui.boost.util.IOUtil
 import io.liveui.boost.util.IntentUtil
-import io.liveui.boost.util.StorageProvider
 import io.liveui.boost.util.permission.PermissionHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -16,12 +15,12 @@ import javax.inject.Singleton
 class BoostDownloadManager @Inject constructor(val systemDownloader: SystemDownloader,
                                                val downloads: DownloadsHolder,
                                                val ioUtil: IOUtil,
-                                               val storageProvider: StorageProvider,
                                                val contextProvider: ContextProvider,
                                                val permissionHelper: PermissionHelper) {
 
-    fun downloadApp(appId: String) {
-        if (permissionHelper.checkPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, 1)) {
+    fun downloadApp(appId: String): DownloadItem? {
+        return if (hasStoragePermission()) {
+            val downloadItem = systemDownloader.createDownloadItem(appId)
             systemDownloader.downloadFile(appId)
                     ?.subscribeOn(Schedulers.io())
                     ?.observeOn(AndroidSchedulers.mainThread())
@@ -35,7 +34,14 @@ class BoostDownloadManager @Inject constructor(val systemDownloader: SystemDownl
                         Timber.e(it, "Download failed")
                     }
                     ?.subscribe()
+            downloadItem
+        } else {
+            null
         }
+    }
+
+    fun hasStoragePermission(): Boolean {
+        return permissionHelper.checkPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, 1)
     }
 
 }

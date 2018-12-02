@@ -11,6 +11,10 @@
             name="toolbarViewModel"
             type="io.liveui.boost.ui.ToolbarViewModel" />
 
+        <variable
+            name="serverInfoViewModel"
+            type="io.liveui.boost.ui.serverinfo.ServerInfoViewModel" />
+
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
@@ -49,22 +53,96 @@
             android:fitsSystemWindows="true"
             android:orientation="vertical">
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="@dimen/margin_16" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/margin_16" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/server_icon"
+                android:layout_width="@dimen/side_menu_icon"
+                android:layout_height="@dimen/side_menu_icon"
+                app:layout_constraintStart_toEndOf="@+id/guideline1"
+                app:layout_constraintTop_toBottomOf="@+id/guideline4" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/side_menu_content_margin" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/server_name"
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/workspace_list_text"
+                app:layout_constraintBottom_toTopOf="@+id/server_url"
+                app:layout_constraintEnd_toStartOf="@+id/btn_more"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="@+id/server_icon"
+                app:layout_constraintVertical_chainStyle="packed"
+                android:text="@{serverInfoViewModel.serverName}"
+                tools:text="Workspace Name" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/server_url"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/side_menu_subtitle_text"
+                android:text="@{serverInfoViewModel.serverUrl}"
+                app:layout_constraintBottom_toBottomOf="@+id/server_icon"
+                app:layout_constraintEnd_toStartOf="@+id/btn_more"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/server_name"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="http:localhos:8080/" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btn_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_more"
+                android:elevation="4dp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintBottom_toBottomOf="@+id/server_icon"
+                app:layout_constraintTop_toTopOf="@+id/server_icon" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/margin_16" />
+
+            <View
+                android:id="@+id/btn_workspace"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/side_menu_container"/>
+
             <FrameLayout
                 android:id="@+id/side_menu_container"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@+id/navigation_view"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.navigation.NavigationView
-                android:id="@+id/navigation_view"
-                style="@style/Widget.Design.NavigationView.Dark"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fadeScrollbars="false"
-                android:scrollbars="none"
+                android:layout_marginTop="@dimen/margin_16"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:menu="@menu/side_menu_teams" />
+                app:layout_constraintTop_toBottomOf="@+id/server_icon" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

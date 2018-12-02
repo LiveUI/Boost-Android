@@ -1,5 +1,6 @@
 package io.liveui.boost.ui.splash
 
+import android.content.Context
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -41,5 +42,13 @@ class SplashActivity : BoostActivity() {
     //TODO move into viewModel
     fun loadinitialData() {
 
+    }
+
+    companion object {
+        fun startActivity(context: Context) {
+            context.startActivity(Intent(context, SplashActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            })
+        }
     }
 }

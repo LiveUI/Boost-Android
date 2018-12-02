@@ -32,7 +32,7 @@ abstract class DownloadAppViewModel<T : IApp> constructor(val downloadManager: B
     val downloadProgress = MutableLiveData<Int>()
 
     val apkExists = Transformations.map(downloadStatus) { status ->
-        if (app != null && status == DownloadStatus.COMPLETED) {
+        if (downloadManager.hasStoragePermission() && app != null && status == DownloadStatus.COMPLETED) {
             LiveDataReactiveStreams.fromPublisher(isAppDownloaded(app!!.getAppId()).toFlowable(BackpressureStrategy.BUFFER))
         } else {
             MutableLiveData<Boolean>().apply {
@@ -63,10 +63,9 @@ abstract class DownloadAppViewModel<T : IApp> constructor(val downloadManager: B
 
     fun downloadApp() {
         app?.let {
-            addDisposable(downloadManager.systemDownloader.createDownloadItem(it.getAppId()).downloadStatusPublisher.subscribe {
+            downloadManager.downloadApp(it.getAppId())?.downloadStatusPublisher?.subscribe {
                 downloadStatus.postValue(it)
-            })
-            downloadManager.downloadApp(it.getAppId())
+            }
         }
     }
 

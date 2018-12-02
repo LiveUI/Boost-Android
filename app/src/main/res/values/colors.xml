@@ -7,6 +7,7 @@
     <color name="sideMenuBackground">#3E4452</color>
     <color name="sideMenuToolbar">#5a3e5b</color>
     <color name="workspace_list_text">@android:color/white</color>
+    <color name="side_menu_subtitle_text">#AFABAB</color>
     <color name="edit_text_stroke_color">#FFFFFF</color>
     <color name="edit_text_background_color">#80FFFFFF</color>
     <color name="edit_text_stroke_color_focused">#4DFFFFFF</color>
@@ -17,7 +18,8 @@
     <color name="bg_main_end">#CE4CE6</color>
     <color name="white_tr_50">#80FFFFFF</color>
     <color name="button_login_stroke_pressed">#80FFFFFF</color>
-    <color name="button_login_fill_pressed">#20FFFFFF</color>
+    <color name="button_login_fill_pressed">#29ffffff</color>
+    <color name="button_login_fill_disabled">#b29f9f9f</color>
     <color name="text_gray_1">#D8D8D8</color>
     <color name="text_hint">#D8D8D8</color>
     <color name="text_primary_color">#888888</color>

@@ -1,21 +1,15 @@
 package io.liveui.boost.ui.overview.list
 
 import android.widget.ImageView
-import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import io.liveui.boost.api.model.IApp
-import io.liveui.boost.api.usecase.BoostApiUseCase
 import io.liveui.boost.ui.appdetail.AppDetailActivity
 import io.liveui.boost.ui.apps.AppsActivity
 import io.liveui.boost.util.ContextProvider
 import io.liveui.boost.util.IntentUtil
 import io.liveui.boost.util.LifecycleViewModel
 import io.liveui.boost.util.glide.GlideProvider
-import io.reactivex.BackpressureStrategy
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
 
 abstract class BaseAppViewModel<T : IApp>(val glideProvider: GlideProvider,
                                           val contextProvider: ContextProvider)

@@ -38,4 +38,5 @@
 
     <string name="common_login">Prihlasit se</string>
     <string name="common_register">Registrovat se</string>
+    <string name="menu_logout">Odhlasit</string>
 </resources>

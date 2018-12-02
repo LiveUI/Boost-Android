@@ -1,10 +1,12 @@
 package io.liveui.boost.ui.workspace.all
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import io.liveui.boost.EXTRA_WORKSPACE
 import io.liveui.boost.R
 import io.liveui.boost.db.Workspace
 import io.liveui.boost.ui.login.LoginFragment
@@ -73,7 +75,9 @@ class WorkspaceViewHolder(itemView: View,
 
     override fun onClick(v: View) {
         workspaceListItemViewModel.onItemClick {
-            mainNavigator.replaceFragment(FragmentNavigationItem(clazz = LoginFragment::class.java, addToBackStack = true))
+            mainNavigator.replaceFragment(FragmentNavigationItem(clazz = LoginFragment::class.java, addToBackStack = true, args = Bundle().apply {
+                putParcelable(EXTRA_WORKSPACE, workspaceListItemViewModel.workspace.value)
+            }))
         }
     }
 

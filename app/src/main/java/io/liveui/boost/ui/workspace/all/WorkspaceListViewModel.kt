@@ -8,6 +8,6 @@ import javax.inject.Inject
 
 class WorkspaceListViewModel @Inject constructor(val workspaceDao: WorkspaceDao) : LifecycleViewModel() {
 
-    val workspace: LiveData<MutableList<Workspace>>  =  workspaceDao.getWorkspaces()
+    val workspace: LiveData<MutableList<Workspace>> = workspaceDao.getWorkspaces()
 
 }

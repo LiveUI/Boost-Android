@@ -2,21 +2,21 @@ package io.liveui.boost.common.vmfactory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import io.liveui.boost.ui.ToolbarViewModel
 import io.liveui.boost.ui.appdetail.AppDetailViewModel
 import io.liveui.boost.ui.apps.AppsViewModel
 import io.liveui.boost.ui.overview.OverviewViewModel
 import io.liveui.boost.ui.register.RegisterViewModel
+import io.liveui.boost.ui.serverinfo.ServerInfoViewModel
 import io.liveui.boost.ui.teams.TeamsViewModel
 import javax.inject.Inject
 import javax.inject.Provider
 
-class ApiViewModeFactory @Inject constructor(val appViewModelProvider: Provider<AppsViewModel>,
-                                             val teamsViewModel: Provider<TeamsViewModel>,
-                                             val appDetailViewModel: Provider<AppDetailViewModel>,
-                                             val overviewViewModel: Provider<OverviewViewModel>,
-                                             val registerViewModel: Provider<RegisterViewModel>,
-                                             val toolbarViewModel: Provider<ToolbarViewModel>) : ViewModelProvider.Factory {
+class ApiViewModeFactory @Inject constructor(private val appViewModelProvider: Provider<AppsViewModel>,
+                                             private val teamsViewModel: Provider<TeamsViewModel>,
+                                             private val appDetailViewModel: Provider<AppDetailViewModel>,
+                                             private val overviewViewModel: Provider<OverviewViewModel>,
+                                             private val registerViewModel: Provider<RegisterViewModel>,
+                                             private val serverInfoViewModel: Provider<ServerInfoViewModel>) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return with(modelClass) {
@@ -31,8 +31,8 @@ class ApiViewModeFactory @Inject constructor(val appViewModelProvider: Provider<
                     overviewViewModel.get()
                 isAssignableFrom(RegisterViewModel::class.java) ->
                     registerViewModel.get()
-                isAssignableFrom(ToolbarViewModel::class.java) ->
-                    toolbarViewModel.get()
+                isAssignableFrom(ServerInfoViewModel::class.java) ->
+                    serverInfoViewModel.get()
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

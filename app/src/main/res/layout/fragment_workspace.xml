@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.intro.ChooseServerFragment">
+    tools:context=".ui.workspace.add.WorkspaceAddActivity">
 
     <data>
 
@@ -18,24 +18,41 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        android:padding="@dimen/margin_16"
-        tools:background="@drawable/bg_main">
+        android:padding="@dimen/margin_16">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_workspace_name"
+            style="@style/Widget.Design.TextInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/til_workspace_url"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/workspace_name"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@={viewModel.customServerName}"
+                android:hint="@string/workspace_url_name" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_workspace_url"
-            style="@style/Widget.Design.TextInputLayout.Dark"
+            style="@style/Widget.Design.TextInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_16"
-            app:layout_constraintBottom_toTopOf="@+id/btn_continue"
+            android:layout_marginTop="@dimen/margin_16"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed">
+            app:layout_constraintTop_toBottomOf="@+id/til_workspace_name">
 
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/workspace_url"
-                style="@style/EditText.WhiteTR"
+                style="@style/EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@={viewModel.customServerUrl}"
@@ -45,10 +62,11 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_continue"
-            style="@style/BoostButton.Login"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/common_continue"
+            android:enabled="@{viewModel.isUrlValid()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

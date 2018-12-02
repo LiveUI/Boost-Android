@@ -11,12 +11,17 @@
             name="toolbarViewModel"
             type="io.liveui.boost.ui.ToolbarViewModel" />
 
+        <variable
+            name="uiViewModel"
+            type="io.liveui.boost.ui.UiActivityViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        app:viewBackground="@{uiViewModel.background}">
 
         <include
             layout="@layout/view_toolbar"

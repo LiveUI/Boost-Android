@@ -8,21 +8,18 @@ import android.view.MenuItem
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProviders
 import io.liveui.boost.R
-import io.liveui.boost.common.vmfactory.ApiViewModeFactory
+import io.liveui.boost.common.vmfactory.UIViewModelFactory
 import io.liveui.boost.databinding.ActivityAppsBinding
-import io.liveui.boost.di.scope.ActivityScope
 import io.liveui.boost.ui.BoostActivity
+import io.liveui.boost.ui.NavigationViewModel
 import io.liveui.boost.ui.ToolbarViewModel
 import io.liveui.boost.util.ext.setDatabindingContentView
+import io.liveui.boost.util.ext.setNavigator
 import io.liveui.boost.util.ext.setupToolbar
 import io.liveui.boost.util.navigation.FragmentNavigationItem
-import io.liveui.boost.util.navigation.MAIN_NAVIGATOR
-import io.liveui.boost.util.navigation.MainNavigator
-import io.liveui.boost.util.navigation.SECONDARY_NAVIGATOR
 import kotlinx.android.synthetic.main.activity_apps.*
 import kotlinx.android.synthetic.main.view_toolbar.*
 import javax.inject.Inject
-import javax.inject.Named
 
 /**
  * Created by Vojtech Hrdina on 05/03/2018.
@@ -30,45 +27,27 @@ import javax.inject.Named
 class AppsActivity : BoostActivity() {
 
     @Inject
-    lateinit var apiViewModelFactory: ApiViewModeFactory
+    lateinit var uiViewModelFactory: UIViewModelFactory
 
-    @field:[Inject ActivityScope Named(MAIN_NAVIGATOR)]
-    lateinit var mainNavigator: MainNavigator
-
-    @field:[Inject ActivityScope Named(SECONDARY_NAVIGATOR)]
-    lateinit var sideNavigator: MainNavigator
+    lateinit var navigationViewModel: NavigationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val toolbarVM = ViewModelProviders.of(this, apiViewModelFactory).get(ToolbarViewModel::class.java)
+        val toolbarVM = ViewModelProviders.of(this, uiViewModelFactory).get(ToolbarViewModel::class.java)
+        navigationViewModel = ViewModelProviders.of(this, uiViewModelFactory).get(NavigationViewModel::class.java)
         setDatabindingContentView<ActivityAppsBinding>(R.layout.activity_apps) {
             toolbarViewModel = toolbarVM
         }
         setupToolbar(toolbar) {
             setDisplayHomeAsUpEnabled(true)
         }
+        setNavigator(navigatorViewModel = navigationViewModel, mainIdRes = R.id.fragment_container, secondaryIdRes = R.id.side_menu_container)
 
-        initMainNavigator()
-        initSideMenuNavigator()
         showAppsFragment()
     }
 
-    private fun initMainNavigator() {
-        mainNavigator.apply {
-            fragmentManager = supportFragmentManager
-            containerId = R.id.fragment_container
-        }
-    }
-
-    private fun initSideMenuNavigator() {
-        sideNavigator.apply {
-            fragmentManager = supportFragmentManager
-            containerId = R.id.side_menu_container
-        }
-    }
-
     private fun showAppsFragment() {
-        mainNavigator.replaceFragment(FragmentNavigationItem(clazz = AppsFragment::class.java,
+        navigationViewModel.mainNavigator.replaceFragment(FragmentNavigationItem(clazz = AppsFragment::class.java,
                 args = Bundle().apply {
                     putString(EXTRA_APP, intent.getStringExtra(EXTRA_APP))
                 }))

@@ -1,6 +1,5 @@
 package io.liveui.boost.api
 
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import okhttp3.MediaType

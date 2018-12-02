@@ -3,7 +3,6 @@ package io.liveui.boost.ui.view.adapter
 import android.content.Context
 import android.util.AttributeSet
 import androidx.recyclerview.widget.RecyclerView
-import io.reactivex.Observer
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 

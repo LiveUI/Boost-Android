@@ -1,12 +1,11 @@
 package io.liveui.boost.ui.settings
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.LinearLayoutManager
 import io.liveui.boost.R
 import io.liveui.boost.common.model.SettingsItem
 import io.liveui.boost.ui.BoostFragment

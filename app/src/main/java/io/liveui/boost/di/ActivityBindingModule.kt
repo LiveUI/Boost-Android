@@ -23,33 +23,33 @@ abstract class ActivityBindingModule {
     abstract fun provideSplashActivity(): SplashActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [LoginModule::class, ActivityNavigationModule::class])
+    @ContributesAndroidInjector(modules = [LoginModule::class])
     abstract fun provideLoginActivity(): LoginActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [MainActivityModule::class, ActivityNavigationModule::class])
+    @ContributesAndroidInjector(modules = [MainActivityModule::class])
     abstract fun provideMainActivity(): MainActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [MainActivityModule::class, ActivityNavigationModule::class])
+    @ContributesAndroidInjector(modules = [MainActivityModule::class])
     abstract fun provideAppsActivity(): AppsActivity
 
     @ContributesAndroidInjector
     abstract fun provideTeamsActivity(): TeamsActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [MainActivityModule::class, ActivityNavigationModule::class])
+    @ContributesAndroidInjector(modules = [MainActivityModule::class])
     abstract fun provideAppDetailsActivity(): AppDetailActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [LoginModule::class, MainActivityModule::class, ActivityNavigationModule::class])
+    @ContributesAndroidInjector(modules = [LoginModule::class, MainActivityModule::class])
     abstract fun provideWorkspaceAddActivity(): WorkspaceAddActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [MainActivityModule::class, ActivityNavigationModule::class])
+    @ContributesAndroidInjector(modules = [LoginModule::class, MainActivityModule::class])
     abstract fun provideWorkspaceListActivity(): WorkspaceListActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [MainActivityModule::class, ActivityNavigationModule::class])
+    @ContributesAndroidInjector(modules = [MainActivityModule::class])
     abstract fun provideSettingsActivity(): SettingsActivity
 }

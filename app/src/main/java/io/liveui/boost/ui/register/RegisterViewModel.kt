@@ -1,13 +1,11 @@
 package io.liveui.boost.ui.register
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import io.liveui.boost.api.model.*
-import io.liveui.boost.api.usecase.BoostApiUseCase
+import io.liveui.boost.api.model.RegisterUser
+import io.liveui.boost.api.model.User
 import io.liveui.boost.api.usecase.BoostAuthUseCase
 import io.liveui.boost.db.Workspace
 import io.liveui.boost.util.LifecycleViewModel
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject

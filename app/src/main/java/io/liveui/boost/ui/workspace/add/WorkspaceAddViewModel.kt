@@ -1,26 +1,29 @@
 package io.liveui.boost.ui.workspace.add
 
+import android.os.Bundle
 import android.util.Patterns
-import android.webkit.URLUtil
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.Transformations
 import io.liveui.boost.BuildConfig
+import io.liveui.boost.EXTRA_WORKSPACE
 import io.liveui.boost.api.model.ServerInfo
 import io.liveui.boost.api.usecase.BoostCheckUseCase
 import io.liveui.boost.common.UserSession
 import io.liveui.boost.db.Workspace
 import io.liveui.boost.db.WorkspaceDao
+import io.liveui.boost.ui.UiState
+import io.liveui.boost.ui.login.LoginFragment
 import io.liveui.boost.util.LifecycleViewModel
+import io.liveui.boost.util.SingleLiveEvent
 import io.liveui.boost.util.UrlProvider
-import io.liveui.boost.util.ext.defaultValue
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Observable
+import io.liveui.boost.util.navigation.FragmentNavigationItem
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_intro.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.net.URL
-import java.util.regex.Matcher
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -30,17 +33,25 @@ class WorkspaceAddViewModel @Inject constructor(private val checkUseCase: BoostC
                                                 private val urlProvider: UrlProvider,
                                                 private val userSession: UserSession) : LifecycleViewModel() {
 
-    val loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
+    val uiState = SingleLiveEvent<UiState>()
 
-    val exception: MutableLiveData<Throwable> = MutableLiveData()
+    val loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
 
     val suggestedUrl: MutableLiveData<Array<String>> = MutableLiveData()
 
+    val workspace = Workspace(status = Workspace.Status.NEW)
+
     val serverTarget: MutableLiveData<ServerTarget> = MutableLiveData()
+
+    val serverName: MutableLiveData<String?> = MutableLiveData()
+
+    val serverUrl: MutableLiveData<String?> = MutableLiveData()
 
     val customServerUrl: MutableLiveData<String?> = MutableLiveData()
 
-    val isUrlValid: LiveData<Boolean> = Transformations.map(customServerUrl) {
+    val customServerName: MutableLiveData<String?> = MutableLiveData()
+
+    val isUrlValid: LiveData<Boolean> = Transformations.map(serverUrl) {
         it?.let { Pattern.matches(Patterns.WEB_URL.pattern(), it) } ?: false
     }
 
@@ -49,58 +60,94 @@ class WorkspaceAddViewModel @Inject constructor(private val checkUseCase: BoostC
     }
 
     init {
+        val customUrlObserver = Observer<String?> {
+            serverUrl.postValue(it)
+        }
+
+        val customNameObserver = Observer<String?> {
+            serverName.value = it
+        }
+
+        serverTarget.observeForever {
+            if (it == ServerTarget.CLIENT_SERVER) {
+                serverUrl.postValue(urlProvider.getDefaultUrl())
+                serverName.postValue(null)
+                customServerUrl.removeObserver(customUrlObserver)
+                customServerName.removeObserver(customUrlObserver)
+            } else {
+                customServerName.observeForever(customNameObserver)
+                customServerUrl.observeForever(customUrlObserver)
+            }
+        }
+
+        serverUrl.observeForever {
+            workspace.url = it ?: ""
+        }
+
+        serverName.observeForever {
+            workspace.name = it
+        }
+
         suggestedUrl.postValue(BuildConfig.URL)
         serverTarget.postValue(ServerTarget.CLIENT_SERVER)
+        customServerUrl.postValue(null)
     }
 
-    fun checkServer(url: String?, onServerVerified: (workspace: Workspace) -> Unit = {}, onServerVerifyError: () -> Unit) {
-        url?.let {
-            if (!Pattern.matches(Patterns.WEB_URL.pattern(), it)) return
+    fun onClientServerSelected() = serverTarget.postValue(ServerTarget.CLIENT_SERVER)
 
-            addDisposable(checkUseCase.getInfo(it)
-                    .doOnSubscribe {
-                        loadingStatus.postValue(true)
-                    }
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread()).subscribe({ serverInfo ->
-                        Timber.i("Workspace created")
-                        loadingStatus.postValue(false)
-                        onServerVerified(createTempWorkspace(it, serverInfo))
-                    }, { e ->
-                        onServerVerifyError()
-                        Timber.i(e, "Workspace create failed") //TODO resolve exception
-                        loadingStatus.postValue(false)
-                        exception.postValue(e)
-                    })
-            )
-        } ?: onServerVerifyError()
-    }
+    fun onCustomServerSelected() = serverTarget.postValue(ServerTarget.CUSTOM_SERVER)
 
-    fun createTempWorkspace(url: String, serverInfo: ServerInfo): Workspace {
-        return Workspace(url = url).apply {
-            name = serverInfo.name
-            status = Workspace.Status.SERVER_VERIFIED
+    fun onAddServerClick() = saveWorkspace(workspace) {
+        checkServerIfExist {
+            updateWorkspace(workspace) {
+                uiState.postValue(UiState.Success(FragmentNavigationItem(clazz = LoginFragment::class.java, addToBackStack = true, args = Bundle().apply {
+                    putParcelable(EXTRA_WORKSPACE, it)
+                })))
+            }
         }
     }
 
-    fun onClientServerSelected() {
-        serverTarget.postValue(ServerTarget.CLIENT_SERVER)
+    fun onLoginClick() = checkServerIfExist {
+        uiState.postValue(UiState.Success(FragmentNavigationItem(clazz = LoginFragment::class.java, addToBackStack = true, args = Bundle().apply {
+            putParcelable(EXTRA_WORKSPACE, it)
+        })))
     }
 
-    fun onCustomServerSelected() {
-        serverTarget.postValue(ServerTarget.CUSTOM_SERVER)
+    fun onRegisterClick() = checkServerIfExist {
+        uiState.postValue(UiState.Success(FragmentNavigationItem(clazz = LoginFragment::class.java, addToBackStack = true, args = Bundle().apply {
+            putParcelable(EXTRA_WORKSPACE, it)
+        })))
     }
 
-    fun verifyServer(onServerVerified: (workspace: Workspace) -> Unit, onServerVerifyError: () -> Unit) {
-        serverTarget.value?.let {
-            when (it) {
-                ServerTarget.CLIENT_SERVER -> {
-                    checkServer(urlProvider.getDefaultUrl(), onServerVerified, onServerVerifyError)
-                }
-                ServerTarget.CUSTOM_SERVER -> {
-                    checkServer(customServerUrl.value, onServerVerified, onServerVerifyError)
-                }
+    private fun saveWorkspace(workspace: Workspace, onSaved: () -> Unit) = GlobalScope.launch {
+        workspaceDao.insertWorkspace(workspaces = workspace)
+        onSaved()
+    }
+
+    private fun updateWorkspace(workspace: Workspace, onUpdate: () -> Unit) = GlobalScope.launch {
+        workspaceDao.updateWorkspace(workspace = workspace)
+        onUpdate()
+    }
+
+    private fun checkServerIfExist(onVerified: (workspace: Workspace) -> Unit) = addDisposable(checkUseCase.getInfo(workspace.url)
+            .doOnSubscribe {
+                loadingStatus.postValue(true)
             }
-        } ?: onServerVerifyError()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe({ serverInfo ->
+                Timber.i("Workspace created")
+                updateWorkspaceInfo(workspace, serverInfo)
+                loadingStatus.postValue(false)
+                onVerified(workspace)
+            }, { e ->
+                Timber.e(e, "Workspace create failed")
+                loadingStatus.postValue(false)
+                uiState.postValue(UiState.Error(e))
+            })
+    )
+
+    private fun updateWorkspaceInfo(workspace: Workspace, serverInfo: ServerInfo): Workspace = workspace.apply {
+        name = serverInfo.name
+        status = Workspace.Status.SERVER_VERIFIED
     }
 }

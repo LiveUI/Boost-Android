@@ -2,10 +2,7 @@ package io.liveui.boost.db
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import androidx.room.*
-import io.reactivex.Completable
-import io.reactivex.Observable
 
 
 @Dao

@@ -1,7 +1,6 @@
 package io.liveui.boost.ui.login
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import io.liveui.boost.api.model.AuthRequest
 import io.liveui.boost.api.model.AuthResponse
 import io.liveui.boost.api.usecase.BoostAuthUseCase
@@ -9,8 +8,6 @@ import io.liveui.boost.common.UserSession
 import io.liveui.boost.db.Workspace
 import io.liveui.boost.db.WorkspaceDao
 import io.liveui.boost.util.LifecycleViewModel
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.GlobalScope

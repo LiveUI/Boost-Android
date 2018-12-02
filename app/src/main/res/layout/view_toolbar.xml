@@ -24,6 +24,7 @@
         app:titleTextColor="@color/text_primary_dark_color"
         app:title="@{viewModel.title}"
         app:subtitle="@{viewModel.subtitle}"
+        android:visibility="@{viewModel.show}"
         tools:showIn="@layout/activity_main" />
 
 </layout>

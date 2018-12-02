@@ -11,7 +11,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(tableName = "workspace")
 data class Workspace(@ColumnInfo(name = "name") var name: String? = null,
-                     @PrimaryKey @ColumnInfo(name = "url") var url: String,
+                     @PrimaryKey @ColumnInfo(name = "url") var url: String = "",
                      @ColumnInfo(name = "perm_token") var permToken: String? = null,
                      @ColumnInfo(name = "jwt_token") var jwtToken: String? = null,
                      @ColumnInfo(name = "active") var active: Int = 1,

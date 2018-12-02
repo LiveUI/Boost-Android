@@ -3,6 +3,7 @@ package io.liveui.boost.util.navigation
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import io.liveui.boost.util.ext.transactWithNavigationItem
+import java.lang.UnsupportedOperationException
 import java.util.*
 
 class MainNavigator : FragmentNavigator {
@@ -11,51 +12,63 @@ class MainNavigator : FragmentNavigator {
 
     var onNavigationStackChangeListener: FragmentNavigator.OnNavigationStackChangedListener? = null
 
-    lateinit var fragmentManager: FragmentManager
+    var fragmentManager: FragmentManager? = null
 
-    var containerId: Int = -1
+    var containerId: Int = 0
 
     override fun replaceFragment(navigationItem: FragmentNavigationItem) {
-        fragmentManager.transactWithNavigationItem(navigationItem) {
-            replace(containerId, navigationItem.getFragment())
-            if (navigationItemStack.isNotEmpty()) {
-                navigationItemStack.pop()
+        assertInit()
+
+        fragmentManager?.apply {
+            transactWithNavigationItem(navigationItem) {
+                replace(containerId, navigationItem.getFragment())
+                if (navigationItemStack.isNotEmpty()) {
+                    navigationItemStack.pop()
+                }
+                navigationItemStack.add(navigationItem)
+                notifyNavigationStackChanged(true)
             }
-            navigationItemStack.add(navigationItem)
-            notifyNavigationStackChanged(true)
         }
     }
 
     override fun addFragment(navigationItem: FragmentNavigationItem) {
-        fragmentManager.transactWithNavigationItem(navigationItem) {
-            add(containerId, navigationItem.getFragment())
-            navigationItemStack.add(navigationItem)
-            notifyNavigationStackChanged(true)
+        assertInit()
+
+        fragmentManager?.apply {
+            transactWithNavigationItem(navigationItem) {
+                add(containerId, navigationItem.getFragment())
+                navigationItemStack.add(navigationItem)
+                notifyNavigationStackChanged(true)
+            }
         }
     }
 
     override fun popFragment(): FragmentNavigationItem? {
         return if (navigationItemStack.isNotEmpty()) {
-            fragmentManager.popBackStack()
-            val pop = navigationItemStack.pop()
-            notifyNavigationStackChanged(false)
-            pop
+            fragmentManager?.let {
+                it.popBackStack()
+                val pop = navigationItemStack.pop()
+                notifyNavigationStackChanged(false)
+                pop
+            }
         } else {
             null
         }
     }
 
     override fun popToClass(clazz: Class<out Fragment>): FragmentNavigationItem? {
+        assertInit()
+
         val item = navigationItemStack.find { it.clazz == clazz } ?: return null
 
         navigationItemStack.asReversed().forEach {
             if (it == item) {
-                fragmentManager.popBackStackImmediate()
+                fragmentManager!!.popBackStackImmediate()
                 val pop = navigationItemStack.pop()
                 notifyNavigationStackChanged(false)
                 return pop
             } else {
-                fragmentManager.popBackStackImmediate()
+                fragmentManager!!.popBackStackImmediate()
                 navigationItemStack.pop()
             }
         }
@@ -64,16 +77,18 @@ class MainNavigator : FragmentNavigator {
     }
 
     override fun popStack(stackName: String?) {
+        assertInit()
+
         val item = navigationItemStack.find { it.backStackName == stackName } ?: return
 
         navigationItemStack.asReversed().forEach {
             if (it == item) {
-                fragmentManager.popBackStackImmediate()
+                fragmentManager!!.popBackStackImmediate()
                 navigationItemStack.pop()
                 notifyNavigationStackChanged(false)
                 return
             } else {
-                fragmentManager.popBackStackImmediate()
+                fragmentManager!!.popBackStackImmediate()
                 navigationItemStack.pop()
             }
         }
@@ -81,13 +96,15 @@ class MainNavigator : FragmentNavigator {
     }
 
     override fun clearBackStack(): Boolean {
-        val stackEntryCount = fragmentManager.backStackEntryCount
-        for (i in stackEntryCount downTo 0) {
-            fragmentManager.popBackStackImmediate() //TODO check
-        }
-        navigationItemStack.clear()
-        notifyNavigationStackChanged(false)
-        return true
+       return fragmentManager?.let {
+            val stackEntryCount = it.backStackEntryCount
+            for (i in stackEntryCount downTo 0) {
+                it.popBackStackImmediate() //TODO check
+            }
+            navigationItemStack.clear()
+            notifyNavigationStackChanged(false)
+           true
+        } ?: false
     }
 
     override fun getBackStack(): Stack<FragmentNavigationItem> {
@@ -102,4 +119,9 @@ class MainNavigator : FragmentNavigator {
         onNavigationStackChangeListener?.onStackChanged(navigationItemStack.peek(), added)
     }
 
+    private fun assertInit() {
+        if (fragmentManager == null || containerId == 0) {
+            throw UnsupportedOperationException("${if(fragmentManager == null) "FragmentManager cannot be null" else ""} ${if(containerId == 0) "Container Id is not set" else ""}")
+        }
+    }
 }

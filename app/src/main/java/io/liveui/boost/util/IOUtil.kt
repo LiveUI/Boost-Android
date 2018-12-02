@@ -3,11 +3,9 @@ package io.liveui.boost.util
 import io.liveui.boost.download.FileInfo
 import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.Single
 import timber.log.Timber
 import java.io.File
 import java.io.FileNotFoundException
-import java.io.FileOutputStream
 import javax.inject.Inject
 
 class IOUtil @Inject constructor(val gsonUtil: GsonUtil,

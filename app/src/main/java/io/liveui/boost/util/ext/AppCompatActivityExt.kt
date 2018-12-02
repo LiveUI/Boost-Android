@@ -15,8 +15,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import io.liveui.boost.ui.NavigationViewModel
 import io.liveui.boost.util.navigation.FragmentNavigationItem
-import io.liveui.boost.util.navigation.MainNavigator
 
 
 inline fun FragmentManager.transactWithNavigationItem(navigationItem: FragmentNavigationItem, action: FragmentTransaction.() -> Unit) {
@@ -57,10 +57,11 @@ fun <T> setupView(view: T?, action: T.() -> Unit) {
     }
 }
 
-fun AppCompatActivity.setNavigator(navigator: MainNavigator, @IdRes idRes: Int) {
-    navigator.apply {
-        fragmentManager = supportFragmentManager
-        containerId = idRes
+fun AppCompatActivity.setNavigator(navigatorViewModel: NavigationViewModel, @IdRes mainIdRes: Int, @IdRes secondaryIdRes: Int = 0) {
+    navigatorViewModel.apply {
+        fragmentManager.value = supportFragmentManager
+        mainContainerId.value = mainIdRes
+        secondaryContainerId.value = secondaryIdRes
     }
 }
 

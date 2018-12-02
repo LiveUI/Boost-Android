@@ -62,7 +62,7 @@
         style="@style/TextAppearance.MaterialComponents.Body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/workspace_list_text"
+        android:textColor="@color/side_menu_subtitle_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline2"

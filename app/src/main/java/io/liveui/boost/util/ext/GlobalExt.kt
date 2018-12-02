@@ -1,8 +1,6 @@
 package io.liveui.boost.util.ext
 
 import android.graphics.Color
-import android.os.Environment
-import java.io.File
 
 fun getColor(color: String): Int {
     return try {
