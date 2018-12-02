@@ -41,7 +41,9 @@ class SettingsActivity : BoostActivity() {
 
     companion object {
         fun startActivity(context: Context) {
-            context.startActivity(Intent(context, SettingsActivity::class.java))
+            context.startActivity(Intent(context, SettingsActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            })
         }
     }
 }

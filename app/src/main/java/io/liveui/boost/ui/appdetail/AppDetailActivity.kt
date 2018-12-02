@@ -46,9 +46,9 @@ class AppDetailActivity : BoostActivity() {
 
     companion object {
         fun startActivity(context: Context?, appId: String?) {
-            val intent = Intent(context, AppDetailActivity::class.java)
-            intent.putExtra(EXTRA_APP_ID, appId)
-            context?.startActivity(intent)
+            context?.startActivity(Intent(context, AppDetailActivity::class.java).putExtra(EXTRA_APP_ID, appId).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            })
         }
     }
 }

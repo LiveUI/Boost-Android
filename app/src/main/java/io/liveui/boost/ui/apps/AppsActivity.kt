@@ -86,7 +86,9 @@ class AppsActivity : BoostActivity() {
         const val EXTRA_APP = "extra-app"
 
         fun startActivity(context: Context, identifier: String) {
-            context.startActivity(Intent(context, AppsActivity::class.java).putExtra(EXTRA_APP, identifier))
+            context.startActivity(Intent(context, AppsActivity::class.java).putExtra(EXTRA_APP, identifier).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            })
         }
     }
 }
