@@ -51,7 +51,7 @@ class NetworkModule {
         return OkHttpClient.Builder().apply {
             for (interceptor in apiInterceptors) {
                 addInterceptor(interceptor)
-                authenticator(tokenAuthenticator)
+                //authenticator(tokenAuthenticator) //TODO fix
             }
         }.build()
     }

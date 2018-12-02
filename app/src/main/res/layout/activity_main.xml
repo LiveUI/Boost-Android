@@ -71,6 +71,7 @@
                 android:id="@+id/server_icon"
                 android:layout_width="@dimen/side_menu_icon"
                 android:layout_height="@dimen/side_menu_icon"
+                app:loadIcon="@{serverInfoViewModel.iconUrl}"
                 app:layout_constraintStart_toEndOf="@+id/guideline1"
                 app:layout_constraintTop_toBottomOf="@+id/guideline4" />
 
